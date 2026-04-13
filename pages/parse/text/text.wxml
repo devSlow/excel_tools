@@ -1,0 +1,49 @@
+<view class="container">
+  <view class="input-section">
+    <view class="section-title">请粘贴或输入需要解析的文本</view>
+    <textarea class="text-input" placeholder="支持空格、Tab、逗号、换行等分隔符" value="{{inputText}}" bindinput="onInputChange" auto-height maxlength="-1" />
+  </view>
+
+  <view class="delimiter-section">
+    <view class="section-title">分隔符设置</view>
+    <view class="delimiter-options">
+      <view class="delimiter-option {{delimiter === 'auto' ? 'active' : ''}}" bindtap="selectDelimiter" data-value="auto">自动识别</view>
+      <view class="delimiter-option {{delimiter === ' ' ? 'active' : ''}}" bindtap="selectDelimiter" data-value=" ">空格</view>
+      <view class="delimiter-option {{delimiter === '\t' ? 'active' : ''}}" bindtap="selectDelimiter" data-value="\t">Tab</view>
+      <view class="delimiter-option {{delimiter === ',' ? 'active' : ''}}" bindtap="selectDelimiter" data-value=",">逗号</view>
+      <view class="delimiter-option {{delimiter === ';' ? 'active' : ''}}" bindtap="selectDelimiter" data-value=";">分号</view>
+    </view>
+  </view>
+
+  <view class="btn-row">
+    <button class="parse-btn" bindtap="handleParse" disabled="{{!inputText || loading}}">
+      {{loading ? '解析中...' : '开始解析'}}
+    </button>
+  </view>
+
+  <view class="preview-section" wx:if="{{result.columns.length > 0}}">
+    <view class="section-header">
+      <view class="section-title">解析结果</view>
+      <view class="result-info">{{result.rowCount}} 行 × {{result.columnCount}} 列</view>
+    </view>
+    <scroll-view class="table-wrapper" scroll-x>
+      <view class="data-table">
+        <view class="table-header">
+          <view class="th" wx:for="{{result.columns}}" wx:key="index" style="min-width: {{100 / result.columns.length}}%">
+            {{item}}
+          </view>
+        </view>
+        <view class="table-body">
+          <view class="tr" wx:for="{{result.data}}" wx:key="index">
+            <view class="td" wx:for="{{item}}" wx:key="index" style="min-width: {{100 / result.columns.length}}%">
+              {{item}}
+            </view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+    <view class="preview-actions">
+      <button class="action-btn" bindtap="saveAsTask">保存为任务</button>
+    </view>
+  </view>
+</view>

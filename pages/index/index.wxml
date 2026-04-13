@@ -1,0 +1,71 @@
+<view class="container">
+  <view class="header">
+    <view class="header-left">
+      <view class="greeting">您好</view>
+      <view class="date">{{currentDate}}</view>
+    </view>
+    <view class="user-avatar" bindtap="goToProfile">
+      <text>{{userAvatar}}</text>
+    </view>
+  </view>
+
+  <view class="stats-card">
+    <view class="stat-item">
+      <view class="stat-value">{{totalTasks}}</view>
+      <view class="stat-label">任务总数</view>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item">
+      <view class="stat-value">{{totalRows}}</view>
+      <view class="stat-label">数据总量</view>
+    </view>
+  </view>
+
+  <view class="section-title">
+    <text>我的任务</text>
+    <view class="add-btn" bindtap="goToCreate">
+      <text>+</text>
+    </view>
+  </view>
+
+  <view class="task-list" wx:if="{{taskList.length > 0}}">
+    <view class="task-item" wx:for="{{taskList}}" wx:key="id" bindtap="goToDetail" data-id="{{item.id}}">
+      <view class="task-header">
+        <view class="task-name">{{item.name}}</view>
+        <view class="task-status {{item.status}}">{{item.statusText}}</view>
+      </view>
+      <view class="task-info">
+        <view class="task-info-item">
+          <text class="info-icon">📊</text>
+          <text>{{item.rowCount}} 条数据</text>
+        </view>
+        <view class="task-info-item">
+          <text class="info-icon">📅</text>
+          <text>{{item.createTime}}</text>
+        </view>
+      </view>
+      <view class="task-actions">
+        <view class="action-btn" catchtap="goToStats" data-id="{{item.id}}">
+          <text>📈 统计</text>
+        </view>
+        <view class="action-btn" catchtap="handleExport" data-id="{{item.id}}">
+          <text>📥 导出</text>
+        </view>
+        <view class="action-btn delete" catchtap="handleDelete" data-id="{{item.id}}">
+          <text>🗑️ 删除</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty-state" wx:else>
+    <view class="empty-icon">📂</view>
+    <view class="empty-text">暂无任务</view>
+    <view class="empty-hint">点击右上角 + 创建您的第一个任务</view>
+  </view>
+
+  <view class="load-more" wx:if="{{taskList.length > 0}}">
+    <view wx:if="{{loading}}">加载中...</view>
+    <view wx:elif="{{noMore}}">没有更多了</view>
+  </view>
+</view>

@@ -1,0 +1,57 @@
+<view class="container">
+  <view class="stats-header">
+    <view class="task-name">{{taskName}}</view>
+    <view class="stats-summary">
+      <view class="summary-item">
+        <text class="summary-value">{{stats.totalRows}}</text>
+        <text class="summary-label">总行数</text>
+      </view>
+      <view class="summary-item">
+        <text class="summary-value">{{stats.columnCount}}</text>
+        <text class="summary-label">列数</text>
+      </view>
+      <view class="summary-item">
+        <text class="summary-value">{{stats.groupCount}}</text>
+        <text class="summary-label">分组数</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="stats-section">
+    <view class="section-title">按列统计</view>
+    <view class="column-selector">
+      <view class="column-option {{selectedColumn === item ? 'active' : ''}}" 
+            wx:for="{{columns}}" 
+            wx:key="index"
+            bindtap="selectColumn" 
+            data-column="{{item}}">
+        {{item}}
+      </view>
+    </view>
+  </view>
+
+  <view class="stats-section" wx:if="{{columnStats.length > 0}}">
+    <view class="section-header">
+      <view class="section-title">{{selectedColumn}} 分布</view>
+      <view class="stats-count">共 {{columnStats.length}} 项</view>
+    </view>
+    <view class="stats-list">
+      <view class="stats-item" wx:for="{{columnStats}}" wx:key="index">
+        <view class="stats-item-left">
+          <view class="stats-bar" style="width: {{item.percent}}%"></view>
+          <text class="stats-label">{{item.value}}</text>
+        </view>
+        <view class="stats-item-right">
+          <text class="stats-value">{{item.count}}</text>
+          <text class="stats-percent">({{item.percent}}%)</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty-state" wx:if="{{columnStats.length === 0 && !loading}}">
+    <view class="empty-icon">📊</view>
+    <view class="empty-text">暂无统计数据</view>
+    <view class="empty-hint">选择列名查看统计数据</view>
+  </view>
+</view>

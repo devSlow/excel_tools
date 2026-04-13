@@ -1,0 +1,57 @@
+<view class="container">
+  <view class="upload-section">
+    <view class="upload-area" bindtap="handleChooseFile">
+      <view class="upload-icon">📁</view>
+      <view class="upload-text">点击选择Excel文件</view>
+      <view class="upload-hint">支持 .xlsx, .xls 格式</view>
+    </view>
+  </view>
+
+  <view class="file-list" wx:if="{{fileList.length > 0}}">
+    <view class="file-item" wx:for="{{fileList}}" wx:key="index">
+      <view class="file-info">
+        <text class="file-name">{{item.name}}</text>
+        <text class="file-size">{{item.size}}</text>
+      </view>
+      <view class="file-status {{item.status}}">
+        {{item.statusText}}
+      </view>
+    </view>
+  </view>
+
+  <button class="upload-btn" bindtap="handleUpload" disabled="{{fileList.length === 0 || uploading}}">
+    {{uploading ? '上传中...' : '开始上传'}}
+  </button>
+
+  <view class="preview-section" wx:if="{{result.sheets && result.sheets.length > 0}}">
+    <view class="section-title">解析结果</view>
+    <view class="sheet-tabs">
+      <view class="sheet-tab {{currentSheet === index ? 'active' : ''}}" 
+            wx:for="{{result.sheets}}" 
+            wx:key="index"
+            bindtap="switchSheet" 
+            data-index="{{index}}">
+        {{item.name}}
+      </view>
+    </view>
+    <scroll-view class="table-wrapper" scroll-x wx:if="{{currentSheetData}}">
+      <view class="data-table">
+        <view class="table-header">
+          <view class="th" wx:for="{{currentSheetData.columns}}" wx:key="index" style="min-width: {{100 / currentSheetData.columns.length}}%">
+            {{item}}
+          </view>
+        </view>
+        <view class="table-body">
+          <view class="tr" wx:for="{{currentSheetData.data}}" wx:key="index">
+            <view class="td" wx:for="{{item}}" wx:key="index" style="min-width: {{100 / currentSheetData.columns.length}}%">
+              {{item}}
+            </view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+    <view class="preview-actions">
+      <button class="action-btn" bindtap="saveAsTask">保存为任务</button>
+    </view>
+  </view>
+</view>

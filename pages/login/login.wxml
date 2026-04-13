@@ -1,0 +1,9 @@
+<view class="login-container">
+  <view class="login-logo">
+    <text>📊</text>
+  </view>
+  <view class="login-title">Excel工具</view>
+  <view class="login-subtitle">文本转Excel与现场数据采集助手</view>
+  <button class="login-btn" hover-class="login-btn-hover" bindtap="handleLogin">微信授权登录</button>
+  <view class="login-tips">登录后即可使用全部功能</view>
+</view>

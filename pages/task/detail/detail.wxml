@@ -1,0 +1,79 @@
+<view class="container">
+  <view class="task-header">
+    <view class="task-title">{{task.name}}</view>
+    <view class="task-status {{task.status}}">{{task.statusText}}</view>
+  </view>
+
+  <view class="task-desc" wx:if="{{task.description}}">
+    <text>{{task.description}}</text>
+  </view>
+
+  <view class="info-card">
+    <view class="info-row">
+      <text class="info-label">创建时间</text>
+      <text class="info-value">{{task.createTime}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">数据条数</text>
+      <text class="info-value">{{task.rowCount || 0}} 条</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">列数</text>
+      <text class="info-value">{{task.columnCount || 0}} 列</text>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">数据预览</view>
+    <scroll-view class="table-wrapper" scroll-x>
+      <view class="data-table">
+        <view class="table-header">
+          <view class="th" wx:for="{{task.columns}}" wx:key="index" style="min-width: {{100 / task.columns.length}}%">
+            {{item}}
+          </view>
+        </view>
+        <view class="table-body">
+          <view class="tr" wx:for="{{task.data}}" wx:key="index">
+            <view class="td" wx:for="{{item}}" wx:key="index" style="min-width: {{100 / task.columns.length}}%">
+              {{item}}
+            </view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <view class="action-bar">
+    <view class="action-btn" bindtap="goToStats">
+      <text>📈 统计</text>
+    </view>
+    <view class="action-btn" bindtap="handleExportSingle">
+      <text>📥 导出</text>
+    </view>
+    <view class="action-btn" bindtap="showExportGroup">
+      <text>📑 分组导出</text>
+    </view>
+    <view class="action-btn delete" bindtap="handleDelete">
+      <text>🗑️ 删除</text>
+    </view>
+  </view>
+
+  <view class="modal {{showGroupModal ? 'show' : ''}}" bindtap="hideModal">
+    <view class="modal-content" catchtap="stopProp">
+      <view class="modal-title">选择分组字段</view>
+      <view class="field-list">
+        <view class="field-item {{selectedField === item ? 'active' : ''}}" 
+              wx:for="{{task.columns}}" 
+              wx:key="index"
+              bindtap="selectField" 
+              data-field="{{item}}">
+          {{item}}
+        </view>
+      </view>
+      <view class="modal-actions">
+        <button class="btn btn-default" bindtap="hideModal">取消</button>
+        <button class="btn btn-primary" bindtap="handleExportGroup">确认导出</button>
+      </view>
+    </view>
+  </view>
+</view>
