@@ -14,6 +14,12 @@ Page({
     }
   },
 
+  onShow() {
+    if (!wx.getStorageSync('token')) {
+      this.setData({ result: { columns: [], data: [], rowCount: 0, columnCount: 0 }, inputText: '' });
+    }
+  },
+
   onInputChange(e) {
     this.setData({ inputText: e.detail.value });
   },

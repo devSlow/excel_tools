@@ -15,6 +15,12 @@ Page({
   onLoad() {
   },
 
+  onShow() {
+    if (!wx.getStorageSync('token')) {
+      this.setData({ result: { sheets: [] }, fileList: [], currentSheet: 0, currentSheetData: null });
+    }
+  },
+
   checkLogin() {
     if (!wx.getStorageSync('token')) {
       util.showToast('请先登录');

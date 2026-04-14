@@ -16,12 +16,16 @@ Page({
 
   onLoad() {
     this.setCurrentDate();
-    this.loadTasks();
+    if (wx.getStorageSync('token')) {
+      this.loadTasks();
+    }
   },
 
   onShow() {
     if (wx.getStorageSync('token')) {
       this.loadTasks();
+    } else {
+      this.setData({ taskList: [], totalTasks: 0, totalRows: 0 });
     }
   },
 
