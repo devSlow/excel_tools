@@ -23,27 +23,29 @@
 
   <view class="preview-section" wx:if="{{result.columns.length > 0}}">
     <view class="section-header">
-      <view class="section-title">解析结果</view>
-      <view class="result-info">{{result.rowCount}} 行 × {{result.columnCount}} 列</view>
+      <view class="section-title">解析结果 ({{result.rowCount}} 行 × {{result.columnCount}} 列)</view>
     </view>
-    <scroll-view class="table-wrapper" scroll-x>
+    <view class="preview-actions">
+      <button class="action-btn" bindtap="saveAsTask">保存为任务</button>
+    </view>
+    <scroll-view class="table-wrapper" scroll-x="true" scroll-y="true">
       <view class="data-table">
         <view class="table-header">
-          <view class="th" wx:for="{{result.columns}}" wx:key="index" style="min-width: {{100 / result.columns.length}}%">
+          <view class="th" wx:for="{{result.columns}}" wx:key="index" style="min-width: {{120 / result.columnCount}}rpx">
             {{item}}
           </view>
         </view>
         <view class="table-body">
-          <view class="tr" wx:for="{{result.data}}" wx:key="index">
-            <view class="td" wx:for="{{item}}" wx:key="index" style="min-width: {{100 / result.columns.length}}%">
+          <view class="tr" wx:for="{{result.data}}" wx:key="index" wx:for-item="row" wx:for-index="rowIdx" wx:if="{{rowIdx < 10}}">
+            <view class="td" wx:for="{{row}}" wx:key="index" style="min-width: {{120 / result.columnCount}}rpx">
               {{item}}
             </view>
           </view>
         </view>
       </view>
     </scroll-view>
-    <view class="preview-actions">
-      <button class="action-btn" bindtap="saveAsTask">保存为任务</button>
+    <view class="more-tip" wx:if="{{result.rowCount > 10}}">
+      <text>... 还有 {{result.rowCount - 10}} 行未显示</text>
     </view>
   </view>
 </view>

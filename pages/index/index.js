@@ -16,7 +16,7 @@ Page({
 
   onLoad() {
     this.setCurrentDate();
-    this.checkLogin();
+    this.loadTasks();
   },
 
   onShow() {
@@ -50,13 +50,17 @@ Page({
   checkLogin() {
     const token = wx.getStorageSync('token');
     if (!token) {
-      wx.redirectTo({ url: '/pages/login/login' });
-    } else {
-      const userInfo = wx.getStorageSync('userInfo');
-      if (userInfo && userInfo.nickname) {
-        this.setData({ userAvatar: userInfo.nickname.charAt(0) });
-      }
+      util.showToast('请先登录');
+      setTimeout(() => {
+        wx.switchTab({ url: '/pages/profile/profile' });
+      }, 500);
+      return false;
     }
+    const userInfo = wx.getStorageSync('userInfo');
+    if (userInfo && userInfo.nickname) {
+      this.setData({ userAvatar: userInfo.nickname.charAt(0) });
+    }
+    return true;
   },
 
   loadTasks(loadMore = false) {
@@ -92,6 +96,7 @@ Page({
   },
 
   goToCreate() {
+    if (!this.checkLogin()) return;
     wx.navigateTo({ url: '/pages/task/create/create' });
   },
 

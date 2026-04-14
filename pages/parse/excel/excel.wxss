@@ -19,7 +19,7 @@
 }
 
 .upload-area:active {
-  border-color: #667eea;
+  border-color: #1677ff;
   background: #fafafa;
 }
 
@@ -87,7 +87,7 @@
 .upload-btn {
   width: 100%;
   height: 96rpx;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #1677ff 0%, #4096ff 100%);
   border-radius: 48rpx;
   color: #fff;
   font-size: 32rpx;
@@ -95,7 +95,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8rpx 24rpx rgba(102, 126, 234, 0.4);
+  box-shadow: 0 8rpx 24rpx rgba(22, 119, 255, 0.4);
 }
 
 .upload-btn::after {
@@ -138,7 +138,7 @@
 }
 
 .sheet-tab.active {
-  background: #667eea;
+  background: #1677ff;
   color: #fff;
 }
 
@@ -197,7 +197,7 @@
 .preview-actions .action-btn {
   width: 100%;
   height: 80rpx;
-  background: #667eea;
+  background: #1677ff;
   border-radius: 40rpx;
   color: #fff;
   font-size: 28rpx;

@@ -1,0 +1,22 @@
+<view class="container">
+  <view class="profile-header">
+    <block wx:if="{{isLoggedIn && userInfo.avatarUrl}}">
+      <image class="avatar-img" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
+    </block>
+    <block wx:else>
+      <view class="avatar">
+        <text>{{isLoggedIn && userInfo.nickname ? userInfo.nickname.charAt(0) : '游'}}</text>
+      </view>
+    </block>
+    <view class="nickname">{{isLoggedIn ? (userInfo.nickname || '微信用户') : '未登录'}}</view>
+  </view>
+
+  <view class="profile-actions">
+    <button wx:if="{{!isLoggedIn}}" class="login-btn" bindtap="handleLogin" disabled="{{loading}}">
+      {{loading ? '登录中...' : '微信授权登录'}}
+    </button>
+    <view wx:if="{{isLoggedIn}}" class="logout-btn" bindtap="handleLogout">
+      退出登录
+    </view>
+  </view>
+</view>

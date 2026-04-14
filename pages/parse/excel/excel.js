@@ -13,16 +13,21 @@ Page({
   },
 
   onLoad() {
-    this.checkLogin();
   },
 
   checkLogin() {
     if (!wx.getStorageSync('token')) {
-      wx.redirectTo({ url: '/pages/login/login' });
+      util.showToast('请先登录');
+      setTimeout(() => {
+        wx.switchTab({ url: '/pages/profile/profile' });
+      }, 500);
+      return false;
     }
+    return true;
   },
 
   handleChooseFile() {
+    if (!this.checkLogin()) return;
     wx.chooseMessageFile({
       count: 1,
       type: 'file',

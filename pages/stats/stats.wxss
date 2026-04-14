@@ -5,11 +5,11 @@
 }
 
 .stats-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #1677ff 0%, #4096ff 100%);
   border-radius: 24rpx;
   padding: 40rpx 32rpx;
   margin-bottom: 24rpx;
-  box-shadow: 0 8rpx 32rpx rgba(102, 126, 234, 0.3);
+  box-shadow: 0 8rpx 32rpx rgba(22, 119, 255, 0.3);
 }
 
 .task-name {
@@ -82,7 +82,7 @@
 }
 
 .column-option.active {
-  background: #667eea;
+  background: #1677ff;
   color: #fff;
 }
 
@@ -118,7 +118,7 @@
   top: 50%;
   transform: translateY(-50%);
   height: 48rpx;
-  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(90deg, #1677ff 0%, #4096ff 100%);
   border-radius: 4rpx;
   opacity: 0.2;
 }

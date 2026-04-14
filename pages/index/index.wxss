@@ -26,7 +26,7 @@
 .user-avatar {
   width: 80rpx;
   height: 80rpx;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #1677ff 0%, #4096ff 100%);
   border-radius: 40rpx;
   display: flex;
   align-items: center;
@@ -36,14 +36,14 @@
 }
 
 .stats-card {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #1677ff 0%, #4096ff 100%);
   border-radius: 24rpx;
   padding: 40rpx 60rpx;
   display: flex;
   align-items: center;
   justify-content: space-around;
   margin-bottom: 40rpx;
-  box-shadow: 0 8rpx 32rpx rgba(102, 126, 234, 0.3);
+  box-shadow: 0 8rpx 32rpx rgba(22, 119, 255, 0.3);
 }
 
 .stat-item {
@@ -84,7 +84,7 @@
 .add-btn {
   width: 56rpx;
   height: 56rpx;
-  background: #667eea;
+  background: #1677ff;
   border-radius: 28rpx;
   display: flex;
   align-items: center;

@@ -34,10 +34,10 @@ const request = (options) => {
 };
 
 const auth = {
-  login: (code) => request({
+  login: (code, nickname, avatarUrl) => request({
     url: '/auth/login',
     method: 'POST',
-    data: { code }
+    data: { code, nickname, avatarUrl }
   })
 };
 

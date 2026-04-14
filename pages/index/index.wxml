@@ -4,9 +4,6 @@
       <view class="greeting">您好</view>
       <view class="date">{{currentDate}}</view>
     </view>
-    <view class="user-avatar" bindtap="goToProfile">
-      <text>{{userAvatar}}</text>
-    </view>
   </view>
 
   <view class="stats-card">
