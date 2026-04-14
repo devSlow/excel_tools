@@ -1,7 +1,8 @@
 .container {
-  min-height: 100vh;
+  min-height: 100%;
   background: #f5f7fa;
   padding: 32rpx;
+  box-sizing: border-box;
 }
 
 .stats-header {

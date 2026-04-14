@@ -1,7 +1,13 @@
+page {
+  background: #f5f7fa;
+  height: 100%;
+}
+
 .container {
-  min-height: 100vh;
+  min-height: 100%;
   background: #f5f7fa;
   padding: 32rpx;
+  box-sizing: border-box;
 }
 
 .input-section {
