@@ -67,13 +67,24 @@ Page({
     this.setData({ uploading: true });
 
     api.parse.excel(this.data.fileList[0].path).then((data) => {
-      this.setData({
-        uploading: false,
-        result: data,
-        currentSheet: 0,
-        currentSheetData: data.sheets ? data.sheets[0] : null
-      });
-    }).catch(() => {
+      util.showLoading('创建任务中...');
+      const taskData = {
+        name: 'Excel解析任务',
+        source: 'excel',
+        columns: data.columns || [],
+        data: data.data || [],
+        sheets: data.sheets || [],
+        status: 'completed'
+      };
+      return api.task.create(taskData);
+    }).then(() => {
+      util.hideLoading();
+      util.showToast('任务已创建');
+      setTimeout(() => {
+        wx.switchTab({ url: '/pages/index/index' });
+      }, 500);
+    }).catch((err) => {
+      util.hideLoading();
       this.setData({ uploading: false });
     });
   },

@@ -16,14 +16,24 @@
   </view>
 
   <view class="btn-row">
-    <button class="parse-btn" bindtap="handleParse" disabled="{{!inputText || loading}}">
-      {{loading ? '解析中...' : '开始解析'}}
+    <button class="parse-btn" bindtap="handleParse" disabled="{{!inputText}}">
+      开始解析
     </button>
   </view>
 
-  <view class="preview-section" wx:if="{{result.columns.length > 0}}">
+  <view class="preview-section" wx:if="{{showResult && result.columns.length > 0}}">
     <view class="section-header">
-      <view class="section-title">解析结果 ({{result.rowCount}} 行 × {{result.columnCount}} 列)</view>
+      <view class="section-title">解析结果</view>
+    </view>
+    <view class="result-stats">
+      <view class="stat-item">
+        <text class="stat-value">{{result.rowCount}}</text>
+        <text class="stat-label">数据行数</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-value">{{result.columnCount}}</text>
+        <text class="stat-label">列数</text>
+      </view>
     </view>
     <view class="preview-actions">
       <button class="action-btn" bindtap="saveAsTask">保存为任务</button>
@@ -31,21 +41,23 @@
     <scroll-view class="table-wrapper" scroll-x="true" scroll-y="true">
       <view class="data-table">
         <view class="table-header">
-          <view class="th" wx:for="{{result.columns}}" wx:key="index" style="min-width: {{120 / result.columnCount}}rpx">
+          <view class="th" style="min-width: 70rpx; width: 70rpx; background: #595959;">#</view>
+          <view class="th" wx:for="{{result.columns}}" wx:key="index" style="min-width: 120rpx; flex: 1;">
             {{item}}
           </view>
         </view>
         <view class="table-body">
-          <view class="tr" wx:for="{{result.data}}" wx:key="index" wx:for-item="row" wx:for-index="rowIdx" wx:if="{{rowIdx < 10}}">
-            <view class="td" wx:for="{{row}}" wx:key="index" style="min-width: {{120 / result.columnCount}}rpx">
+          <view class="tr" wx:for="{{result.data}}" wx:key="index" wx:for-item="row" wx:for-index="rowIdx">
+            <view class="row-index">{{rowIdx + 1}}</view>
+            <view class="td" wx:for="{{row}}" wx:key="index" style="min-width: 120rpx; flex: 1;">
               {{item}}
             </view>
           </view>
         </view>
       </view>
     </scroll-view>
-    <view class="more-tip" wx:if="{{result.rowCount > 10}}">
-      <text>... 还有 {{result.rowCount - 10}} 行未显示</text>
+    <view class="more-tip" wx:if="{{result.rowCount > 100}}">
+      <text>仅显示前 100 行，更多数据请保存后查看</text>
     </view>
   </view>
 </view>

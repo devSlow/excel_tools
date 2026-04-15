@@ -1,9 +1,53 @@
 <view class="login-container">
-  <view class="login-logo">
-    <text>📊</text>
+  <view class="login-header">
+    <view class="login-logo">
+      <view class="logo-icon">📊</view>
+    </view>
+    <view class="login-title">Excel工具</view>
+    <view class="login-subtitle">文本转Excel与数据采集助手</view>
   </view>
-  <view class="login-title">Excel工具</view>
-  <view class="login-subtitle">文本转Excel与现场数据采集助手</view>
-  <button class="login-btn" hover-class="login-btn-hover" bindtap="handleLogin">微信授权登录</button>
-  <view class="login-tips">登录后即可使用全部功能</view>
+
+  <view class="login-body">
+    <view class="feature-list">
+      <view class="feature-item">
+        <view class="feature-icon">✨</view>
+        <view class="feature-text">支持Excel文件解析</view>
+      </view>
+      <view class="feature-item">
+        <view class="feature-icon">📝</view>
+        <view class="feature-text">文本数据快速转换</view>
+      </view>
+      <view class="feature-item">
+        <view class="feature-icon">📱</view>
+        <view class="feature-text">现场数据实时采集</view>
+      </view>
+    </view>
+
+    <button class="login-btn" bindtap="handleLogin" disabled="{{loading}}">
+      <view class="login-btn-inner" wx:if="{{!loading}}">
+        <view class="wechat-icon">微</view>
+        <text class="btn-text">微信授权登录</text>
+      </view>
+      <view class="login-btn-loading" wx:if="{{loading}}">
+        <view class="spinner-box">
+          <view class="spinner"></view>
+        </view>
+        <text class="loading-text">{{loginStep === 'authorizing' ? '微信授权中' : loginStep === 'verifying' ? '验证身份中' : '登录成功'}}</text>
+      </view>
+    </button>
+
+    <view class="login-hint" wx:if="{{!loading}}">
+      <text class="hint-text">登录后即可使用全部功能</text>
+    </view>
+    <view class="login-hint loading-hint" wx:if="{{loading}}">
+      <text class="hint-text">请在微信弹窗中点击"允许"</text>
+    </view>
+  </view>
+
+  <view class="login-footer">
+    <text class="footer-text">登录即表示同意</text>
+    <text class="link-text">《用户协议》</text>
+    <text class="footer-text">和</text>
+    <text class="link-text">《隐私政策》</text>
+  </view>
 </view>

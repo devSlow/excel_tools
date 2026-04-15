@@ -1,22 +1,54 @@
 <view class="container">
   <view class="profile-header">
-    <block wx:if="{{isLoggedIn && userInfo.avatarUrl}}">
-      <image class="avatar-img" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
-    </block>
-    <block wx:else>
-      <view class="avatar">
-        <text>{{isLoggedIn && userInfo.nickname ? userInfo.nickname.charAt(0) : '游'}}</text>
-      </view>
-    </block>
-    <view class="nickname">{{isLoggedIn ? (userInfo.nickname || '微信用户') : '未登录'}}</view>
+    <view class="avatar-wrapper">
+      <block wx:if="{{isLoggedIn && userInfo.avatarUrl}}">
+        <image class="avatar-img" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
+      </block>
+      <block wx:else>
+        <view class="avatar">
+          <text>游</text>
+        </view>
+      </block>
+    </view>
+    <view class="user-info">
+      <view class="nickname">{{isLoggedIn ? (userInfo.nickname || '微信用户') : '未登录'}}</view>
+      <view class="user-tip" wx:if="{{!isLoggedIn}}">登录后解锁更多功能</view>
+    </view>
   </view>
 
-  <view class="profile-actions">
-    <button wx:if="{{!isLoggedIn}}" class="login-btn" bindtap="handleLogin" disabled="{{loading}}">
-      {{loading ? '登录中...' : '微信授权登录'}}
+  <view class="card-section" wx:if="{{!isLoggedIn}}">
+    <button class="login-btn {{loading ? 'loading' : ''}}" bindtap="handleLogin" disabled="{{loading}}">
+      <view class="btn-content" wx:if="{{!loading}}">
+        <view class="wechat-icon">微</view>
+        <text class="btn-text">微信授权登录</text>
+      </view>
+      <view class="btn-loading" wx:if="{{loading}}">
+        <view class="spinner"></view>
+        <text class="loading-text">{{loginStep === 'authorizing' ? '授权中...' : loginStep === 'verifying' ? '验证中...' : '成功'}}</text>
+      </view>
     </button>
-    <view wx:if="{{isLoggedIn}}" class="logout-btn" bindtap="handleLogout">
-      退出登录
+    <view class="login-hint">
+      <text wx:if="{{!loading}}">登录即表示同意</text>
+      <text class="link" wx:if="{{!loading}}">《用户协议》</text>
+      <text wx:if="{{!loading}}">和</text>
+      <text class="link" wx:if="{{!loading}}">《隐私政策》</text>
+      <text class="loading-hint" wx:if="{{loading}}">请在微信弹窗中点击"允许"</text>
     </view>
+  </view>
+
+  <view class="menu-section" wx:if="{{isLoggedIn}}">
+    <button class="menu-item" open-type="feedback">
+      <text class="menu-text">意见反馈</text>
+    </button>
+  </view>
+
+  <view class="menu-section" wx:if="{{isLoggedIn}}">
+    <button class="menu-item" bindtap="handleLogout">
+      <text class="menu-text">退出登录</text>
+    </button>
+  </view>
+
+  <view class="app-info">
+    <text class="version">Excel工具 v1.0.0</text>
   </view>
 </view>

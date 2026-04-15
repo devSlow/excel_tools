@@ -3,18 +3,21 @@ const util = require('../../utils/util.js');
 
 Page({
   data: {
-    loading: false
+    loading: false,
+    loginStep: 'authorizing'
   },
 
   handleLogin() {
     if (this.data.loading) return;
     
-    this.setData({ loading: true });
+    this.setData({ loading: true, loginStep: 'authorizing' });
     
     wx.login({
       success: (res) => {
         if (res.code) {
+          this.setData({ loginStep: 'verifying' });
           api.auth.login(res.code).then((data) => {
+            this.setData({ loginStep: 'success' });
             wx.setStorageSync('token', data.token);
             wx.setStorageSync('userInfo', data.userInfo);
             util.showToast('登录成功');

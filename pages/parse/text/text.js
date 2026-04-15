@@ -6,6 +6,7 @@ Page({
     inputText: '',
     delimiter: 'auto',
     loading: false,
+    showResult: false,
     result: {
       columns: [],
       data: [],
@@ -35,21 +36,27 @@ Page({
       return;
     }
 
-    this.setData({ loading: true, result: { columns: [], data: [], rowCount: 0, columnCount: 0 } });
+    this.setData({ loading: true });
+    // 只设置 loading 标志，不更新按钮文字
 
     const delimiter = this.data.delimiter === 'auto' ? '' : this.data.delimiter;
     
     api.parse.text(this.data.inputText, delimiter).then((data) => {
-      this.setData({
-        loading: false,
-        result: {
-          columns: data.columns || [],
-          data: data.rows || [],
-          rowCount: data.rows ? data.rows.length : 0,
-          columnCount: data.columns ? data.columns.length : 0
-        }
-      });
-    }).catch(() => {
+      util.showLoading('创建任务中...');
+      const taskData = {
+        title: '文本解析任务',
+        columns: data.columns || [],
+        rows: data.data || []
+      };
+      return api.task.create(taskData);
+    }).then(() => {
+      util.hideLoading();
+      util.showToast('任务已创建');
+      setTimeout(() => {
+        wx.switchTab({ url: '/pages/index/index' });
+      }, 500);
+    }).catch((err) => {
+      util.hideLoading();
       this.setData({ loading: false });
     });
   },

@@ -5,7 +5,8 @@ Page({
   data: {
     userInfo: null,
     isLoggedIn: false,
-    loading: false
+    loading: false,
+    loginStep: 'authorizing'
   },
 
   onLoad() {
@@ -29,17 +30,19 @@ Page({
     if (this.data.loading) return;
     if (this.data.isLoggedIn) return;
     
-    this.setData({ loading: true });
+    this.setData({ loading: true, loginStep: 'authorizing' });
     
     wx.getUserProfile({
       desc: '用于完善用户资料',
       success: (userRes) => {
         const nickname = userRes.userInfo.nickName;
         const avatarUrl = userRes.userInfo.avatarUrl;
+        this.setData({ loginStep: 'verifying' });
         wx.login({
           success: (loginRes) => {
             if (loginRes.code) {
               api.auth.login(loginRes.code, nickname, avatarUrl).then((data) => {
+                this.setData({ loginStep: 'success' });
                 const userInfo = { nickname: nickname, avatarUrl: avatarUrl };
                 wx.setStorageSync('token', data.token);
                 wx.setStorageSync('userInfo', userInfo);

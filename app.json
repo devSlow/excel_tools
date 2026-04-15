@@ -24,15 +24,21 @@
     "list": [
       {
         "pagePath": "pages/parse/text/text",
-        "text": "解析"
+        "text": "解析",
+        "iconPath": "images/tabbar/parse.png",
+        "selectedIconPath": "images/tabbar/parse-active.png"
       },
       {
         "pagePath": "pages/index/index",
-        "text": "任务"
+        "text": "任务",
+        "iconPath": "images/tabbar/task.png",
+        "selectedIconPath": "images/tabbar/task-active.png"
       },
       {
         "pagePath": "pages/profile/profile",
-        "text": "我的"
+        "text": "我的",
+        "iconPath": "images/tabbar/profile.png",
+        "selectedIconPath": "images/tabbar/profile-active.png"
       }
     ]
   },
