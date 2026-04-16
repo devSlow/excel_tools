@@ -37,12 +37,6 @@
   </view>
 
   <view class="menu-section" wx:if="{{isLoggedIn}}">
-    <button class="menu-item" open-type="feedback">
-      <text class="menu-text">意见反馈</text>
-    </button>
-  </view>
-
-  <view class="menu-section" wx:if="{{isLoggedIn}}">
     <button class="menu-item" bindtap="handleLogout">
       <text class="menu-text">退出登录</text>
     </button>

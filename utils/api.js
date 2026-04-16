@@ -1,5 +1,5 @@
-// const baseUrl = 'https://devslow.ccwu.cc/api';
-const baseUrl = 'http://localhost:8080/api';
+const baseUrl = 'https://devslow.ccwu.cc/api';
+// const baseUrl = 'http://localhost:8080/api';
 
 const request = (options) => {
   return new Promise((resolve, reject) => {

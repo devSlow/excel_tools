@@ -80,8 +80,13 @@ const downloadFile = (url) => {
   });
 };
 
-const openFile = (filePath) => {
-  wx.openDocument({ filePath, success: () => {} });
+const openFile = (filePath, fileType = 'xlsx') => {
+  wx.openDocument({
+    filePath,
+    fileType,
+    showMenu: true,
+    success: () => {}
+  });
 };
 
 module.exports = {

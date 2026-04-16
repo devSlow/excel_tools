@@ -143,6 +143,12 @@
   font-size: 26rpx;
   color: #666;
   padding: 20rpx 0;
+  background: transparent;
+  border: none;
+}
+
+.action-btn::after {
+  border: none;
 }
 
 .action-btn.delete {

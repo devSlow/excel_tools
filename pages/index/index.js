@@ -11,13 +11,18 @@ Page({
     page: 1,
     size: 10,
     loading: false,
-    noMore: false
+    noMore: false,
+    initialLoading: true
   },
 
   onLoad() {
     this.setCurrentDate();
     if (wx.getStorageSync('token')) {
-      this.loadTasks();
+      this.loadTasks().finally(() => {
+        this.setData({ initialLoading: false });
+      });
+    } else {
+      this.setData({ initialLoading: false });
     }
   },
 

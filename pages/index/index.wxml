@@ -1,4 +1,8 @@
 <view class="container">
+  <view class="loading-mask" wx:if="{{initialLoading}}">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">加载中...</text>
+  </view>
   <view class="header">
     <view class="header-left">
       <view class="greeting">您好</view>
@@ -17,12 +21,10 @@
       <view class="stat-label">数据总量</view>
     </view>
   </view>
+  <view class="export-tip">点击导出后预览文件，点击右上角···可转发保存</view>
 
   <view class="section-title">
     <text>我的任务</text>
-    <view class="add-btn" bindtap="goToCreate">
-      <text>+</text>
-    </view>
   </view>
 
   <view class="task-list" wx:if="{{taskList.length > 0}}">
@@ -57,8 +59,7 @@
 
   <view class="empty-state" wx:else>
     <view class="empty-icon">📂</view>
-    <view class="empty-text">暂无任务</view>
-    <view class="empty-hint">点击右上角 + 创建您的第一个任务</view>
+    <view class="empty-text">暂无解析任务</view>
   </view>
 
   <view class="load-more" wx:if="{{taskList.length > 0}}">

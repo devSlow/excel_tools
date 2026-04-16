@@ -14,13 +14,30 @@ Page({
     }
   },
 
+  onShareAppMessage() {
+    const task = this.data.task;
+    return {
+      title: task.title || 'Excel数据任务',
+      path: `/pages/task/detail/detail?id=${task.id}`,
+      imageUrl: '/images/share-task.png'
+    };
+  },
+
   loadTask(id) {
     util.showLoading();
     api.task.get(id).then((data) => {
       const statusMap = { completed: '已完成', processing: '处理中', draft: '草稿' };
+      const columns = data.columns || [];
+      const columnNames = columns.map(col => col.name);
+      const rows = (data.rows || []).map(row => columnNames.map(name => row[name] ?? ''));
+      
       this.setData({
         task: {
           ...data,
+          columns,
+          rows,
+          rowCount: data.rows ? data.rows.length : 0,
+          columnCount: columns.length,
           statusText: statusMap[data.status] || '未知',
           createTime: data.createTime ? util.formatTime(new Date(data.createTime)) : '-'
         }
@@ -40,8 +57,8 @@ Page({
     util.showLoading('导出中...');
     const url = api.task.export(this.data.task.id);
     util.downloadFile(url).then((filePath) => {
-      util.openFile(filePath);
       util.hideLoading();
+      util.openFile(filePath, 'xlsx');
     }).catch(() => {
       util.hideLoading();
       util.showToast('导出失败');
@@ -53,7 +70,7 @@ Page({
       util.showToast('无可用字段');
       return;
     }
-    this.setData({ showGroupModal: true, selectedField: this.data.task.columns[0] });
+    this.setData({ showGroupModal: true, selectedField: this.data.task.columns[0].name });
   },
 
   hideModal() {
