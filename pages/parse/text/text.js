@@ -7,6 +7,8 @@ Page({
     delimiter: 'auto',
     loading: false,
     showResult: false,
+    noticeExpanded: false,
+    noticeVisible: false,
     result: {
       columns: [],
       data: [],
@@ -23,6 +25,22 @@ Page({
 
   onInputChange(e) {
     this.setData({ inputText: e.detail.value });
+  },
+
+  toggleNotice() {
+    if (this.data.noticeExpanded) return;
+    this.setData({ noticeExpanded: true }, () => {
+      setTimeout(() => {
+        this.setData({ noticeVisible: true });
+      }, 50);
+    });
+  },
+
+  closeNotice() {
+    this.setData({ noticeVisible: false });
+    setTimeout(() => {
+      this.setData({ noticeExpanded: false });
+    }, 300);
   },
 
   selectDelimiter(e) {
