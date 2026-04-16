@@ -1,9 +1,11 @@
 const formatTime = date => {
-  const year = date.getFullYear();
-  const month = (date.getMonth() + 1).toString().padStart(2, '0');
-  const day = date.getDate().toString().padStart(2, '0');
-  const hour = date.getHours().toString().padStart(2, '0');
-  const minute = date.getMinutes().toString().padStart(2, '0');
+  const timestamp = date.getTime() + 8 * 60 * 60 * 1000;
+  const d = new Date(timestamp);
+  const year = d.getUTCFullYear();
+  const month = (d.getUTCMonth() + 1).toString().padStart(2, '0');
+  const day = d.getUTCDate().toString().padStart(2, '0');
+  const hour = d.getUTCHours().toString().padStart(2, '0');
+  const minute = d.getUTCMinutes().toString().padStart(2, '0');
   return `${year}-${month}-${day} ${hour}:${minute}`;
 };
 
@@ -64,13 +66,46 @@ const switchTab = (url) => {
   wx.switchTab({ url });
 };
 
-const downloadFile = (url) => {
+const downloadFile = (url, fileName) => {
   return new Promise((resolve, reject) => {
     wx.downloadFile({
       url,
       success: (res) => {
         if (res.statusCode === 200) {
-          resolve(res.tempFilePath);
+          const tempFilePath = res.tempFilePath;
+          const fs = wx.getFileSystemManager();
+          const ext = 'xlsx';
+          const newFileName = fileName || 'export';
+          const newFilePath = `${wx.env.USER_DATA_PATH}/${newFileName}.${ext}`;
+          
+          fs.getFileInfo({
+            filePath: tempFilePath,
+            success: () => {
+              fs.readFile({
+                filePath: tempFilePath,
+                success: (readRes) => {
+                  const buffer = readRes.data;
+                  fs.writeFile({
+                    filePath: newFilePath,
+                    data: buffer,
+                    encoding: 'binary',
+                    success: () => {
+                      resolve(newFilePath);
+                    },
+                    fail: () => {
+                      resolve(tempFilePath);
+                    }
+                  });
+                },
+                fail: () => {
+                  resolve(tempFilePath);
+                }
+              });
+            },
+            fail: () => {
+              resolve(tempFilePath);
+            }
+          });
         } else {
           reject(new Error('下载失败'));
         }

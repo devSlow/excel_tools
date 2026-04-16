@@ -1,55 +1,89 @@
 <view class="container">
+  <view class="notice-card">
+    <view class="notice-header">
+      <text class="notice-icon">📋</text>
+      <text class="notice-title">使用规则</text>
+    </view>
+    <view class="notice-content">
+      <text class="notice-text">1. 默认将第一行数据作为表头</text>
+      <text class="notice-text">2. 行与行之间由换行符分隔</text>
+      <text class="notice-text">3. 列与列之间可由 + 号、逗号、分号 或多个空格分隔</text>
+    </view>
+    <view class="example-section">
+      <text class="example-title">输入示例：</text>
+      <view class="example-box">
+        <text class="example-text">姓名,年龄,城市</text>
+        <text class="example-text">张三,25,北京</text>
+        <text class="example-text">李四,30,上海</text>
+      </view>
+    </view>
+  </view>
+
   <view class="input-section">
     <view class="section-title">请粘贴或输入需要解析的文本</view>
-    <textarea class="text-input" placeholder="支持空格、Tab、逗号、换行等分隔符" value="{{inputText}}" bindinput="onInputChange" auto-height maxlength="-1" />
+    <textarea class="text-input" placeholder="在此粘贴或输入文本数据..." value="{{inputText}}" bindinput="onInputChange" maxlength="-1" />
   </view>
 
-  <view class="delimiter-section">
+  <!-- <view class="delimiter-section">
     <view class="section-title">分隔符设置</view>
     <view class="delimiter-options">
-      <view class="delimiter-option {{delimiter === 'auto' ? 'active' : ''}}" bindtap="selectDelimiter" data-value="auto">自动识别</view>
-      <view class="delimiter-option {{delimiter === ' ' ? 'active' : ''}}" bindtap="selectDelimiter" data-value=" ">空格</view>
-      <view class="delimiter-option {{delimiter === '\t' ? 'active' : ''}}" bindtap="selectDelimiter" data-value="\t">Tab</view>
-      <view class="delimiter-option {{delimiter === ',' ? 'active' : ''}}" bindtap="selectDelimiter" data-value=",">逗号</view>
-      <view class="delimiter-option {{delimiter === ';' ? 'active' : ''}}" bindtap="selectDelimiter" data-value=";">分号</view>
+      <view class="delimiter-option {{delimiter === 'auto' ? 'active' : ''}}" bindtap="selectDelimiter" data-value="auto">
+        <text class="option-icon">⚡</text>
+        <text class="option-text">自动识别</text>
+      </view>
+      <view class="delimiter-option {{delimiter === ' ' ? 'active' : ''}}" bindtap="selectDelimiter" data-value=" ">
+        <text class="option-icon">␣</text>
+        <text class="option-text">空格</text>
+      </view>
+      <view class="delimiter-option {{delimiter === '\t' ? 'active' : ''}}" bindtap="selectDelimiter" data-value="\t">
+        <text class="option-icon">⇥</text>
+        <text class="option-text">Tab</text>
+      </view>
+      <view class="delimiter-option {{delimiter === ',' ? 'active' : ''}}" bindtap="selectDelimiter" data-value=",">
+        <text class="option-icon">,</text>
+        <text class="option-text">逗号</text>
+      </view>
+      <view class="delimiter-option {{delimiter === ';' ? 'active' : ''}}" bindtap="selectDelimiter" data-value=";">
+        <text class="option-icon">;</text>
+        <text class="option-text">分号</text>
+      </view>
     </view>
-  </view>
+  </view> -->
 
-  <view class="btn-row">
-    <button class="parse-btn" bindtap="handleParse" disabled="{{!inputText}}">
-      开始解析
-    </button>
-  </view>
+  <button class="parse-btn" bindtap="handleParse" disabled="{{!inputText}}">
+    开始解析
+  </button>
 
   <view class="preview-section" wx:if="{{showResult && result.columns.length > 0}}">
-    <view class="section-header">
+    <view class="result-header">
       <view class="section-title">解析结果</view>
-    </view>
-    <view class="result-stats">
-      <view class="stat-item">
-        <text class="stat-value">{{result.rowCount}}</text>
-        <text class="stat-label">数据行数</text>
-      </view>
-      <view class="stat-item">
-        <text class="stat-value">{{result.columnCount}}</text>
-        <text class="stat-label">列数</text>
+      <view class="result-stats">
+        <view class="stat-item">
+          <text class="stat-value">{{result.rowCount}}</text>
+          <text class="stat-label">行</text>
+        </view>
+        <view class="stat-divider"></view>
+        <view class="stat-item">
+          <text class="stat-value">{{result.columnCount}}</text>
+          <text class="stat-label">列</text>
+        </view>
       </view>
     </view>
     <view class="preview-actions">
-      <button class="action-btn" bindtap="saveAsTask">保存为任务</button>
+      <button class="save-btn" bindtap="saveAsTask">保存为任务</button>
     </view>
     <scroll-view class="table-wrapper" scroll-x="true" scroll-y="true">
       <view class="data-table">
         <view class="table-header">
-          <view class="th" style="min-width: 70rpx; width: 70rpx; background: #595959;">#</view>
-          <view class="th" wx:for="{{result.columns}}" wx:key="index" style="min-width: 120rpx; flex: 1;">
+          <view class="th row-num">#</view>
+          <view class="th" wx:for="{{result.columns}}" wx:key="index">
             {{item}}
           </view>
         </view>
         <view class="table-body">
           <view class="tr" wx:for="{{result.data}}" wx:key="index" wx:for-item="row" wx:for-index="rowIdx">
-            <view class="row-index">{{rowIdx + 1}}</view>
-            <view class="td" wx:for="{{row}}" wx:key="index" style="min-width: 120rpx; flex: 1;">
+            <view class="td row-num">{{rowIdx + 1}}</view>
+            <view class="td" wx:for="{{row}}" wx:key="index">
               {{item}}
             </view>
           </view>

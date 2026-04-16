@@ -39,7 +39,7 @@ Page({
           rowCount: data.rows ? data.rows.length : 0,
           columnCount: columns.length,
           statusText: statusMap[data.status] || '未知',
-          createTime: data.createTime ? util.formatTime(new Date(data.createTime)) : '-'
+          createTime: data.createdAt ? util.formatTime(new Date(data.createdAt)) : '-'
         }
       });
       util.hideLoading();
@@ -54,9 +54,12 @@ Page({
   },
 
   handleExportSingle() {
+    const now = new Date();
+    const fileName = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}_${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}-${String(now.getSeconds()).padStart(2, '0')}`;
+    
     util.showLoading('导出中...');
-    const url = api.task.export(this.data.task.id);
-    util.downloadFile(url).then((filePath) => {
+    const url = api.task.export(this.data.task.id, fileName);
+    util.downloadFile(url, fileName).then((filePath) => {
       util.hideLoading();
       util.openFile(filePath, 'xlsx');
     }).catch(() => {

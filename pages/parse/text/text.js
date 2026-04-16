@@ -37,25 +37,36 @@ Page({
     }
 
     this.setData({ loading: true });
-    // 只设置 loading 标志，不更新按钮文字
-
     const delimiter = this.data.delimiter === 'auto' ? '' : this.data.delimiter;
+    const isLoggedIn = !!wx.getStorageSync('token');
     
     api.parse.text(this.data.inputText, delimiter).then((data) => {
-      util.showLoading('创建任务中...');
-      const taskData = {
-        title: '文本解析任务',
-        columns: data.columns || [],
-        rows: data.data || []
-      };
-      return api.task.create(taskData);
-    }).then(() => {
+      if (isLoggedIn) {
+        const taskData = {
+          title: '文本解析任务',
+          columns: data.columns || [],
+          rows: data.data || []
+        };
+        api.task.create(taskData);
+      }
+      return data;
+    }).then((data) => {
       util.hideLoading();
-      util.showToast('任务已创建');
-      setTimeout(() => {
-        wx.switchTab({ url: '/pages/index/index' });
-      }, 500);
-    }).catch((err) => {
+      this.setData({ loading: false, showResult: false });
+      
+      util.showLoading('导出中...');
+      const now = new Date();
+      const fileName = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}_${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}-${String(now.getSeconds()).padStart(2, '0')}`;
+      
+      const url = api.parse.textExport(this.data.inputText, delimiter);
+      util.downloadFile(url, fileName).then((filePath) => {
+        util.hideLoading();
+        util.openFile(filePath, 'xlsx');
+      }).catch(() => {
+        util.hideLoading();
+        util.showToast('导出失败');
+      });
+    }).catch(() => {
       util.hideLoading();
       this.setData({ loading: false });
     });

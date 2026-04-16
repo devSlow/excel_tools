@@ -83,7 +83,7 @@ Page({
       const list = (data.records || []).map(item => ({
         ...item,
         statusText: this.getStatusText(item.status),
-        createTime: item.createTime ? util.formatTime(new Date(item.createTime)) : '-'
+        createTime: item.createdAt ? util.formatTime(new Date(item.createdAt)) : '-'
       }));
       
       this.setData({
@@ -121,12 +121,14 @@ Page({
 
   handleExport(e) {
     const id = e.currentTarget.dataset.id;
-    util.showLoading('导出中...');
+    const now = new Date();
+    const fileName = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}_${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}-${String(now.getSeconds()).padStart(2, '0')}`;
     
-    const url = api.task.export(id);
-    util.downloadFile(url).then((filePath) => {
-      util.openFile(filePath);
+    util.showLoading('导出中...');
+    const url = api.task.export(id, fileName);
+    util.downloadFile(url, fileName).then((filePath) => {
       util.hideLoading();
+      util.openFile(filePath, 'xlsx');
     }).catch(() => {
       util.hideLoading();
       util.showToast('导出失败');

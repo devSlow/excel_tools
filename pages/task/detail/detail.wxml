@@ -44,12 +44,6 @@
   </view>
 
   <view class="action-bar">
-    <button class="action-btn" open-type="share">
-      <text>📤 分享</text>
-    </button>
-    <view class="action-btn" bindtap="goToStats">
-      <text>📈 统计</text>
-    </view>
     <view class="action-btn" bindtap="handleExportSingle">
       <text>📥 导出</text>
     </view>

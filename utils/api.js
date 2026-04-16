@@ -50,13 +50,13 @@ const parse = {
   }),
   textExport: (text, delimiter) => {
     let params = `text=${encodeURIComponent(text)}`;
-    if (delimiter && delimiter !== 'auto') {
+    if (delimiter && delimiter !== 'auto' && delimiter !== '') {
       params += `&delimiter=${encodeURIComponent(delimiter)}`;
     }
     const token = wx.getStorageSync('token');
     let url = `${baseUrl}/parse/text/export?${params}`;
     if (token) {
-      url += `&Authorization=Bearer ${token}`;
+      url += `&Authorization=Bearer%20${encodeURIComponent(token)}`;
     }
     return url;
   },
@@ -111,7 +111,13 @@ const task = {
     url: `/task/${id}/stats`,
     method: 'GET'
   }),
-  export: (id) => `${baseUrl}/task/${id}/export`,
+  export: (id, fileName) => {
+    let url = `${baseUrl}/task/${id}/export`;
+    if (fileName) {
+      url += `?fileName=${encodeURIComponent(fileName)}`;
+    }
+    return url;
+  },
   exportGroup: (id, groupByField) => `${baseUrl}/task/${id}/export/group?groupByField=${groupByField}`
 };
 
