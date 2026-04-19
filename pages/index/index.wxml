@@ -27,6 +27,20 @@
     <text>我的任务</text>
   </view>
 
+  <view class="search-box">
+    <view class="search-input-wrap">
+      <text class="search-icon">🔍</text>
+      <input class="search-input" placeholder="搜索解析内容..." value="{{searchKeyword}}" bindinput="onSearchInput" bindconfirm="onSearch" confirm-type="search" bindclear="onSearchClear" />
+      <view class="search-clear" wx:if="{{searchKeyword}}" catchtap="onSearchClear">✕</view>
+    </view>
+    <view class="search-btn" bindtap="onSearch">搜索</view>
+  </view>
+
+  <view class="loading-more" wx:if="{{searchLoading}}">
+    <view class="loading-spinner-small"></view>
+    <text>搜索中...</text>
+  </view>
+
   <view class="task-list" wx:if="{{taskList.length > 0}}">
     <view class="task-item" wx:for="{{taskList}}" wx:key="id" bindtap="goToDetail" data-id="{{item.id}}">
       <view class="task-header">

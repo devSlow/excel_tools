@@ -12,11 +12,14 @@ Page({
     size: 10,
     loading: false,
     noMore: false,
-    initialLoading: true
+    initialLoading: true,
+    searchKeyword: '',
+    searchLoading: false
   },
 
   onLoad() {
     this.setCurrentDate();
+    this.loadTaskCount();
     if (wx.getStorageSync('token')) {
       this.loadTasks().finally(() => {
         this.setData({ initialLoading: false });
@@ -29,19 +32,20 @@ Page({
   onShow() {
     if (wx.getStorageSync('token')) {
       this.loadTasks();
+      this.loadTaskCount();
     } else {
       this.setData({ taskList: [], totalTasks: 0, totalRows: 0 });
     }
   },
 
   onReachBottom() {
-    if (!this.data.noMore && !this.data.loading) {
+    if (!this.data.noMore && !this.data.loading && !this.data.searchLoading) {
       this.loadTasks(true);
     }
   },
 
   onPullDownRefresh() {
-    this.setData({ page: 1, noMore: false });
+    this.setData({ page: 1, noMore: false, searchKeyword: '' });
     this.loadTasks().finally(() => {
       wx.stopPullDownRefresh();
     });
@@ -54,6 +58,12 @@ Page({
     const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
     const weekday = weekdays[now.getDay()];
     this.setData({ currentDate: `${month}月${day}日 ${weekday}` });
+  },
+
+  loadTaskCount() {
+    api.task.count().then((count) => {
+      this.setData({ totalTasks: count });
+    }).catch(() => {});
   },
 
   checkLogin() {
@@ -78,8 +88,9 @@ Page({
     this.setData({ loading: true });
     
     const page = loadMore ? this.data.page + 1 : 1;
+    const keyword = this.data.searchKeyword;
     
-    return api.task.list(page, this.data.size).then((data) => {
+    return api.task.list(page, this.data.size, keyword).then((data) => {
       const list = (data.records || []).map(item => ({
         ...item,
         statusText: this.getStatusText(item.status),
@@ -89,14 +100,28 @@ Page({
       this.setData({
         page: page,
         taskList: loadMore ? [...this.data.taskList, ...list] : list,
-        totalTasks: data.total || 0,
         noMore: list.length < this.data.size
       });
     }).catch(() => {
       util.showToast('加载失败');
     }).finally(() => {
-      this.setData({ loading: false });
+      this.setData({ loading: false, searchLoading: false });
     });
+  },
+
+  onSearchInput(e) {
+    this.setData({ searchKeyword: e.detail.value });
+  },
+
+  onSearch() {
+    const keyword = this.data.searchKeyword.trim();
+    this.setData({ page: 1, noMore: false, searchLoading: true });
+    this.loadTasks();
+  },
+
+  onSearchClear() {
+    this.setData({ searchKeyword: '', page: 1, noMore: false });
+    this.loadTasks();
   },
 
   getStatusText(status) {

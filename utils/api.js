@@ -1,5 +1,5 @@
-const baseUrl = 'https://devslow.ccwu.cc/api';
-// const baseUrl = 'http://localhost:8080/api';
+// const baseUrl = 'https://devslow.ccwu.cc/api';
+const baseUrl = 'http://localhost:8080/api';
 
 const request = (options) => {
   return new Promise((resolve, reject) => {
@@ -85,8 +85,12 @@ const parse = {
 };
 
 const task = {
-  list: (page, size) => request({
-    url: `/task?page=${page}&size=${size}`,
+  list: (page, size, keyword = '') => request({
+    url: `/task?page=${page}&size=${size}${keyword ? '&keyword=' + encodeURIComponent(keyword) : ''}`,
+    method: 'GET'
+  }),
+  count: () => request({
+    url: '/task/count',
     method: 'GET'
   }),
   create: (data) => request({
@@ -113,8 +117,16 @@ const task = {
   }),
   export: (id, fileName) => {
     let url = `${baseUrl}/task/${id}/export`;
+    const params = [];
     if (fileName) {
-      url += `?fileName=${encodeURIComponent(fileName)}`;
+      params.push(`fileName=${encodeURIComponent(fileName)}`);
+    }
+    const token = wx.getStorageSync('token');
+    if (token) {
+      params.push(`Authorization=Bearer%20${encodeURIComponent(token)}`);
+    }
+    if (params.length > 0) {
+      url += '?' + params.join('&');
     }
     return url;
   },
