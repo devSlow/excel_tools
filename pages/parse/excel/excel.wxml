@@ -1,7 +1,7 @@
 <view class="container">
   <view class="upload-section">
     <view class="upload-area" bindtap="handleChooseFile">
-      <view class="upload-icon">📁</view>
+      <icon type="upload" size="48" color="#1677ff" />
       <view class="upload-text">点击选择Excel文件</view>
       <view class="upload-hint">支持 .xlsx, .xls 格式</view>
     </view>

@@ -1,5 +1,5 @@
-const baseUrl = 'https://devslow.ccwu.cc/api';
-// const baseUrl = 'http://localhost:8080/api';
+// const baseUrl = 'https://devslow.ccwu.cc/api';
+const baseUrl = 'http://localhost:8080/api';
 
 const request = (options) => {
   return new Promise((resolve, reject) => {
@@ -39,6 +39,13 @@ const auth = {
     url: '/auth/login',
     method: 'POST',
     data: { code, nickname, avatarUrl }
+  })
+};
+
+const banner = {
+  list: () => request({
+    url: '/banner',
+    method: 'GET'
   })
 };
 
@@ -136,5 +143,6 @@ const task = {
 module.exports = {
   auth,
   parse,
-  task
+  task,
+  banner
 };

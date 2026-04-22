@@ -50,7 +50,9 @@
   </view>
 
   <view class="empty-state" wx:if="{{columnStats.length === 0 && !loading}}">
-    <view class="empty-icon">📊</view>
+    <view class="empty-icon">
+      <icon type="info" size="40" color="#d9d9d9" />
+    </view>
     <view class="empty-text">暂无统计数据</view>
     <view class="empty-hint">选择列名查看统计数据</view>
   </view>

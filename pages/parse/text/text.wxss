@@ -4,6 +4,42 @@ page {
   overflow-y: auto;
 }
 
+.banner-swiper {
+  width: 100%;
+  height: 300rpx;
+  border-radius: 16rpx;
+  overflow: hidden;
+  margin-bottom: 20rpx;
+}
+
+.banner-image {
+  width: 100%;
+  height: 100%;
+}
+
+.banner-skeleton {
+  width: 100%;
+  height: 300rpx;
+  border-radius: 16rpx;
+  overflow: hidden;
+  margin-bottom: 20rpx;
+  background: #f5f7fa;
+  padding: 0;
+}
+
+.skeleton-item {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #fafafa 25%, #f5f5f5 50%, #fafafa 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s ease-in-out infinite;
+}
+
+@keyframes skeleton-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
 .container {
   min-height: 100%;
   padding: 20rpx 24rpx;

@@ -13,11 +13,11 @@
     <view class="form-label">数据来源</view>
     <view class="source-options">
       <view class="source-option {{source === 'text' ? 'active' : ''}}" bindtap="selectSource" data-source="text">
-        <text class="option-icon">📝</text>
+        <icon type="waiting" size="18" color="#1677ff" />
         <text class="option-text">文本解析</text>
       </view>
       <view class="source-option {{source === 'excel' ? 'active' : ''}}" bindtap="selectSource" data-source="excel">
-        <text class="option-icon">📊</text>
+        <icon type="info" size="18" color="#1677ff" />
         <text class="option-text">Excel导入</text>
       </view>
     </view>

@@ -45,10 +45,12 @@
 
   <view class="action-bar">
     <view class="action-btn" bindtap="handleExportSingle">
-      <text>📥 导出</text>
+      <icon type="download" size="14" color="#1677ff" />
+      <text>导出</text>
     </view>
     <view class="action-btn delete" bindtap="handleDelete">
-      <text>🗑️ 删除</text>
+      <icon type="clear" size="14" color="#ff4d4f" />
+      <text>删除</text>
     </view>
   </view>
 

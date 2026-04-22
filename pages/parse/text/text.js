@@ -3,6 +3,7 @@ const util = require('../../../utils/util.js');
 
 Page({
   data: {
+    bannerList: [],
     inputText: '',
     delimiter: 'auto',
     loading: false,
@@ -15,6 +16,10 @@ Page({
       rowCount: 0,
       columnCount: 0
     }
+  },
+
+  onLoad() {
+    this.loadBanner();
   },
 
   onShow() {
@@ -99,5 +104,18 @@ Page({
     wx.navigateTo({
       url: '/pages/task/create/create?source=text&data=' + encodeURIComponent(JSON.stringify(this.data.result))
     });
+  },
+
+  loadBanner() {
+    api.banner.list().then((list) => {
+      this.setData({ bannerList: list || [] });
+    }).catch(() => {});
+  },
+
+  goToBanner(e) {
+    const link = e.currentTarget.dataset.link;
+    if (link) {
+      wx.navigateTo({ url: link });
+    }
   }
 });

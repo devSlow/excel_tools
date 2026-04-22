@@ -29,9 +29,11 @@
 
   <view class="search-box">
     <view class="search-input-wrap">
-      <text class="search-icon">🔍</text>
+      <icon type="search" size="16" color="#999999" />
       <input class="search-input" placeholder="搜索解析内容..." value="{{searchKeyword}}" bindinput="onSearchInput" bindconfirm="onSearch" confirm-type="search" bindclear="onSearchClear" />
-      <view class="search-clear" wx:if="{{searchKeyword}}" catchtap="onSearchClear">✕</view>
+      <view class="search-clear" wx:if="{{searchKeyword}}" catchtap="onSearchClear">
+        <icon type="clear" size="14" color="#999999" />
+      </view>
     </view>
     <view class="search-btn" bindtap="onSearch">搜索</view>
   </view>
@@ -49,27 +51,31 @@
       </view>
       <view class="task-info">
         <view class="task-info-item">
-          <text class="info-icon">📊</text>
+          <icon type="info" size="14" color="#1677ff" />
           <text>{{item.rowCount}} 条数据</text>
         </view>
         <view class="task-info-item">
-          <text class="info-icon">📅</text>
+          <icon type="waiting" size="14" color="#1677ff" />
           <text>{{item.createTime}}</text>
         </view>
       </view>
       <view class="task-actions">
         <view class="action-btn" catchtap="handleExport" data-id="{{item.id}}" data-name="{{item.name}}">
-          <text>📥 导出</text>
+          <icon type="download" size="14" color="#1677ff" />
+          <text>导出</text>
         </view>
         <view class="action-btn delete" catchtap="handleDelete" data-id="{{item.id}}">
-          <text>🗑️ 删除</text>
+          <icon type="clear" size="14" color="#ff4d4f" />
+          <text>删除</text>
         </view>
       </view>
     </view>
   </view>
 
   <view class="empty-state" wx:else>
-    <view class="empty-icon">📂</view>
+    <view class="empty-icon">
+      <icon type="info" size="40" color="#d9d9d9" />
+    </view>
     <view class="empty-text">暂无解析任务</view>
   </view>
 

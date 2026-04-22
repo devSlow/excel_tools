@@ -1,7 +1,7 @@
 <view class="login-container">
   <view class="login-header">
     <view class="login-logo">
-      <view class="logo-icon">📊</view>
+      <icon type="download" size="48" color="#1677ff" />
     </view>
     <view class="login-title">Excel工具</view>
     <view class="login-subtitle">文本转Excel与数据采集助手</view>
@@ -10,15 +10,15 @@
   <view class="login-body">
     <view class="feature-list">
       <view class="feature-item">
-        <view class="feature-icon">✨</view>
+        <icon type="success" size="20" color="#1677ff" />
         <view class="feature-text">支持Excel文件解析</view>
       </view>
       <view class="feature-item">
-        <view class="feature-icon">📝</view>
+        <icon type="warn" size="20" color="#1677ff" />
         <view class="feature-text">文本数据快速转换</view>
       </view>
       <view class="feature-item">
-        <view class="feature-icon">📱</view>
+        <icon type="search" size="20" color="#1677ff" />
         <view class="feature-text">现场数据实时采集</view>
       </view>
     </view>
