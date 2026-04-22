@@ -181,6 +181,35 @@ page {
   border-radius: 24rpx;
   overflow: hidden;
   box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+  margin-top: 100rpx;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 32rpx;
+  background: #fff;
+  border: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.menu-item::after {
+  border: none;
+}
+
+.menu-text {
+  color: #333;
+  font-size: 30rpx;
+}
+
+.logout-text {
+  color: #666;
+}
+
+.menu-section .menu-item:first-child {
+  border-bottom: 1rpx solid #f0f0f0;
 }
 
 .menu-item {

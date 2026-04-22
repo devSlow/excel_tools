@@ -63,6 +63,9 @@
 }
 
 .option-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 64rpx;
   margin-bottom: 16rpx;
 }
