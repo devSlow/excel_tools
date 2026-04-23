@@ -14,7 +14,8 @@ Page({
     noMore: false,
     initialLoading: true,
     searchKeyword: '',
-    searchLoading: false
+    searchLoading: false,
+    showSearch: false
   },
 
   onLoad() {
@@ -122,6 +123,27 @@ Page({
   onSearchClear() {
     this.setData({ searchKeyword: '', page: 1, noMore: false });
     this.loadTasks();
+  },
+
+  onSearchTap() {
+    this.setData({ showSearch: true });
+  },
+
+  onSearchClose() {
+    const hadKeyword = !!this.data.searchKeyword;
+    this.setData({ showSearch: false, searchKeyword: '' });
+    if (hadKeyword) {
+      this.setData({ page: 1, noMore: false });
+      this.loadTasks();
+    }
+  },
+
+  onSearchBlur() {
+    setTimeout(() => {
+      if (!this.data.searchKeyword) {
+        this.setData({ showSearch: false });
+      }
+    }, 150);
   },
 
   getStatusText(status) {
