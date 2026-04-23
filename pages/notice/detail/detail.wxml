@@ -1,0 +1,13 @@
+<view class="container" wx:if="{{notice}}">
+  <view class="notice-header notice-header-{{notice.type || 'info'}}">
+    <view class="notice-title">{{notice.title}}</view>
+    <view class="notice-meta">
+      <text class="notice-time">{{notice.createdAt}}</text>
+      <text class="notice-type-tag type-{{notice.type || 'info'}}">{{notice.type === 'warning' ? '警告' : notice.type === 'error' ? '紧急' : '通知'}}</text>
+    </view>
+  </view>
+
+  <view class="notice-body">
+    <rich-text nodes="{{notice.content}}"></rich-text>
+  </view>
+</view>

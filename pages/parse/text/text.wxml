@@ -1,9 +1,10 @@
 <view class="container">
+  <!-- 统一轮播（轮播图 + 公告） -->
   <view class="banner-skeleton" wx:if="{{bannerList.length === 0}}">
     <view class="skeleton-item"></view>
   </view>
-  <swiper class="banner-swiper" indicator-dots="{{bannerList.length > 1}}" autoplay="{{bannerList.length > 0}}" circular="{{bannerList.length > 2}}" interval="3000" duration="500" indicator-color="rgba(255,255,255,0.5)" indicator-active-color="#ffffff" wx:if="{{bannerList.length > 0}}">
-    <swiper-item wx:for="{{bannerList}}" wx:key="id" bindtap="goToBanner" data-link="{{item.linkUrl}}">
+  <swiper class="banner-swiper" indicator-dots="{{bannerList.length > 1}}" autoplay="{{bannerList.length > 0}}" circular="{{bannerList.length > 2}}" interval="6000" duration="500" indicator-color="rgba(255,255,255,0.5)" indicator-active-color="#ffffff" wx:if="{{bannerList.length > 0}}">
+    <swiper-item wx:for="{{bannerList}}" wx:key="id" bindtap="{{item.content ? 'goToNotice' : 'goToBanner'}}" data-link="{{item.linkUrl}}" data-id="{{item.id}}">
       <image class="banner-image" src="{{item.imageUrl}}" mode="aspectFill" />
     </swiper-item>
   </swiper>

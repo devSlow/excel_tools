@@ -117,5 +117,10 @@ Page({
     if (link) {
       wx.navigateTo({ url: link });
     }
+  },
+
+  goToNotice(e) {
+    const id = e.currentTarget.dataset.id;
+    wx.navigateTo({ url: `/pages/notice/detail/detail?id=${id}` });
   }
 });
