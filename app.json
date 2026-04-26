@@ -6,6 +6,7 @@
     "pages/task/create/create",
     "pages/task/detail/detail",
     "pages/stats/stats",
+    "pages/notice/detail/detail",
     "pages/profile/profile",
     "pages/login/login",
     "pages/notice/notice"

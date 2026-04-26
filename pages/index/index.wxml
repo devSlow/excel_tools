@@ -8,64 +8,69 @@
       <view class="greeting">您好</view>
       <view class="date">{{currentDate}}</view>
     </view>
+    <view class="header-right {{showSearch ? 'header-right-expanded' : ''}}">
+      <view class="header-search-icon-wrap" catchtap="onSearchTap">
+        <image class="header-search-icon" src="data:image/svg+xml;base64,PHN2ZyB0PSIxNzc2OTYzNjU2NzA4IiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjQwNTgiIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIj48cGF0aCBkPSJNNDUxLjQgNzcxLjhjLTc0LjQgMC0xNDQuNC0yOS0xOTctODEuOC01Mi44LTUyLjgtODEuOC0xMjIuOC04MS44LTE5N3MyOS0xNDQuNCA4MS44LTE5NyAxMjIuOC04MS44IDE5Ny04MS44IDE0NC40IDI5IDE5NyA4MS44YzUyLjggNTIuOCA4MS44IDEyMi44IDgxLjggMTk3cy0yOSAxNDQuNC04MS44IDE5Ny0xMjIuOCA4MS44LTE5NyA4MS44eiBtMC00MzIuOGMtNDIgMC04MS42IDE2LjQtMTExLjIgNDYuNC0zMCAzMC00Ni40IDY5LjItNDYuNCAxMTEuMnMxNi40IDgxLjIgNDYuNCAxMTEuMmMzMCAzMCA2OS4yIDQ2LjQgMTExLjIgNDYuNHM4MS4yLTE2LjQgMTExLjItNDYuNGMzMC0zMCA0Ni40LTY5LjIgNDYuNC0xMTEuMnMtMTYuNC04MS4yLTQ2LjQtMTExLjJjLTI5LjgtMjkuOC02OS4yLTQ2LjQtMTExLjItNDYuNHoiIGZpbGw9IiMzMzMzMzMiIHAtaWQ9IjQwNTkiPjwvcGF0aD48cGF0aCBkPSJNOTQwLjUgODk2LjRsLTExOS44LTExOS44Yy0xNi0xNi0xNi00MS44IDAtNTcuOHM0MS44LTE2IDU3LjggMGwxMTkuOCAxMTkuOGMxNiAxNiAxNiA0MS44IDAgNTcuOEM5NjIuMyA5MTIuNCA5NTIuNSA5MTYuNCA5NDAuNSA4OTYuNHoiIGZpbGw9IiMzMzMzMzMiIHAtaWQ9IjQwNjAiPjwvcGF0aD48L3N2Zz4=" mode="aspectFit" />
+      </view>
+      <view class="header-search-bar">
+        <icon type="search" size="14" color="#999999" />
+        <input class="header-search-input" placeholder="搜索任务名称..." placeholder-class="search-placeholder" value="{{searchKeyword}}" bindinput="onSearchInput" bindconfirm="onSearch" bindblur="onSearchBlur" confirm-type="search" focus="{{showSearch}}" />
+        <view class="header-search-close" catchtap="onSearchClose">
+          <icon type="clear" size="12" color="#ffffff" />
+        </view>
+      </view>
+    </view>
   </view>
 
   <view class="stats-card">
     <view class="stat-item">
-      <view class="stat-value">{{totalTasks}}</view>
+      <view class="stat-icon-wrap">
+        <image class="stat-icon-img" src="data:image/svg+xml;base64,PHN2ZyB0PSIxNzc2OTU2Mzg0MjA2IiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjE3MTcyIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiPjxwYXRoIGQ9Ik04MzEuODI1NDc0IDYzLjk0MDE2OUgxOTEuOTM5NzE3QzEyMS4yNDc5IDYzLjk0MDE2OSA2My45NDAxNjkgMTIxLjI0NzkgNjMuOTQwMTY5IDE5MS45Mzk3MTd2NjM5Ljg4NTc1N0M2My45NDAxNjkgOTAyLjUxNzI5MSAxMjEuMjQ3OSA5NTkuODI1MDIyIDE5MS45Mzk3MTcgOTU5LjgyNTAyMmg2MzkuODg1NzU3YzcwLjY5MTgxNyAwIDEyNy45OTk1NDgtNTcuMzA3NzMxIDEyNy45OTk1NDgtMTI3Ljk5OTU0OFYxOTEuOTM5NzE3Qzk1OS44MjUwMjIgMTIxLjI0NzkgOTAyLjUxNzI5MSA2My45NDAxNjkgODMxLjgyNTQ3NCA2My45NDAxNjl6TTg5NS44ODQ4NTQgODMxLjk5ODg3MUE2My44MzU0MDggNjMuODM1NDA4IDAgMCAxIDgzMS45MTIxNzMgODk1Ljg4NDg1NEgxOTIuMDg3ODI3Yy0xNy4xMTIxMjMgMC0zMy4yNzA1NjMtNi41NzQ2MzktNDUuMzcyMjMyLTE4LjY3NjMxUzEyNy44ODAzMzggODQ5LjExMDk5NCAxMjcuODgwMzM4IDgzMS45OTg4NzFWMTkyLjAwMTEyOUE2NC4yMzYzODkgNjQuMjM2Mzg5IDAgMCAxIDE5Mi4wODc4MjcgMTI3Ljg4MDMzOGg2MzkuODI0MzQ2QTY0LjAzNzcwNSA2NC4wMzc3MDUgMCAwIDEgODk1Ljg4NDg1NCAxOTIuMDAxMTI5djYzOS45OTc3NDJ6IiBmaWxsPSIjMmMyYzJjIiBwLWlkPSIxNzE3MyI+PC9wYXRoPjxwYXRoIGQ9Ik03OTEuOTk4MzM1IDM1MS44NTE1NTFoLTI1NS45OTkwOTdhMzEuOTcwMDg0IDMxLjk3MDA4NCAwIDAgMCAwIDYzLjk0MDE2OWgyNTUuOTk5MDk3YTMxLjk3MDA4NCAzMS45NzAwODQgMCAwIDAgMC02My45NDAxNjl6TTc5MS45OTgzMzUgNjA3Ljk3MzQ3MWgtMjU1Ljk5OTA5N2EzMS45NzAwODQgMzEuOTcwMDg0IDAgMCAwIDAgNjMuOTQwMTY5aDI1NS45OTkwOTdhMzEuOTcwMDg0IDMxLjk3MDA4NCAwIDAgMCAwLTYzLjk0MDE2OXpNMzQ0LjAwMTcyMiA1MjcuOTk3Njg2Yy02MS44NTU3OTIgMC0xMTEuOTg1NjA3IDUwLjE0NDI2NS0xMTEuOTg1NjA3IDExMS45ODU2MDZzNTAuMTQ0MjY1IDExMS45ODU2MDcgMTExLjk4NTYwNyAxMTEuOTg1NjA3IDExMS45ODU2MDctNTAuMTQ0MjY1IDExMS45ODU2MDYtMTExLjk4NTYwNy01MC4xMjk4MTUtMTExLjk4NTYwNy0xMTEuOTg1NjA2LTExMS45ODU2MDZ6IG0zMy45ODIyMTMgMTQ1Ljk4MjI2OWE0OC4wNDU0MzggNDguMDQ1NDM4IDAgMSAxIDE0LjA4ODUxMS0zMy45ODIyMTMgNDcuNzQ1NjA1IDQ3Ljc0NTYwNSAwIDAgMS0xNC4wODg1MTEgMzMuOTg1ODI2ek00MTcuMzk1NjQzIDI5Ny4zOTQwMzVMMzExLjk5OTEyNSA0MDIuNzg2OTQgMjcwLjYwNzggMzYxLjM5MjAwM2EzMS45NzAwODQgMzEuOTcwMDg0IDAgMSAwLTQ1LjIxMzI4NiA0NS4yMTMyODVsNjMuOTk3OTY4IDY0LjAwMTU4MWEzMS45NzAwODQgMzEuOTcwMDg0IDAgMCAwIDQ1LjIxMzI4NiAwbDEyNy45OTk1NDgtMTI3Ljk5OTU0OWEzMS45NzAwODQgMzEuOTcwMDg0IDAgMCAwLTQ1LjIwOTY3My00NS4yMTMyODV6IiBmaWxsPSIjMmMyYzJjIiBwLWlkPSIxNzE3NCI+PC9wYXRoPjwvc3ZnPg==" mode="aspectFit" />
+      </view>
+      <view class="stat-num">{{totalTasks}}</view>
       <view class="stat-label">任务总数</view>
     </view>
     <view class="stat-divider"></view>
     <view class="stat-item">
-      <view class="stat-value">{{totalRows}}</view>
+      <view class="stat-icon-wrap">
+        <image class="stat-icon-img" src="data:image/svg+xml;base64,PHN2ZyB0PSIxNzc2OTU3MDU5NzM1IiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjE5MjU5IiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiPjxwYXRoIGQ9Ik0zNDEuMzMzMzMzIDkzOC42NjY2NjdIMTI4YTQyLjY2NjY2NyA0Mi42NjY2NjcgMCAwIDEtNDIuNjY2NjY3LTQyLjY2NjY2N1Y0MDUuMzMzMzMzYTQyLjY2NjY2NyA0Mi42NjY2NjcgMCAwIDEgNDIuNjY2NjY3LTQyLjY2NjY2NmgyMTMuMzMzMzMzVjEyOGE0Mi42NjY2NjcgNDIuNjY2NjY3IDAgMCAxIDQyLjY2NjY2Ny00Mi42NjY2NjdoMjU2YTQyLjY2NjY2NyA0Mi42NjY2NjcgMCAwIDEgNDIuNjY2NjY3IDQyLjY2NjY2N3Y0MDUuMzMzMzMzaDIxMy4zMzMzMzNhNDIuNjY2NjY3IDQyLjY2NjY2NyAwIDAgMSA0Mi41NiAzOS40NjY2NjdMOTM4LjY2NjY2NyA1NzZ2MzIwYTQyLjY2NjY2NyA0Mi42NjY2NjcgMCAwIDEtMzkuNDY2NjY3IDQyLjU2TDg5NiA5MzguNjY2NjY3SDM0MS4zMzMzMzN6IG0wLTUxMkgxNDkuMzMzMzMzdjQ0OGgxOTJWNDI2LjY2NjY2N3ogbTUzMy4zMzMzMzQgMTcwLjY2NjY2NmgtMTkydjI3Ny4zMzMzMzRoMTkyVjU5Ny4zMzMzMzN6TTYxOC42NjY2NjcgMTQ5LjMzMzMzM0g0MDUuMzMzMzMzdjcyNS4zMzMzMzRoMjEzLjMzMzMzNFYxNDkuMzMzMzMzeiIgZmlsbD0iIzRFNEU0RSIgcC1pZD0iMTkyNjAiPjwvcGF0aD48L3N2Zz4K" mode="aspectFit" />
+      </view>
+      <view class="stat-num">{{totalRows}}</view>
       <view class="stat-label">数据总量</view>
     </view>
   </view>
   <view class="export-tip">点击导出后预览文件，点击右上角···可转发保存</view>
 
-  <view class="section-title">
-    <text>我的任务</text>
-  </view>
-
-  <view class="search-box">
-    <view class="search-input-wrap">
-      <icon type="search" size="16" color="#999999" />
-      <input class="search-input" placeholder="搜索解析内容..." value="{{searchKeyword}}" bindinput="onSearchInput" bindconfirm="onSearch" confirm-type="search" bindclear="onSearchClear" />
-      <view class="search-clear" wx:if="{{searchKeyword}}" catchtap="onSearchClear">
-        <icon type="clear" size="14" color="#999999" />
-      </view>
-    </view>
-    <view class="search-btn" bindtap="onSearch">搜索</view>
-  </view>
-
-  <view class="loading-more" wx:if="{{searchLoading}}">
-    <view class="loading-spinner-small"></view>
-    <text>搜索中...</text>
-  </view>
 
   <view class="task-list" wx:if="{{taskList.length > 0}}">
     <view class="task-item" wx:for="{{taskList}}" wx:key="id" bindtap="goToDetail" data-id="{{item.id}}">
-      <view class="task-header">
-        <view class="task-name">{{item.name}}</view>
+      <view class="task-top">
+        <view class="task-name-wrap">
+          <view class="task-name">{{item.name}}</view>
+        </view>
         <view class="task-status {{item.status}}">{{item.statusText}}</view>
       </view>
-      <view class="task-info">
-        <view class="task-info-item">
-          <icon type="info" size="14" color="#1677ff" />
-          <text>{{item.rowCount}} 条数据</text>
+      <view class="task-meta">
+        <view class="meta-item">
+          <view class="meta-icon meta-icon-data">
+            <text class="meta-icon-text">&#xe600;</text>
+          </view>
+          <text class="meta-text">{{item.rowCount}} 条数据</text>
         </view>
-        <view class="task-info-item">
-          <icon type="waiting" size="14" color="#1677ff" />
-          <text>{{item.createTime}}</text>
+        <view class="meta-item">
+          <view class="meta-icon meta-icon-time">
+            <text class="meta-icon-text">&#xe601;</text>
+          </view>
+          <text class="meta-text">{{item.createTime}}</text>
         </view>
       </view>
       <view class="task-actions">
-        <view class="action-btn" catchtap="handleExport" data-id="{{item.id}}" data-name="{{item.name}}">
-          <icon type="download" size="14" color="#1677ff" />
+        <view class="action-btn export-btn" catchtap="handleExport" data-id="{{item.id}}" data-name="{{item.name}}">
+          <icon type="download" size="13" color="#1677ff" />
           <text>导出</text>
         </view>
-        <view class="action-btn delete" catchtap="handleDelete" data-id="{{item.id}}">
-          <icon type="clear" size="14" color="#ff4d4f" />
+        <view class="action-btn delete-btn" catchtap="handleDelete" data-id="{{item.id}}">
+          <icon type="clear" size="13" color="#ff4d4f" />
           <text>删除</text>
         </view>
       </view>
@@ -73,14 +78,16 @@
   </view>
 
   <view class="empty-state" wx:else>
-    <view class="empty-icon">
-      <icon type="info" size="40" color="#d9d9d9" />
-    </view>
+    <image class="empty-icon" src="data:image/svg+xml;base64,PHN2ZyB0PSIxNzc2OTU1ODI2ODQ0IiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjE1OTg3IiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiPjxwYXRoIGQ9Ik0xMDEuMzc2IDE0NC4zODR2NzE2LjhjMCA0Ny42MTYgMzguNCA4Ni4wMTYgODYuMDE2IDg2LjAxNmg2MzEuMjk2YzQ3LjYxNiAwIDg2LjAxNi0zOC40IDg2LjAxNi04Ni4wMTZWMzExLjgwOGgtMC41MTJsLTI3Ni45OTItMjUzLjQ0aC00NDAuMzJjLTQ3LjEwNCAwLTg1LjUwNCAzOC40LTg1LjUwNCA4Ni4wMTZ6TTgxOS4yIDMxMS44MDhoLTE5MlYxMzQuNjU2TDgxOS4yIDMxMS44MDh6TTE1OC4yMDggNTQ4Ljg2NHYtNDA0LjQ4YzAtMTUuODcyIDEyLjgtMjguNjcyIDI4LjY3Mi0yOC42NzJoMzgyLjk3NnYyNTMuNDRoMjc2LjQ4djQ5Mi4wMzJjMCAxNS44NzItMTIuOCAyOC42NzItMjguNjcyIDI4LjY3MkgxODYuODhjLTE1Ljg3MiAwLTI4LjY3Mi0xMi44LTI4LjY3Mi0yOC42NzJ2LTMxMi4zMnoiIHAtaWQ9IjE1OTg4Ij48L3BhdGg+PC9zdmc+" mode="aspectFit" />
     <view class="empty-text">暂无解析任务</view>
+    <view class="empty-hint">粘贴需要拆分的数据 即可生成Excel</view>
   </view>
 
   <view class="load-more" wx:if="{{taskList.length > 0}}">
-    <view wx:if="{{loading}}">加载中...</view>
-    <view wx:elif="{{noMore}}">没有更多了</view>
+    <view wx:if="{{loading}}" class="load-more-inner">
+      <view class="loading-spinner-small"></view>
+      <text>加载中...</text>
+    </view>
+    <view wx:elif="{{noMore}}" class="load-more-end">— 没有更多了 —</view>
   </view>
 </view>
