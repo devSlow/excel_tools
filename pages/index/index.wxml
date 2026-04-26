@@ -52,15 +52,11 @@
       </view>
       <view class="task-meta">
         <view class="meta-item">
-          <view class="meta-icon meta-icon-data">
-            <text class="meta-icon-text">&#xe600;</text>
-          </view>
+          <text class="meta-icon-text">📊</text>
           <text class="meta-text">{{item.rowCount}} 条数据</text>
         </view>
         <view class="meta-item">
-          <view class="meta-icon meta-icon-time">
-            <text class="meta-icon-text">&#xe601;</text>
-          </view>
+          <text class="meta-icon-text">🕕</text>
           <text class="meta-text">{{item.createTime}}</text>
         </view>
       </view>

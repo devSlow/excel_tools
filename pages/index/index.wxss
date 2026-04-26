@@ -337,41 +337,12 @@ page {
   display: flex;
   align-items: center;
   gap: 8rpx;
-}
-
-.meta-icon {
-  width: 36rpx;
-  height: 36rpx;
-  border-radius: 8rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'iconfont';
+  font-size: 24rpx;
+  color: #888;
 }
 
 .meta-icon-text {
-  font-size: 22rpx;
-}
-
-.meta-icon-data {
-  background: #f0f5ff;
-}
-
-.meta-icon-data .meta-icon-text {
-  color: #1677ff;
-}
-
-.meta-icon-time {
-  background: #fff7e6;
-}
-
-.meta-icon-time .meta-icon-text {
-  color: #fa8c16;
-}
-
-.meta-text {
   font-size: 24rpx;
-  color: #888;
 }
 
 /* Task Actions: export + delete */
