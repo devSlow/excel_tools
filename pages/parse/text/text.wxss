@@ -392,3 +392,73 @@ page {
   margin-top: 16rpx;
 }
 
+/* 使用规则弹窗 */
+.notice-card {
+  display: flex;
+  align-items: center;
+  background: #fff7e6;
+  border-radius: 12rpx;
+  padding: 20rpx 24rpx;
+  margin-bottom: 20rpx;
+  border: 1rpx solid #ffd591;
+}
+
+.modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+}
+
+.modal-mask.modal-show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-content {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-radius: 0 0 24rpx 24rpx;
+  max-height: 70vh;
+  transform: translateY(-100%);
+  transition: transform 0.3s ease-out;
+  z-index: 1001;
+}
+
+.modal-content.modal-slide-in {
+  transform: translateY(0);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.modal-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.modal-close {
+  padding: 8rpx;
+}
+
+.modal-body {
+  padding: 24rpx;
+  max-height: calc(70vh - 80rpx);
+  box-sizing: border-box;
+}
+
