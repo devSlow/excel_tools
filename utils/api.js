@@ -151,9 +151,18 @@ const task = {
   exportGroup: (id, groupByField) => `${baseUrl}/task/${id}/export/group?groupByField=${groupByField}`
 };
 
+const notice = {
+  get: (id) => request({
+    url: `/notice/${id}`,
+    method: 'GET'
+  })
+};
+
 module.exports = {
+  request,
   auth,
   parse,
   task,
-  banner
+  banner,
+  notice
 };

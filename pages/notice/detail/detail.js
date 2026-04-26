@@ -13,8 +13,7 @@ Page({
 
   loadNotice(id) {
     wx.showLoading({ title: '加载中' });
-    api.banner.list().then((list) => {
-      const notice = (list || []).find(item => item.id == id && item.content);
+    api.notice.get(id).then((notice) => {
       if (notice) {
         wx.setNavigationBarTitle({ title: notice.title || '公告详情' });
         this.setData({ notice });
