@@ -1,0 +1,65 @@
+.notice-page {
+  padding: 20rpx;
+  min-height: 100vh;
+  background: #f5f7fa;
+}
+
+.notice-card {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.05);
+}
+
+.notice-header {
+  border-bottom: 1rpx solid #eee;
+  padding-bottom: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.priority-tag {
+  display: inline-block;
+  padding: 6rpx 16rpx;
+  border-radius: 6rpx;
+  font-size: 22rpx;
+  margin-bottom: 16rpx;
+}
+
+.priority-0 {
+  background: #f1f5f9;
+  color: #6b7280;
+}
+
+.priority-1 {
+  background: #fffbeb;
+  color: #f59e0b;
+}
+
+.priority-2 {
+  background: #fef2f2;
+  color: #ef4444;
+}
+
+.notice-title {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #1f2937;
+  line-height: 1.5;
+  margin-bottom: 12rpx;
+}
+
+.notice-time {
+  font-size: 24rpx;
+  color: #9ca3af;
+}
+
+.notice-content {
+  font-size: 30rpx;
+  color: #4b5563;
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+
+.notice-content text {
+  word-break: break-all;
+}

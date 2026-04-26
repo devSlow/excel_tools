@@ -113,9 +113,11 @@ Page({
   },
 
   goToBanner(e) {
-    const link = e.currentTarget.dataset.link;
-    if (link) {
-      wx.navigateTo({ url: link });
+    const dataset = e.currentTarget.dataset;
+    if (dataset.noticeId) {
+      wx.navigateTo({ url: `/pages/notice/notice?id=${dataset.noticeId}` });
+    } else if (dataset.link) {
+      wx.navigateTo({ url: dataset.link });
     }
   }
 });

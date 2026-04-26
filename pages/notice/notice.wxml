@@ -1,0 +1,14 @@
+<view class="notice-page">
+  <view class="notice-card">
+    <view class="notice-header">
+      <view class="priority-tag priority-{{notice.priority}}">
+        {{notice.priority === 2 ? '紧急' : notice.priority === 1 ? '重要' : '普通'}}
+      </view>
+      <view class="notice-title">{{notice.title}}</view>
+      <view class="notice-time">{{notice.createdAt}}</view>
+    </view>
+    <view class="notice-content">
+      <text>{{notice.content}}</text>
+    </view>
+  </view>
+</view>

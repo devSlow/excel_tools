@@ -7,7 +7,8 @@
     "pages/task/detail/detail",
     "pages/stats/stats",
     "pages/profile/profile",
-    "pages/login/login"
+    "pages/login/login",
+    "pages/notice/notice"
   ],
   "window": {
     "backgroundTextStyle": "light",
