@@ -1,5 +1,5 @@
-const baseUrl = 'https://devslow.ccwu.cc/api';
-// const baseUrl = 'http://198.46.193.170:8080/api';
+// const baseUrl = 'https://devslow.ccwu.cc/api';
+const baseUrl = 'http://localhost:8080/api';
 
 const request = (options) => {
   return new Promise((resolve, reject) => {
@@ -67,12 +67,7 @@ const parse = {
     if (delimiter && delimiter !== 'auto' && delimiter !== '') {
       params += `&delimiter=${encodeURIComponent(delimiter)}`;
     }
-    const token = wx.getStorageSync('token');
-    let url = `${baseUrl}/parse/text/export?${params}`;
-    if (token) {
-      url += `&Authorization=Bearer%20${encodeURIComponent(token)}`;
-    }
-    return url;
+    return `${baseUrl}/parse/text/export?${params}`;
   },
   excel: (filePath) => {
     return new Promise((resolve, reject) => {
@@ -135,20 +130,12 @@ const task = {
   }),
   export: (id, fileName) => {
     let url = `${baseUrl}/task/${id}/export`;
-    const params = [];
     if (fileName) {
-      params.push(`fileName=${encodeURIComponent(fileName)}`);
-    }
-    const token = wx.getStorageSync('token');
-    if (token) {
-      params.push(`Authorization=Bearer%20${encodeURIComponent(token)}`);
-    }
-    if (params.length > 0) {
-      url += '?' + params.join('&');
+      url += `?fileName=${encodeURIComponent(fileName)}`;
     }
     return url;
   },
-  exportGroup: (id, groupByField) => `${baseUrl}/task/${id}/export/group?groupByField=${groupByField}`
+  exportGroup: (id, groupByField) => `${baseUrl}/task/${id}/export/group?groupByField=${encodeURIComponent(groupByField)}`
 };
 
 const notice = {
