@@ -72,8 +72,8 @@ page {
 }
 
 .header-search-icon-wrap {
-  width: 80rpx;
-  height: 80rpx;
+  width: 100rpx;
+  height: 100rpx;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -90,8 +90,8 @@ page {
 }
 
 .header-search-icon {
-  width: 48rpx;
-  height: 48rpx;
+  width: 64rpx;
+  height: 64rpx;
   margin-right: 8rpx;
 }
 
