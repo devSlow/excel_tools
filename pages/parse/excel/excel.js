@@ -21,19 +21,7 @@ Page({
     }
   },
 
-  checkLogin() {
-    if (!wx.getStorageSync('token')) {
-      util.showToast('请先登录');
-      setTimeout(() => {
-        wx.switchTab({ url: '/pages/profile/profile' });
-      }, 500);
-      return false;
-    }
-    return true;
-  },
-
   handleChooseFile() {
-    if (!this.checkLogin()) return;
     wx.chooseMessageFile({
       count: 1,
       type: 'file',
@@ -65,26 +53,23 @@ Page({
     }
 
     this.setData({ uploading: true });
+    const isLoggedIn = !!wx.getStorageSync('token');
 
     api.parse.excel(this.data.fileList[0].path).then((data) => {
-      util.showLoading('创建任务中...');
-      const taskData = {
-        name: 'Excel解析任务',
-        source: 'excel',
-        columns: data.columns || [],
-        data: data.data || [],
-        sheets: data.sheets || [],
-        status: 'completed'
-      };
-      return api.task.create(taskData);
-    }).then(() => {
-      util.hideLoading();
-      util.showToast('任务已创建');
-      setTimeout(() => {
-        wx.switchTab({ url: '/pages/index/index' });
-      }, 500);
+      this.setData({ uploading: false, result: data, currentSheet: 0, currentSheetData: data.sheets && data.sheets.length > 0 ? data.sheets[0] : null });
+      if (isLoggedIn) {
+        const taskData = {
+          name: 'Excel解析任务',
+          source: 'excel',
+          columns: data.columns || [],
+          data: data.data || [],
+          sheets: data.sheets || [],
+          status: 'completed'
+        };
+        api.task.create(taskData);
+      }
+      util.showToast('解析成功');
     }).catch((err) => {
-      util.hideLoading();
       this.setData({ uploading: false });
     });
   },

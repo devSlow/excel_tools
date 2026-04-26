@@ -20,8 +20,8 @@ Page({
 
   onLoad() {
     this.setCurrentDate();
-    this.loadTaskCount();
     if (wx.getStorageSync('token')) {
+      this.loadTaskCount();
       this.loadTasks().finally(() => {
         this.setData({ initialLoading: false });
       });
@@ -36,6 +36,11 @@ Page({
       this.loadTaskCount();
     } else {
       this.setData({ taskList: [], totalTasks: 0, totalRows: 0 });
+      wx.setStorageSync('loginRedirect', '/pages/index/index');
+      util.showToast('请先登录');
+      setTimeout(() => {
+        wx.switchTab({ url: '/pages/profile/profile' });
+      }, 500);
     }
   },
 
@@ -62,11 +67,12 @@ Page({
   },
 
   loadTaskCount() {
+    if (!wx.getStorageSync('token')) return;
     Promise.all([
       api.task.count(),
       api.task.countRows()
     ]).then(([taskCount, rowCount]) => {
-      this.setData({ 
+      this.setData({
         totalTasks: taskCount || 0,
         totalRows: rowCount || 0
       });
@@ -76,6 +82,9 @@ Page({
   checkLogin() {
     const token = wx.getStorageSync('token');
     if (!token) {
+      const pages = getCurrentPages();
+      const currentPage = pages[pages.length - 1];
+      wx.setStorageSync('loginRedirect', '/' + currentPage.route);
       util.showToast('请先登录');
       setTimeout(() => {
         wx.switchTab({ url: '/pages/profile/profile' });

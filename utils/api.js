@@ -21,13 +21,6 @@ const request = (options) => {
         } else if (res.data.code === 4001 || res.data.code === 4002) {
           wx.removeStorageSync('token');
           wx.removeStorageSync('userInfo');
-          wx.showToast({
-            title: '登录已过期，请重新登录',
-            icon: 'none'
-          });
-          setTimeout(() => {
-            wx.redirectTo({ url: '/pages/profile/profile' });
-          }, 500);
           reject(res.data);
         } else {
           wx.showToast({

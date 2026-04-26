@@ -48,6 +48,17 @@ Page({
                 wx.setStorageSync('userInfo', userInfo);
                 util.showToast('登录成功');
                 this.setData({ isLoggedIn: true, userInfo: userInfo, loading: false });
+                const redirect = wx.getStorageSync('loginRedirect');
+                wx.removeStorageSync('loginRedirect');
+                setTimeout(() => {
+                  if (redirect) {
+                    if (redirect.startsWith('/pages/index/index') || redirect.startsWith('/pages/parse/')) {
+                      wx.switchTab({ url: redirect });
+                    } else {
+                      wx.redirectTo({ url: redirect });
+                    }
+                  }
+                }, 500);
               }).catch(() => {
                 this.setData({ loading: false });
               });
