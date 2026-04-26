@@ -2,15 +2,15 @@
   <view class="banner-skeleton" wx:if="{{bannerList.length === 0}}">
     <view class="skeleton-item"></view>
   </view>
-  <swiper class="banner-swiper" indicator-dots="{{bannerList.length > 1}}" autoplay="{{bannerList.length > 0}}" circular="{{bannerList.length > 2}}" interval="3000" duration="500" indicator-color="rgba(255,255,255,0.5)" indicator-active-color="#ffffff" wx:if="{{bannerList.length > 0}}">
+  <swiper class="banner-swiper" indicator-dots="{{bannerList.length > 1}}" autoplay="{{bannerList.length > 0}}" circular="{{bannerList.length > 2}}" interval="5000" duration="500" indicator-color="rgba(255,255,255,0.5)" indicator-active-color="#ffffff" wx:if="{{bannerList.length > 0}}">
     <swiper-item wx:for="{{bannerList}}" wx:key="id" bindtap="goToBanner" data-link="{{item.linkUrl}}" data-notice-id="{{item.noticeId}}">
-      <image class="banner-image" src="{{item.imageUrl}}" mode="aspectFill" />
+      <image class="banner-image {{item.loaded ? 'loaded' : ''}}" src="{{item.imageUrl}}" mode="aspectFill" lazy-load bindload="onBannerLoad" data-index="{{index}}" />
     </swiper-item>
   </swiper>
 
   <view class="notice-card" bindtap="toggleNotice">
-    <icon type="info" size="18" color="#1677ff" />
-    <text class="notice-title">使用规则</text>
+    <view class="notice-icon-wrap">!</view>
+    <text class="notice-title">使用示例</text>
     <text class="notice-hint">点击查看</text>
   </view>
 
@@ -18,7 +18,7 @@
   <view class="modal-mask {{noticeVisible ? 'modal-show' : ''}}" bindtap="closeNotice">
     <view class="modal-content {{noticeVisible ? 'modal-slide-in' : 'modal-slide-out'}}" catchtap="">
       <view class="modal-header">
-        <text class="modal-title">使用规则</text>
+        <text class="modal-title">示例</text>
         <view class="modal-close" bindtap="closeNotice">
           <icon type="clear" size="14" color="#999999" />
         </view>
@@ -63,8 +63,10 @@
   </view>
 
   <view class="input-section">
-    <view class="section-title">请粘贴或输入需要解析的文本</view>
-    <textarea class="text-input" placeholder="在此粘贴或输入文本数据..." value="{{inputText}}" bindinput="onInputChange" maxlength="-1" />
+    <view class="section-title">把文本变成Excel</view>
+
+    <textarea class="text-input" placeholder="粘贴你的数据，一键生成表格" value="{{inputText}}" bindinput="onInputChange" maxlength="-1">
+</textarea>
   </view>
 
   <!-- <view class="delimiter-section">
@@ -94,7 +96,7 @@
   </view> -->
 
   <button class="parse-btn" bindtap="handleParse" disabled="{{!inputText}}">
-    开始解析
+    {{inputText ?'一键生成Excel':'请先输入数据'}}
   </button>
 
   <view class="preview-section" wx:if="{{showResult && result.columns.length > 0}}">

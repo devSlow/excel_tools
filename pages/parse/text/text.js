@@ -55,7 +55,7 @@ Page({
 
   handleParse() {
     if (!this.data.inputText) {
-      util.showToast('请输入要解析的文本');
+      util.showToast('请输入要转换为Excel的文本');
       return;
     }
 
@@ -66,7 +66,7 @@ Page({
     api.parse.text(this.data.inputText, delimiter).then((data) => {
       if (isLoggedIn) {
         const taskData = {
-          title: '文本解析任务',
+          title: 'Excel转换任务',
           columns: data.columns || [],
           rows: data.data || []
         };
@@ -108,8 +108,13 @@ Page({
 
   loadBanner() {
     api.banner.list().then((list) => {
-      this.setData({ bannerList: list || [] });
+      this.setData({ bannerList: (list || []).map(item => ({ ...item, loaded: false })) });
     }).catch(() => {});
+  },
+
+  onBannerLoad(e) {
+    const index = e.currentTarget.dataset.index;
+    this.setData({ [`bannerList[${index}].loaded`]: true });
   },
 
   goToBanner(e) {

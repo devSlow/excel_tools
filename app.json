@@ -25,7 +25,7 @@
     "list": [
       {
         "pagePath": "pages/parse/text/text",
-        "text": "解析",
+        "text": "转换",
         "iconPath": "images/tabbar/parse.png",
         "selectedIconPath": "images/tabbar/parse-active.png"
       },
