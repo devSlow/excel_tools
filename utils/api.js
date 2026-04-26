@@ -23,7 +23,7 @@ const request = (options) => {
             icon: 'none'
           });
           setTimeout(() => {
-            wx.redirectTo({ url: '/pages/login/login' });
+            wx.redirectTo({ url: '/pages/profile/profile' });
           }, 500);
           reject(res.data);
         } else {

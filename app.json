@@ -8,7 +8,6 @@
     "pages/stats/stats",
     "pages/notice/detail/detail",
     "pages/profile/profile",
-    "pages/login/login",
     "pages/notice/notice"
   ],
   "window": {
