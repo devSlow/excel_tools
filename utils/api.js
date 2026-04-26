@@ -13,7 +13,7 @@ const request = (options) => {
         'Authorization': token ? `Bearer ${token}` : ''
       },
       success: (res) => {
-        if (res.data.code === 0) {
+        if (res.data.code === 0 || res.data.code === 200) {
           resolve(res.data.data);
         } else if (res.data.code === 4001 || res.data.code === 4002) {
           wx.removeStorageSync('token');
