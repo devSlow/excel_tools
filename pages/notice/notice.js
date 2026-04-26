@@ -1,4 +1,4 @@
-const request = require('../../utils/request.js')
+const api = require('../../utils/api.js');
 
 Page({
   data: {
@@ -13,15 +13,11 @@ Page({
   },
 
   loadNotice(id) {
-    request.request({
+    api.request({
       url: `/notice/${id}`,
       method: 'GET'
     }).then(res => {
-      if (res.code === 200) {
-        this.setData({ notice: res.data })
-      } else {
-        wx.showToast({ title: res.msg || '加载失败', icon: 'none' })
-      }
+      this.setData({ notice: res })
     }).catch(() => {
       wx.showToast({ title: '加载失败', icon: 'none' })
     }).finally(() => {
