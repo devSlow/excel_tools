@@ -188,11 +188,15 @@ Page({
     
     util.showLoading('导出中...');
     const url = api.task.export(id, fileName);
+    console.log('export url:', url);
+    console.log('token:', wx.getStorageSync('token'));
     util.downloadFile(url, fileName).then((filePath) => {
       util.hideLoading();
+      console.log('download success:', filePath);
       util.openFile(filePath, 'xlsx');
-    }).catch(() => {
+    }).catch((err) => {
       util.hideLoading();
+      console.log('download error:', err);
       util.showToast('导出失败');
     });
   },

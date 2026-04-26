@@ -68,9 +68,11 @@ const switchTab = (url) => {
 
 const downloadFile = (url, fileName) => {
   return new Promise((resolve, reject) => {
+    console.log('downloadFile url:', url);
     wx.downloadFile({
       url,
       success: (res) => {
+        console.log('downloadFile response:', res);
         if (res.statusCode === 200) {
           const tempFilePath = res.tempFilePath;
           const fs = wx.getFileSystemManager();
@@ -110,7 +112,10 @@ const downloadFile = (url, fileName) => {
           reject(new Error('下载失败'));
         }
       },
-      fail: reject
+      fail: (err) => {
+        console.log('downloadFile fail:', err);
+        reject(err);
+      }
     });
   });
 };
