@@ -4,7 +4,7 @@
   </view>
   <swiper class="banner-swiper" indicator-dots="{{bannerList.length > 1}}" autoplay="{{bannerList.length > 0}}" circular="{{bannerList.length > 2}}" interval="5000" duration="500" indicator-color="rgba(255,255,255,0.5)" indicator-active-color="#ffffff" wx:if="{{bannerList.length > 0}}">
     <swiper-item wx:for="{{bannerList}}" wx:key="id" bindtap="goToBanner" data-link="{{item.linkUrl}}" data-notice-id="{{item.noticeId}}">
-      <image class="banner-image {{item.loaded ? 'loaded' : ''}}" src="{{item.imageUrl}}" mode="aspectFill" lazy-load bindload="onBannerLoad" data-index="{{index}}" />
+      <image class="banner-image" src="{{item.imageUrl}}" mode="aspectFill" lazy-load />
     </swiper-item>
   </swiper>
 

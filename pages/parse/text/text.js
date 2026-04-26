@@ -22,6 +22,10 @@ Page({
     this.loadBanner();
   },
 
+  onPullDownRefresh() {
+    this.loadBanner();
+  },
+
   onShow() {
     if (!wx.getStorageSync('token')) {
       this.setData({ result: { columns: [], data: [], rowCount: 0, columnCount: 0 }, inputText: '' });
@@ -108,13 +112,10 @@ Page({
 
   loadBanner() {
     api.banner.list().then((list) => {
-      this.setData({ bannerList: (list || []).map(item => ({ ...item, loaded: false })) });
-    }).catch(() => {});
-  },
-
-  onBannerLoad(e) {
-    const index = e.currentTarget.dataset.index;
-    this.setData({ [`bannerList[${index}].loaded`]: true });
+      this.setData({ bannerList: list || [] });
+    }).catch(() => {}).finally(() => {
+      wx.stopPullDownRefresh();
+    });
   },
 
   goToBanner(e) {

@@ -1,17 +1,20 @@
 // const baseUrl = 'https://devslow.ccwu.cc/api';
-const baseUrl = 'http://localhost:8080/api';
+const baseUrl = 'http://198.46.193.170:8080/api';
 
 const request = (options) => {
   return new Promise((resolve, reject) => {
     const token = wx.getStorageSync('token');
+    const header = {
+      'Content-Type': 'application/json'
+    };
+    if (token) {
+      header['Authorization'] = `Bearer ${token}`;
+    }
     wx.request({
       url: baseUrl + options.url,
       method: options.method || 'GET',
       data: options.data || {},
-      header: {
-        'Content-Type': 'application/json',
-        'Authorization': token ? `Bearer ${token}` : ''
-      },
+      header,
       success: (res) => {
         if (res.data.code === 0 || res.data.code === 200) {
           resolve(res.data.data);

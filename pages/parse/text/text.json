@@ -1,4 +1,6 @@
 {
   "navigationBarTitleText": "文本转Excel",
+  "enablePullDownRefresh": true,
+  "backgroundColor": "#e6f4ff",
   "usingComponents": {}
 }
