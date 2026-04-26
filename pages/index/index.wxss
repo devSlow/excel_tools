@@ -337,12 +337,25 @@ page {
   display: flex;
   align-items: center;
   gap: 8rpx;
-  font-size: 24rpx;
-  color: #888;
 }
 
-.meta-icon-text {
+.meta-icon {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+}
+
+.meta-icon-data {
+  background: #1677ff;
+}
+
+.meta-icon-time {
+  background: #fa8c16;
+}
+
+.meta-text {
   font-size: 24rpx;
+  color: #888;
 }
 
 /* Task Actions: export + delete */
