@@ -1,4 +1,5 @@
 const api = require('../../utils/api.js');
+const util = require('../../utils/util.js');
 
 Page({
   data: {
@@ -17,6 +18,9 @@ Page({
       url: `/notice/${id}`,
       method: 'GET'
     }).then(res => {
+      if (res.createdAt) {
+        res.createdAt = util.formatTime(new Date(res.createdAt));
+      }
       this.setData({ notice: res })
     }).catch(() => {
       wx.showToast({ title: '加载失败', icon: 'none' })

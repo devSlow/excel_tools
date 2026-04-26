@@ -6,7 +6,7 @@ const formatTime = date => {
   const day = d.getUTCDate().toString().padStart(2, '0');
   const hour = d.getUTCHours().toString().padStart(2, '0');
   const minute = d.getUTCMinutes().toString().padStart(2, '0');
-  return `${year}-${month}-${day} ${hour}:${minute}`;
+  return `${year}年${month}月${day}日 ${hour}:${minute}`;
 };
 
 const formatDate = date => {
