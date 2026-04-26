@@ -62,8 +62,14 @@ Page({
   },
 
   loadTaskCount() {
-    api.task.count().then((count) => {
-      this.setData({ totalTasks: count });
+    Promise.all([
+      api.task.count(),
+      api.task.countRows()
+    ]).then(([taskCount, rowCount]) => {
+      this.setData({ 
+        totalTasks: taskCount || 0,
+        totalRows: rowCount || 0
+      });
     }).catch(() => {});
   },
 
