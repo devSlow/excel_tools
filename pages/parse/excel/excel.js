@@ -58,8 +58,16 @@ Page({
     api.parse.excel(this.data.fileList[0].path).then((data) => {
       this.setData({ uploading: false, result: data, currentSheet: 0, currentSheetData: data.sheets && data.sheets.length > 0 ? data.sheets[0] : null });
       if (isLoggedIn) {
+        let prefix = '数据任务';
+        if (data.data && data.data.length > 0 && data.columns && data.columns.length > 0) {
+          const colName = data.columns[0].name;
+          const val = (data.data[0][colName] || '').toString().trim();
+          if (val) prefix = val.length > 10 ? val.substring(0, 10) : val;
+        }
+        const now = new Date();
+        const timeStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
         const taskData = {
-          name: 'Excel解析任务',
+          name: `${prefix} ${timeStr}`,
           source: 'excel',
           columns: data.columns || [],
           data: data.data || [],

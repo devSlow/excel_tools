@@ -6,11 +6,13 @@ Page({
     userInfo: null,
     isLoggedIn: false,
     loading: false,
-    loginStep: 'authorizing'
+    loginStep: 'authorizing',
+    appVersion: ''
   },
 
   onLoad() {
     this.checkLoginStatus();
+    this.loadVersion();
   },
 
   onShow() {
@@ -23,6 +25,14 @@ Page({
     this.setData({
       isLoggedIn: !!token,
       userInfo: userInfo
+    });
+  },
+
+  loadVersion() {
+    api.config.getVersion().then((data) => {
+      this.setData({ appVersion: data.version || '1.0.0' });
+    }).catch(() => {
+      this.setData({ appVersion: '1.0.0' });
     });
   },
 

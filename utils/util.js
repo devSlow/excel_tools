@@ -69,8 +69,14 @@ const switchTab = (url) => {
 const downloadFile = (url, fileName) => {
   return new Promise((resolve, reject) => {
     console.log('downloadFile url:', url);
+    const token = wx.getStorageSync('token');
+    const header = {};
+    if (token) {
+      header['Authorization'] = `Bearer ${token}`;
+    }
     wx.downloadFile({
       url,
+      header,
       success: (res) => {
         console.log('downloadFile response:', res);
         if (res.statusCode === 200) {

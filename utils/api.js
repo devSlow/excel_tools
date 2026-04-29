@@ -15,6 +15,7 @@ const request = (options) => {
       method: options.method || 'GET',
       data: options.data || {},
       header,
+      timeout: 5000,
       success: (res) => {
         if (res.data.code === 0 || res.data.code === 200) {
           resolve(res.data.data);
@@ -31,10 +32,6 @@ const request = (options) => {
         }
       },
       fail: (err) => {
-        wx.showToast({
-          title: '网络请求失败',
-          icon: 'none'
-        });
         reject(err);
       }
     });
@@ -94,8 +91,8 @@ const parse = {
 };
 
 const task = {
-  list: (page, size, keyword = '') => request({
-    url: `/task?page=${page}&size=${size}${keyword ? '&keyword=' + encodeURIComponent(keyword) : ''}`,
+  list: (page, size, keyword = '', startDate = '', endDate = '') => request({
+    url: `/task?page=${page}&size=${size}${keyword ? '&keyword=' + encodeURIComponent(keyword) : ''}${startDate ? '&startDate=' + startDate : ''}${endDate ? '&endDate=' + endDate : ''}`,
     method: 'GET'
   }),
   count: () => request({
@@ -145,11 +142,19 @@ const notice = {
   })
 };
 
+const config = {
+  getVersion: () => request({
+    url: '/config/version',
+    method: 'GET'
+  })
+};
+
 module.exports = {
   request,
   auth,
   parse,
   task,
   banner,
-  notice
+  notice,
+  config
 };

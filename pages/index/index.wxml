@@ -8,7 +8,7 @@
       <view class="greeting">您好</view>
       <view class="date">{{currentDate}}</view>
     </view>
-    <view class="header-right {{showSearch ? 'header-right-expanded' : ''}}">
+    <view class="header-right {{showSearch ? 'header-search-active' : ''}}">
       <view class="header-search-icon-wrap" catchtap="onSearchTap">
         <image class="header-search-icon" src="data:image/svg+xml;base64,PHN2ZyB0PSIxNzc2OTYzNjU2NzA4IiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjQwNTgiIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIj48cGF0aCBkPSJNNDUxLjQgNzcxLjhjLTc0LjQgMC0xNDQuNC0yOS0xOTctODEuOC01Mi44LTUyLjgtODEuOC0xMjIuOC04MS44LTE5N3MyOS0xNDQuNCA4MS44LTE5NyAxMjIuOC04MS44IDE5Ny04MS44IDE0NC40IDI5IDE5NyA4MS44YzUyLjggNTIuOCA4MS44IDEyMi44IDgxLjggMTk3cy0yOSAxNDQuNC04MS44IDE5Ny0xMjIuOCA4MS44LTE5NyA4MS44eiBtMC00MzIuOGMtNDIgMC04MS42IDE2LjQtMTExLjIgNDYuNC0zMCAzMC00Ni40IDY5LjItNDYuNCAxMTEuMnMxNi40IDgxLjIgNDYuNCAxMTEuMmMzMCAzMCA2OS4yIDQ2LjQgMTExLjIgNDYuNHM4MS4yLTE2LjQgMTExLjItNDYuNGMzMC0zMCA0Ni40LTY5LjIgNDYuNC0xMTEuMnMtMTYuNC04MS4yLTQ2LjQtMTExLjJjLTI5LjgtMjkuOC02OS4yLTQ2LjQtMTExLjItNDYuNHoiIGZpbGw9IiMzMzMzMzMiIHAtaWQ9IjQwNTkiPjwvcGF0aD48cGF0aCBkPSJNOTQwLjUgODk2LjRsLTExOS44LTExOS44Yy0xNi0xNi0xNi00MS44IDAtNTcuOHM0MS44LTE2IDU3LjggMGwxMTkuOCAxMTkuOGMxNiAxNiAxNiA0MS44IDAgNTcuOEM5NjIuMyA5MTIuNCA5NTIuNSA5MTYuNCA5NDAuNSA4OTYuNHoiIGZpbGw9IiMzMzMzMzMiIHAtaWQ9IjQwNjAiPjwvcGF0aD48L3N2Zz4=" mode="aspectFit" />
       </view>
@@ -40,6 +40,55 @@
     </view>
   </view>
   <view class="export-tip">点击导出后预览文件，点击右上角···可转发保存</view>
+
+  <view class="filter-bar">
+    <scroll-view class="filter-scroll" scroll-x enable-flex>
+      <view class="filter-item {{filterDate === 'all' ? 'active' : ''}}" catchtap="onFilterDate" data-value="all">
+        <view class="filter-dot"></view>
+        <text>全部</text>
+      </view>
+      <view class="filter-item {{filterDate === 'today' ? 'active' : ''}}" catchtap="onFilterDate" data-value="today">
+        <view class="filter-dot"></view>
+        <text>今天</text>
+      </view>
+      <view class="filter-item {{filterDate === 'week' ? 'active' : ''}}" catchtap="onFilterDate" data-value="week">
+        <view class="filter-dot"></view>
+        <text>本周</text>
+      </view>
+      <view class="filter-item {{filterDate === 'month' ? 'active' : ''}}" catchtap="onFilterDate" data-value="month">
+        <view class="filter-dot"></view>
+        <text>本月</text>
+      </view>
+      <view class="filter-item {{filterDate === 'custom' ? 'active' : ''}}" catchtap="onFilterDate" data-value="custom">
+        <view class="filter-dot"></view>
+        <text>自定义</text>
+      </view>
+    </scroll-view>
+  </view>
+
+  <view class="custom-date-wrap" wx:if="{{filterDate === 'custom'}}">
+    <picker mode="date" value="{{filterStartDate}}" start="2020-01-01" end="{{filterEndDate}}" bindchange="onStartDateChange">
+      <view class="date-picker-input">
+        <text class="date-label">从</text>
+        <text class="date-value">{{filterStartDate || '选择开始日期'}}</text>
+      </view>
+    </picker>
+    <picker mode="date" value="{{filterEndDate}}" start="{{filterStartDate}}" end="2030-12-31" bindchange="onEndDateChange">
+      <view class="date-picker-input">
+        <text class="date-label">至</text>
+        <text class="date-value">{{filterEndDate || '选择结束日期'}}</text>
+      </view>
+    </picker>
+    <view class="confirm-btn" catchtap="onCustomDateConfirm">筛选</view>
+  </view>
+
+  <view class="filter-result" wx:if="{{filterDate !== 'all'}}">
+    <text class="filter-result-text" wx:if="{{filterDate === 'today'}}">今天 · 共 {{taskList.length}} 条任务</text>
+    <text class="filter-result-text" wx:elif="{{filterDate === 'week'}}">本周 · 共 {{taskList.length}} 条任务</text>
+    <text class="filter-result-text" wx:elif="{{filterDate === 'month'}}">本月 · 共 {{taskList.length}} 条任务</text>
+    <text class="filter-result-text" wx:elif="{{filterDate === 'custom' && filterStartDate && filterEndDate}}">{{filterStartDate}} ~ {{filterEndDate}} · 共 {{taskList.length}} 条任务</text>
+    <view class="filter-reset" catchtap="onFilterReset">重置</view>
+  </view>
 
 
   <view class="task-list" wx:if="{{taskList.length > 0}}">
@@ -74,9 +123,22 @@
   </view>
 
   <view class="empty-state" wx:else>
-    <image class="empty-icon" src="data:image/svg+xml;base64,PHN2ZyB0PSIxNzc2OTU1ODI2ODQ0IiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjE1OTg3IiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiPjxwYXRoIGQ9Ik0xMDEuMzc2IDE0NC4zODR2NzE2LjhjMCA0Ny42MTYgMzguNCA4Ni4wMTYgODYuMDE2IDg2LjAxNmg2MzEuMjk2YzQ3LjYxNiAwIDg2LjAxNi0zOC40IDg2LjAxNi04Ni4wMTZWMzExLjgwOGgtMC41MTJsLTI3Ni45OTItMjUzLjQ0aC00NDAuMzJjLTQ3LjEwNCAwLTg1LjUwNCAzOC40LTg1LjUwNCA4Ni4wMTZ6TTgxOS4yIDMxMS44MDhoLTE5MlYxMzQuNjU2TDgxOS4yIDMxMS44MDh6TTE1OC4yMDggNTQ4Ljg2NHYtNDA0LjQ4YzAtMTUuODcyIDEyLjgtMjguNjcyIDI4LjY3Mi0yOC42NzJoMzgyLjk3NnYyNTMuNDRoMjc2LjQ4djQ5Mi4wMzJjMCAxNS44NzItMTIuOCAyOC42NzItMjguNjcyIDI4LjY3MkgxODYuODhjLTE1Ljg3MiAwLTI4LjY3Mi0xMi44LTI4LjY3Mi0yOC42NzJ2LTMxMi4zMnoiIHAtaWQ9IjE1OTg4Ij48L3BhdGg+PC9zdmc+" mode="aspectFit" />
-    <view class="empty-text">暂无解析任务</view>
-    <view class="empty-hint">粘贴需要拆分的数据 即可生成Excel</view>
+    <view class="empty-content {{!isLoggedIn ? 'empty-content-masked' : ''}}">
+      <image class="empty-icon" src="data:image/svg+xml;base64,PHN2ZyB0PSIxNzc2OTU1ODI2ODQ0IiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjE1OTg3IiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiPjxwYXRoIGQ9Ik0xMDEuMzc2IDE0NC4zODR2NzE2LjhjMCA0Ny42MTYgMzguNCA4Ni4wMTYgODYuMDE2IDg2LjAxNmg2MzEuMjk2YzQ3LjYxNiAwIDg2LjAxNi0zOC40IDg2LjAxNi04Ni4wMTZWMzExLjgwOGgtMC41MTJsLTI3Ni45OTItMjUzLjQ0aC00NDAuMzJjLTQ3LjEwNCAwLTg1LjUwNCAzOC40LTg1LjUwNCA4Ni4wMTZ6TTgxOS4yIDMxMS44MDhoLTE5MlYxMzQuNjU2TDgxOS4yIDMxMS44MDh6TTE1OC4yMDggNTQ4Ljg2NHYtNDA0LjQ4YzAtMTUuODcyIDEyLjgtMjguNjcyIDI4LjY3Mi0yOC42NzJoMzgyLjk3NnYyNTMuNDRoMjc2LjQ4djQ5Mi4wMzJjMCAxNS44NzItMTIuOCAyOC42NzItMjguNjcyIDI4LjY3MkgxODYuODhjLTE1Ljg3MiAwLTI4LjY3Mi0xMi44LTI4LjY3Mi0yOC42NzJ2LTMxMi4zMnoiIHAtaWQ9IjE1OTg4Ij48L3BhdGg+PC9zdmc+" mode="aspectFit" />
+      <view class="empty-text">暂无解析任务</view>
+      <view class="empty-hint">粘贴需要拆分的数据 即可生成Excel</view>
+    </view>
+    <view class="empty-login-mask" wx:if="{{!isLoggedIn}}">
+      <view class="mask-glass">
+        <view class="mask-icon-wrap">
+          <image class="mask-icon-svg" src="/images/tips.png" mode="aspectFit" />
+        </view>
+        <view class="mask-title">登录后查看任务</view>
+        <view class="mask-desc">登录后可查看和管理您的解析任务</view>
+        <view class="mask-btn" catchtap="goToLogin">立即登录</view>
+        <view class="mask-footer">登录后即可使用完整功能</view>
+      </view>
+    </view>
   </view>
 
   <view class="load-more" wx:if="{{taskList.length > 0}}">
@@ -85,5 +147,23 @@
       <text>加载中...</text>
     </view>
     <view wx:elif="{{noMore}}" class="load-more-end">— 没有更多了 —</view>
+  </view>
+
+  <view class="update-mask" wx:if="{{showUpdateModal}}" catchtap="closeUpdateModal">
+    <view class="update-dialog" catchtap="">
+      <view class="update-header">
+        <view class="update-badge">v{{updateInfo.version}}</view>
+        <text class="update-title">发现新版本</text>
+      </view>
+      <image wx:if="{{updateInfo.updateImage}}" class="update-image" src="{{updateInfo.updateImage}}" mode="aspectFill" />
+      <view class="update-content" wx:if="{{updateInfo.updateContent}}">
+        <view class="update-line" wx:for="{{updateInfo.updateContent.split('\\n')}}" wx:key="index" wx:if="{{item}}">
+          {{item}}
+        </view>
+      </view>
+      <view class="update-footer">
+        <view class="update-btn" catchtap="closeUpdateModal">知道了</view>
+      </view>
+    </view>
   </view>
 </view>

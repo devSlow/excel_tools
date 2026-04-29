@@ -15,11 +15,18 @@ Page({
     initialLoading: true,
     searchKeyword: '',
     searchLoading: false,
-    showSearch: false
+    showSearch: false,
+    showUpdateModal: false,
+    updateInfo: { version: '', updateContent: '', updateImage: '' },
+    isLoggedIn: false,
+    filterDate: 'all',
+    filterStartDate: '',
+    filterEndDate: ''
   },
 
   onLoad() {
     this.setCurrentDate();
+    this.checkUpdate();
     if (wx.getStorageSync('token')) {
       this.loadTaskCount();
       this.loadTasks().finally(() => {
@@ -31,27 +38,29 @@ Page({
   },
 
   onShow() {
-    if (wx.getStorageSync('token')) {
+    const token = wx.getStorageSync('token');
+    this.setData({ isLoggedIn: !!token });
+    if (token) {
       this.loadTasks();
       this.loadTaskCount();
     } else {
       this.setData({ taskList: [], totalTasks: 0, totalRows: 0 });
-      wx.setStorageSync('loginRedirect', '/pages/index/index');
-      util.showToast('请先登录');
-      setTimeout(() => {
-        wx.switchTab({ url: '/pages/profile/profile' });
-      }, 500);
     }
   },
 
   onReachBottom() {
+    if (!this.data.isLoggedIn) return;
     if (!this.data.noMore && !this.data.loading && !this.data.searchLoading) {
       this.loadTasks(true);
     }
   },
 
   onPullDownRefresh() {
-    this.setData({ page: 1, noMore: false, searchKeyword: '' });
+    if (!this.data.isLoggedIn) {
+      wx.stopPullDownRefresh();
+      return;
+    }
+    this.setData({ page: 1, noMore: false });
     this.loadTasks().finally(() => {
       wx.stopPullDownRefresh();
     });
@@ -64,6 +73,28 @@ Page({
     const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
     const weekday = weekdays[now.getDay()];
     this.setData({ currentDate: `${month}月${day}日 ${weekday}` });
+  },
+
+  checkUpdate() {
+    api.config.getVersion().then((data) => {
+      const latestVersion = data.version || '1.0.0';
+      const cachedVersion = wx.getStorageSync('app_version');
+      if (cachedVersion !== latestVersion) {
+        this.setData({
+          showUpdateModal: true,
+          updateInfo: {
+            version: latestVersion,
+            updateContent: data.updateContent || '',
+            updateImage: data.updateImage || ''
+          }
+        });
+      }
+    }).catch(() => {});
+  },
+
+  closeUpdateModal() {
+    wx.setStorageSync('app_version', this.data.updateInfo.version);
+    this.setData({ showUpdateModal: false });
   },
 
   loadTaskCount() {
@@ -99,14 +130,16 @@ Page({
   },
 
   loadTasks(loadMore = false) {
-    if (this.data.loading) return;
+    if (!this.data.isLoggedIn || this.data.loading) return;
     
     this.setData({ loading: true });
     
     const page = loadMore ? this.data.page + 1 : 1;
     const keyword = this.data.searchKeyword;
+    const startDate = this.data.filterStartDate;
+    const endDate = this.data.filterEndDate;
     
-    return api.task.list(page, this.data.size, keyword).then((data) => {
+    return api.task.list(page, this.data.size, keyword, startDate, endDate).then((data) => {
       const list = (data.records || []).map(item => ({
         ...item,
         statusText: this.getStatusText(item.status),
@@ -119,7 +152,9 @@ Page({
         noMore: list.length < this.data.size
       });
     }).catch(() => {
-      util.showToast('加载失败');
+      if (this.data.isLoggedIn) {
+        util.showToast('加载失败');
+      }
     }).finally(() => {
       this.setData({ loading: false, searchLoading: false });
     });
@@ -130,6 +165,7 @@ Page({
   },
 
   onSearch() {
+    if (!this.data.isLoggedIn) return;
     const keyword = this.data.searchKeyword.trim();
     this.setData({ page: 1, noMore: false, searchLoading: true });
     this.loadTasks();
@@ -161,6 +197,61 @@ Page({
     }, 150);
   },
 
+  onFilterDate(e) {
+    if (!this.data.isLoggedIn) return;
+    const value = e.currentTarget.dataset.value;
+    const now = new Date();
+    let startDate = '';
+    let endDate = '';
+    
+    if (value === 'today') {
+      startDate = endDate = this.formatDate(now);
+    } else if (value === 'week') {
+      const dayOfWeek = now.getDay() || 7;
+      const monday = new Date(now);
+      monday.setDate(now.getDate() - dayOfWeek + 1);
+      startDate = this.formatDate(monday);
+      endDate = this.formatDate(now);
+    } else if (value === 'month') {
+      startDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-01`;
+      endDate = this.formatDate(now);
+    } else if (value === 'custom') {
+      this.setData({ filterDate: 'custom', filterStartDate: '', filterEndDate: '' });
+      return;
+    } else {
+      this.setData({ filterDate: 'all', filterStartDate: '', filterEndDate: '', page: 1, noMore: false });
+      this.loadTasks();
+      return;
+    }
+    
+    this.setData({ filterDate: value, filterStartDate: startDate, filterEndDate: endDate, page: 1, noMore: false });
+    this.loadTasks();
+  },
+
+  onFilterReset() {
+    this.setData({ filterDate: 'all', filterStartDate: '', filterEndDate: '', page: 1, noMore: false });
+    this.loadTasks();
+  },
+
+  onStartDateChange(e) {
+    this.setData({ filterStartDate: e.detail.value });
+  },
+
+  onEndDateChange(e) {
+    this.setData({ filterEndDate: e.detail.value });
+  },
+
+  onCustomDateConfirm() {
+    if (this.data.filterStartDate && this.data.filterEndDate) {
+      this.setData({ page: 1, noMore: false });
+      this.loadTasks();
+    }
+  },
+
+  formatDate(date) {
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+  },
+
   getStatusText(status) {
     const map = { completed: '已完成', processing: '处理中', draft: '草稿' };
     return map[status] || '未知';
@@ -169,6 +260,10 @@ Page({
   goToCreate() {
     if (!this.checkLogin()) return;
     wx.navigateTo({ url: '/pages/task/create/create' });
+  },
+
+  goToLogin() {
+    wx.switchTab({ url: '/pages/profile/profile' });
   },
 
   goToDetail(e) {
