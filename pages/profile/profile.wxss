@@ -270,15 +270,29 @@ page {
 }
 
 .app-info {
-  position: fixed;
-  bottom: 60rpx;
-  left: 0;
-  right: 0;
   display: flex;
   justify-content: center;
+  padding: 60rpx 30rpx;
+  position: relative;
+  z-index: 10;
 }
 
 .version {
   font-size: 22rpx;
   color: #bbb;
+  padding: 20rpx;
+}
+
+.version {
+  font-size: 22rpx;
+  color: #bbb;
+}
+
+.trigger-area {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 300rpx;
+  z-index: 1;
 }

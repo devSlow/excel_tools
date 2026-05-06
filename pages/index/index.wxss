@@ -9,6 +9,19 @@ page {
   padding: 32rpx;
   box-sizing: border-box;
   position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-area {
+  flex:1;
+}
+
+.content-area-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .loading-mask {
@@ -549,9 +562,15 @@ page {
 
 /* === Task List === */
 .task-list {
+  width: 100%;
+}
+
+.empty-state {
   display: flex;
   flex-direction: column;
-  gap: 20rpx;
+  align-items: center;
+  justify-content: center;
+  padding: 0 40rpx;
 }
 
 .task-item {
@@ -684,11 +703,70 @@ page {
 
 /* === Empty State === */
 .empty-state {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 200rpx 0 80rpx;
+  padding: 0 40rpx;
+}
+
+.empty-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.empty-content-masked {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.empty-icon {
+  width: 240rpx;
+  height: 240rpx;
+  margin-bottom: 40rpx;
+}
+
+.empty-icon-svg {
+  width: 160rpx;
+  height: 160rpx;
+  margin-bottom: 32rpx;
+  opacity: 0.6;
+}
+
+.empty-text {
+  font-size: 32rpx;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 16rpx;
+}
+
+.empty-hint {
+  font-size: 26rpx;
+  color: #999;
+}
+
+.empty-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40rpx;
+}
+
+.empty-btn {
+  background: #1677ff;
+  color: white;
+  font-size: 28rpx;
+  padding: 20rpx 60rpx;
+  border-radius: 40rpx;
+  margin-bottom: 16rpx;
+}
+
+.empty-btn-tip {
+  font-size: 24rpx;
+  color: #999;
 }
 
 .empty-state-masked {

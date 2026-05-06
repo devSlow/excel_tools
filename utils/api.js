@@ -1,5 +1,6 @@
 // const baseUrl = 'https://devslow.ccwu.cc/api';
-const baseUrl = 'http://localhost:8080/api';
+const baseUrl = 'https://devslow.ccwu.cc/api';
+const verifyBaseUrl = 'https://paper.devslow.ccwu.cc/api/auth';
 
 const request = (options) => {
   return new Promise((resolve, reject) => {
@@ -17,21 +18,23 @@ const request = (options) => {
       header,
       timeout: 5000,
       success: (res) => {
-        if (res.data.code === 0 || res.data.code === 200) {
+        if (res.data && (res.data.code === 0 || res.data.code === 200)) {
           resolve(res.data.data);
-        } else if (res.data.code === 4001 || res.data.code === 4002) {
+        } else if (res.data && (res.data.code === 4001 || res.data.code === 4002)) {
           wx.removeStorageSync('token');
           wx.removeStorageSync('userInfo');
           reject(res.data);
         } else {
           wx.showToast({
-            title: res.data.msg || '请求失败',
+            title: (res.data && res.data.msg) || '请求失败',
             icon: 'none'
           });
           reject(res.data);
         }
       },
       fail: (err) => {
+        console.error('request fail:', err);
+        wx.showToast({ title: '网络错误', icon: 'none' });
         reject(err);
       }
     });
@@ -149,6 +152,66 @@ const config = {
   })
 };
 
+const verifyRequest = (options) => {
+  return new Promise((resolve, reject) => {
+    const token = wx.getStorageSync('token');
+    const header = {
+      'Content-Type': 'application/json'
+    };
+    if (token) {
+      header['Authorization'] = `Bearer ${token}`;
+    }
+    wx.request({
+      url: verifyBaseUrl + options.url,
+      method: options.method || 'GET',
+      data: options.data || {},
+      header,
+      timeout: 5000,
+      success: (res) => {
+        if (res.data && (res.data.code === 0 || res.data.code === 200)) {
+          resolve(res.data.data);
+        } else if (res.data && (res.data.code === 4001 || res.data.code === 4002)) {
+          wx.removeStorageSync('token');
+          wx.removeStorageSync('userInfo');
+          reject(res.data);
+        } else {
+          wx.showToast({
+            title: (res.data && res.data.msg) || '请求失败',
+            icon: 'none'
+          });
+          reject(res.data);
+        }
+      },
+      fail: (err) => {
+        console.error('request fail:', err);
+        wx.showToast({ title: '网络错误', icon: 'none' });
+        reject(err);
+      }
+    });
+  });
+};
+
+const verify = {
+  generate: () => verifyRequest({
+    url: '/verify/generate',
+    method: 'POST'
+  }),
+  getCode: (sessionId) => verifyRequest({
+    url: `/verify/code?sessionId=${sessionId}`,
+    method: 'GET'
+  }),
+  confirm: (sessionId, code) => verifyRequest({
+    url: '/verify/confirm',
+    method: 'POST',
+    data: { sessionId, code }
+  }),
+  redeem: (sessionId, code, deviceId) => verifyRequest({
+    url: '/verify/redeem',
+    method: 'POST',
+    data: { sessionId, code, deviceId }
+  })
+};
+
 module.exports = {
   request,
   auth,
@@ -156,5 +219,6 @@ module.exports = {
   task,
   banner,
   notice,
-  config
+  config,
+  verify
 };

@@ -46,7 +46,7 @@
     </button>
   </view>
 
-  <view class="app-info">
-    <text class="version">Excel工具 v{{appVersion}}</text>
+  <view class="app-info" catchtap="handleSecretTap">
+    <text class="version">Excel工具 v1.0.0</text>
   </view>
 </view>

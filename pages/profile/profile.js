@@ -7,12 +7,34 @@ Page({
     isLoggedIn: false,
     loading: false,
     loginStep: 'authorizing',
-    appVersion: ''
+    appVersion: '',
+    tapCount: 0,
+    lastTapTime: 0
+  },
+
+  handleSecretTap() {
+    const now = Date.now();
+    const lastTapTime = this.data.lastTapTime;
+    let tapCount = this.data.tapCount;
+    
+    if (now - lastTapTime > 3000) {
+      tapCount = 0;
+    }
+    
+    tapCount++;
+    this.setData({ tapCount, lastTapTime: now });
+    
+    console.log('[SecretTap] count:', tapCount, 'time diff:', now - lastTapTime);
+    
+    if (tapCount >= 5) {
+      this.setData({ tapCount: 0, lastTapTime: 0 });
+      console.log('[SecretTap] 触发成功，跳转 verify 页面');
+      wx.navigateTo({ url: '/pages/verify/verify' });
+    }
   },
 
   onLoad() {
     this.checkLoginStatus();
-    this.loadVersion();
   },
 
   onShow() {
@@ -29,11 +51,7 @@ Page({
   },
 
   loadVersion() {
-    api.config.getVersion().then((data) => {
-      this.setData({ appVersion: data.version || '1.0.0' });
-    }).catch(() => {
-      this.setData({ appVersion: '1.0.0' });
-    });
+    // 版本检查已移除
   },
 
   handleLogin() {

@@ -18,17 +18,31 @@ Page({
     }
   },
 
-  onLoad() {
+  onLoad(options) {
     this.loadBanner();
+    // 扫码进入会带 scene 参数
+    const scene = (options && options.query && options.query.scene) || '';
+    if (scene) {
+      wx.redirectTo({
+        url: '/pages/verify/verify?scene=' + scene
+      });
+    }
   },
 
   onPullDownRefresh() {
     this.loadBanner();
   },
 
-  onShow() {
+  onShow(options) {
     if (!wx.getStorageSync('token')) {
       this.setData({ result: { columns: [], data: [], rowCount: 0, columnCount: 0 }, inputText: '' });
+    }
+    // 扫码进入会带 scene 参数，跳转到 verify 页
+    const scene = (options && options.query && options.query.scene) || '';
+    if (scene) {
+      wx.redirectTo({
+        url: '/pages/verify/verify?scene=' + scene
+      });
     }
   },
 

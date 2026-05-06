@@ -26,7 +26,6 @@ Page({
 
   onLoad() {
     this.setCurrentDate();
-    this.checkUpdate();
     if (wx.getStorageSync('token')) {
       this.loadTaskCount();
       this.loadTasks().finally(() => {
@@ -76,20 +75,7 @@ Page({
   },
 
   checkUpdate() {
-    api.config.getVersion().then((data) => {
-      const latestVersion = data.version || '1.0.0';
-      const cachedVersion = wx.getStorageSync('app_version');
-      if (cachedVersion !== latestVersion) {
-        this.setData({
-          showUpdateModal: true,
-          updateInfo: {
-            version: latestVersion,
-            updateContent: data.updateContent || '',
-            updateImage: data.updateImage || ''
-          }
-        });
-      }
-    }).catch(() => {});
+    // 版本检查已移除
   },
 
   closeUpdateModal() {
@@ -130,7 +116,7 @@ Page({
   },
 
   loadTasks(loadMore = false) {
-    if (!this.data.isLoggedIn || this.data.loading) return;
+    if (!this.data.isLoggedIn || this.data.loading) return Promise.resolve();
     
     this.setData({ loading: true });
     
@@ -255,6 +241,10 @@ Page({
   getStatusText(status) {
     const map = { completed: '已完成', processing: '处理中', draft: '草稿' };
     return map[status] || '未知';
+  },
+
+  goToParse() {
+    wx.switchTab({ url: '/pages/parse/text/text' });
   },
 
   goToCreate() {
