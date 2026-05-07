@@ -3,7 +3,7 @@
     <view class="section-title">查询验证码</view>
     <view class="input-row">
       <input class="input" 
-             placeholder="输入 SessionID" 
+             placeholder="输入 SessionID（扫码自动填充）" 
              value="{{sessionId}}" 
              bindinput="onSessionInput"
              bindconfirm="onQuery" />
@@ -20,11 +20,15 @@
     <view class="result-tip">在网页端输入此验证码完成验证</view>
   </view>
 
+  <view class="loading" wx:if="{{loading && !code}}">
+    <view class="loading-text">正在自动查询验证码...</view>
+  </view>
+
   <view class="error" wx:if="{{error}}">
     <text>{{error}}</text>
   </view>
 
-  <view class="tip" wx:if="{{!code && !error}}">
-    <text>SessionID 在网页二维码下方查看</text>
+  <view class="tip" wx:if="{{!code && !error && !loading}}">
+    <text>扫码自动获取验证码，或手动输入 SessionID 查询</text>
   </view>
 </view>

@@ -11,10 +11,17 @@ Page({
   onLoad(options) {
     if (options && options.scene) {
       const scene = decodeURIComponent(options.scene);
-      const params = this.parseScene(scene);
-      if (params.sessionId) {
-        this.setData({ sessionId: params.sessionId });
-        this.queryCode(params.sessionId);
+      // 支持两种格式：直接是sessionId，或 sessionId=xxx
+      let sessionId = '';
+      if (scene.includes('=')) {
+        const params = this.parseScene(scene);
+        sessionId = params.sessionId || '';
+      } else {
+        sessionId = scene;
+      }
+      if (sessionId) {
+        this.setData({ sessionId });
+        this.queryCode(sessionId);
       }
     }
   },

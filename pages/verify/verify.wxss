@@ -91,6 +91,17 @@
   color: #ff4d4f;
 }
 
+.loading {
+  margin-top: 32rpx;
+  text-align: center;
+  padding: 40rpx;
+}
+
+.loading-text {
+  font-size: 28rpx;
+  color: #1677ff;
+}
+
 .tip {
   margin-top: 60rpx;
   text-align: center;
