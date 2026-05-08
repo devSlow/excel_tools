@@ -28,10 +28,6 @@
       </view>
     </button>
     <view class="login-hint">
-      <text wx:if="{{!loading}}">登录即表示同意</text>
-      <text class="link" wx:if="{{!loading}}">《用户协议》</text>
-      <text wx:if="{{!loading}}">和</text>
-      <text class="link" wx:if="{{!loading}}">《隐私政策》</text>
       <text class="loading-hint" wx:if="{{loading}}">请在微信弹窗中点击"允许"</text>
     </view>
   </view>
