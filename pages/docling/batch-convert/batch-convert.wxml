@@ -1,0 +1,102 @@
+<view class="container">
+  <view class="header-section">
+    <view class="header-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+      <text class="header-icon-text">批</text>
+    </view>
+    <view class="header-info">
+      <view class="header-title">批量文档转换</view>
+      <view class="header-desc">一次性处理多个PDF文档</view>
+    </view>
+  </view>
+
+  <view class="notice-card" bindtap="toggleNotice">
+    <view class="notice-icon">!</view>
+    <text class="notice-text">使用说明</text>
+    <text class="notice-hint">点击查看</text>
+  </view>
+
+  <view class="modal-mask {{noticeVisible ? 'modal-show' : ''}}" bindtap="closeNotice">
+    <view class="modal-content {{noticeVisible ? 'modal-slide-in' : 'modal-slide-out'}}" catchtap="">
+      <view class="modal-header">
+        <text class="modal-title">批量转换 使用说明</text>
+        <view class="modal-close" catchtap="closeNotice">
+          <icon type="clear" size="14" color="#999999" />
+        </view>
+      </view>
+      <scroll-view class="modal-body" scroll-y="true">
+        <view class="notice-section">
+          <view class="notice-label">功能说明</view>
+          <text class="notice-content">批量上传多个文档，一键转换为指定格式，省去逐个转换的麻烦。</text>
+        </view>
+        <view class="notice-section">
+          <view class="notice-label">支持格式</view>
+          <text class="notice-content">• PDF - 批量PDF文档</text>
+          <text class="notice-content">• Word - .doc/.docx格式</text>
+          <text class="notice-content">• Excel - .xls/.xlsx格式</text>
+        </view>
+        <view class="notice-section">
+          <view class="notice-label">输出格式</view>
+          <text class="notice-content">• Markdown - 富文本格式</text>
+          <text class="notice-content">• JSON - 结构化数据</text>
+          <text class="notice-content">• Text - 纯文本</text>
+        </view>
+        <view class="notice-section">
+          <view class="notice-label">操作步骤</view>
+          <text class="notice-content">1. 点击选择多个PDF文件（最多10个）</text>
+          <text class="notice-content">2. 选择输出格式</text>
+          <text class="notice-content">3. 根据需要开启OCR识别</text>
+          <text class="notice-content">4. 点击"开始批量转换"</text>
+          <text class="notice-content">5. 查看每个文件的转换结果</text>
+          <text class="notice-content">6. 点击"导出全部"保存所有结果</text>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+  <view class="upload-section" bindtap="chooseFiles">
+    <view class="upload-area {{fileList.length > 0 ? 'has-file' : ''}}">
+      <view class="upload-icon" wx:if="{{fileList.length === 0}}">
+        <text class="upload-icon-text">+</text>
+      </view>
+      <view class="upload-hint" wx:if="{{fileList.length === 0}}">点击选择多个PDF文件</view>
+      <view class="file-count" wx:else>{{fileList.length}} 个文件已选中</view>
+      <view class="upload-clear" catchtap="clearFiles" wx:if="{{fileList.length > 0}}">清除</view>
+    </view>
+  </view>
+
+  <view class="file-list" wx:if="{{fileList.length > 0}}">
+    <view class="file-item" wx:for="{{fileList}}" wx:key="index">
+      <view class="file-name">{{item.name}}</view>
+      <view class="file-remove" catchtap="removeFile" data-index="{{index}}">x</view>
+    </view>
+  </view>
+
+  <view class="config-section">
+    <view class="config-title">输出设置</view>
+    <view class="config-item">
+      <view class="config-label">输出格式</view>
+      <picker mode="selector" range="{{outputFormats}}" range-key="name" bindchange="onFormatChange">
+        <view class="picker-value">{{currentFormat.name}}</view>
+      </picker>
+    </view>
+    <view class="config-item">
+      <view class="config-label">启用OCR</view>
+      <switch checked="{{enableOcr}}" bindchange="onOcrChange" color="#43e97b"/>
+    </view>
+  </view>
+
+  <view class="action-section">
+    <button class="convert-btn" bindtap="handleConvert" disabled="{{fileList.length === 0 || loading}}">
+      {{loading ? '处理中...' : '开始批量转换'}}
+    </button>
+  </view>
+
+  <view class="progress-section" wx:if="{{loading}}">
+    <view class="progress-info">
+      <text>正在处理: {{currentIndex + 1}} / {{fileList.length}}</text>
+    </view>
+    <view class="progress-bar">
+      <view class="progress-fill" style="width: {{progress}}%"></view>
+    </view>
+  </view>
+</view>

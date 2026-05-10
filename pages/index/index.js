@@ -243,6 +243,23 @@ Page({
     return map[status] || '未知';
   },
 
+  goToService(e) {
+    const type = e.currentTarget.dataset.type;
+    const routes = {
+      text: '/pages/parse/text/text',
+      pdf: '/pages/docling/pdf-parse/pdf-parse',
+      markdown: '/pages/docling/doc-markdown/doc-markdown',
+      batch: '/pages/docling/batch-convert/batch-convert'
+    };
+    if (routes[type]) {
+      if (type === 'text') {
+        wx.switchTab({ url: routes[type] });
+      } else {
+        wx.navigateTo({ url: routes[type] });
+      }
+    }
+  },
+
   goToParse() {
     wx.switchTab({ url: '/pages/parse/text/text' });
   },

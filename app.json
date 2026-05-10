@@ -1,8 +1,11 @@
 {
   "pages": [
+    "pages/home/home",
+    "pages/index/index",
     "pages/parse/text/text",
     "pages/parse/excel/excel",
-    "pages/index/index",
+    "pages/docling/pdf-parse/pdf-parse",
+    "pages/docling/batch-convert/batch-convert",
     "pages/task/create/create",
     "pages/task/detail/detail",
     "pages/stats/stats",
@@ -15,7 +18,7 @@
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#f5f7fa",
     "backgroundColor": "#f5f7fa",
-    "navigationBarTitleText": "Excel工具",
+    "navigationBarTitleText": "开箱即用",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
@@ -25,10 +28,10 @@
     "backgroundColor": "#ffffff",
     "list": [
       {
-        "pagePath": "pages/parse/text/text",
-        "text": "解析",
-        "iconPath": "images/tabbar/parse.png",
-        "selectedIconPath": "images/tabbar/parse-active.png"
+        "pagePath": "pages/home/home",
+        "text": "首页",
+        "iconPath": "images/tabbar/home.png",
+        "selectedIconPath": "images/tabbar/home-active.png"
       },
       {
         "pagePath": "pages/index/index",

@@ -1,5 +1,5 @@
+// const baseUrl = 'http://localhost:8080/api'; //本地测试
 // const baseUrl = 'https://devslow.ccwu.cc/api';
-const baseUrl = 'https://devslow.ccwu.cc/api';
 const verifyBaseUrl = 'https://paper.devslow.ccwu.cc/api/auth';
 
 const request = (options) => {
@@ -212,6 +212,98 @@ const verify = {
   })
 };
 
+const docling = {
+  formats: () => request({
+    url: '/docling/formats',
+    method: 'GET'
+  }),
+  convert: (filePath, options = {}) => {
+    return new Promise((resolve, reject) => {
+      const token = wx.getStorageSync('token');
+      wx.uploadFile({
+        url: baseUrl + '/docling/convert',
+        filePath: filePath,
+        name: 'file',
+        header: {
+          'Authorization': token ? `Bearer ${token}` : ''
+        },
+        formData: {
+          output_formats: options.outputFormats || 'markdown',
+          enable_ocr: options.enableOcr !== false,
+          ocr_engine: options.ocrEngine || 'easyocr',
+          ocr_langs: options.ocrLangs || 'en,zh',
+          enable_table_structure: options.enableTableStructure !== false
+        },
+        success: (res) => {
+          const data = JSON.parse(res.data);
+          if (data.code === 0) {
+            resolve(data.data);
+          } else {
+            wx.showToast({ title: data.msg || '转换失败', icon: 'none' });
+            reject(data);
+          }
+        },
+        fail: reject
+      });
+    });
+  },
+  convertJson: (filePath, options = {}) => {
+    return new Promise((resolve, reject) => {
+      const token = wx.getStorageSync('token');
+      wx.uploadFile({
+        url: baseUrl + '/docling/convert/json',
+        filePath: filePath,
+        name: 'file',
+        header: {
+          'Authorization': token ? `Bearer ${token}` : ''
+        },
+        formData: {
+          enable_ocr: options.enableOcr !== false,
+          ocr_engine: options.ocrEngine || 'easyocr',
+          enable_table_structure: options.enableTableStructure !== false
+        },
+        success: (res) => {
+          const data = JSON.parse(res.data);
+          if (data.code === 0) {
+            resolve(data.data);
+          } else {
+            wx.showToast({ title: data.msg || '转换失败', icon: 'none' });
+            reject(data);
+          }
+        },
+        fail: reject
+      });
+    });
+  },
+  convertMarkdown: (filePath, options = {}) => {
+    return new Promise((resolve, reject) => {
+      const token = wx.getStorageSync('token');
+      wx.uploadFile({
+        url: baseUrl + '/docling/convert/markdown',
+        filePath: filePath,
+        name: 'file',
+        header: {
+          'Authorization': token ? `Bearer ${token}` : ''
+        },
+        formData: {
+          enable_ocr: options.enableOcr !== false,
+          ocr_engine: options.ocrEngine || 'easyocr'
+        },
+        success: (res) => {
+          const data = JSON.parse(res.data);
+          if (data.code === 0) {
+            resolve(data.data);
+          } else {
+            wx.showToast({ title: data.msg || '转换失败', icon: 'none' });
+            reject(data);
+          }
+        },
+        fail: reject
+      });
+    });
+  }
+};
+
 module.exports = {
   request,
   auth,
@@ -220,5 +312,7 @@ module.exports = {
   banner,
   notice,
   config,
-  verify
+  verify,
+  docling,
+  baseUrl
 };

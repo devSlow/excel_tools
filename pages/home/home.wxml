@@ -1,0 +1,79 @@
+<view class="container">
+  <view class="hero-section">
+    <view class="hero-title">开箱即用</view>
+    <view class="hero-subtitle">让文档处理更简单高效</view>
+    <view class="hero-wave"></view>
+  </view>
+
+  <view class="tools-section">
+    <view class="tools-grid">
+      <view class="tool-card" bindtap="goToService" data-type="text">
+        <view class="tool-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+          <text class="icon-font">Txt</text>
+        </view>
+        <view class="tool-name">文本转Excel</view>
+        <view class="tool-desc">智能解析文本数据</view>
+      </view>
+
+      <view class="tool-card" bindtap="goToService" data-type="pdf">
+        <view class="tool-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+          <text class="icon-font">文</text>
+        </view>
+        <view class="tool-name">文档解析</view>
+        <view class="tool-desc">多格式文档提取</view>
+      </view>
+
+      <view class="tool-card" bindtap="goToService" data-type="batch">
+        <view class="tool-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+          <text class="icon-font">批</text>
+        </view>
+        <view class="tool-name">批量转换</view>
+        <view class="tool-desc">批量文档处理</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="bottom-section">
+    <view class="features-card">
+      <view class="section-label">核心能力</view>
+      <view class="features-grid">
+        <view class="feature-item">
+          <view class="feature-icon" style="background: rgba(102, 126, 234, 0.1);">
+            <text style="color: #667eea;">O</text>
+          </view>
+          <text class="feature-name">OCR识别</text>
+        </view>
+        <view class="feature-item">
+          <view class="feature-icon" style="background: rgba(245, 87, 108, 0.1);">
+            <text style="color: #f5576c;">T</text>
+          </view>
+          <text class="feature-name">表格还原</text>
+        </view>
+        <view class="feature-item">
+          <view class="feature-icon" style="background: rgba(79, 172, 254, 0.1);">
+            <text style="color: #4facfe;">M</text>
+          </view>
+          <text class="feature-name">多格式输出</text>
+        </view>
+        <view class="feature-item">
+          <view class="feature-icon" style="background: rgba(67, 233, 123, 0.1);">
+            <text style="color: #43e97b;">快</text>
+          </view>
+          <text class="feature-name">极速处理</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="formats-card">
+      <view class="section-label">支持的格式</view>
+      <view class="formats-tags">
+        <text class="format-tag">PDF</text>
+        <text class="format-tag">Word</text>
+        <text class="format-tag">Excel</text>
+        <text class="format-tag">图片</text>
+        <text class="format-tag">PPT</text>
+        <text class="format-tag">TXT</text>
+      </view>
+    </view>
+  </view>
+</view>

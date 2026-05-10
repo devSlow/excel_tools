@@ -3,21 +3,66 @@
     <view class="loading-spinner"></view>
     <text class="loading-text">加载中...</text>
   </view>
+
   <view class="header">
     <view class="header-left">
       <view class="greeting">您好</view>
       <view class="date">{{currentDate}}</view>
     </view>
-    <view class="header-right {{showSearch ? 'header-search-active' : ''}}">
-      <view class="header-search-icon-wrap" catchtap="onSearchTap">
-        <image class="header-search-icon" src="data:image/svg+xml;base64,PHN2ZyB0PSIxNzc2OTYzNjU2NzA4IiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjQwNTgiIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIj48cGF0aCBkPSJNNDUxLjQgNzcxLjhjLTc0LjQgMC0xNDQuNC0yOS0xOTctODEuOC01Mi44LTUyLjgtODEuOC0xMjIuOC04MS44LTE5N3MyOS0xNDQuNCA4MS44LTE5NyAxMjIuOC04MS44IDE5Ny04MS44IDE0NC40IDI5IDE5NyA4MS44YzUyLjggNTIuOCA4MS44IDEyMi44IDgxLjggMTk3cy0yOSAxNDQuNC04MS44IDE5Ny0xMjIuOCA4MS44LTE5NyA4MS44eiBtMC00MzIuOGMtNDIgMC04MS42IDE2LjQtMTExLjIgNDYuNC0zMCAzMC00Ni40IDY5LjItNDYuNCAxMTEuMnMxNi40IDgxLjIgNDYuNCAxMTEuMmMzMCAzMCA2OS4yIDQ2LjQgMTExLjIgNDYuNHM4MS4yLTE2LjQgMTExLjItNDYuNGMzMC0zMCA0Ni40LTY5LjIgNDYuNC0xMTEuMnMtMTYuNC04MS4yLTQ2LjQtMTExLjJjLTI5LjgtMjkuOC02OS4yLTQ2LjQtMTExLjItNDYuNHoiIGZpbGw9IiMzMzMzMzMiIHAtaWQ9IjQwNTkiPjwvcGF0aD48cGF0aCBkPSJNOTQwLjUgODk2LjRsLTExOS44LTExOS44Yy0xNi0xNi0xNi00MS44IDAtNTcuOHM0MS44LTE2IDU3LjggMGwxMTkuOCAxMTkuOGMxNiAxNiAxNiA0MS44IDAgNTcuOEM5NjIuMyA5MTIuNCA5NTIuNSA5MTYuNCA5NDAuNSA4OTYuNHoiIGZpbGw9IiMzMzMzMzMiIHAtaWQ9IjQwNjAiPjwvcGF0aD48L3N2Zz4=" mode="aspectFit" />
+  </view>
+
+  <view class="section-title">功能服务</view>
+  
+  <view class="service-grid">
+    <view class="service-card" bindtap="goToService" data-type="text">
+      <view class="service-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+        <text class="icon-text">文</text>
       </view>
-      <view class="header-search-bar">
-        <icon type="search" size="14" color="#999999" />
-        <input class="header-search-input" placeholder="搜索任务名称..." placeholder-class="search-placeholder" value="{{searchKeyword}}" bindinput="onSearchInput" bindconfirm="onSearch" bindblur="onSearchBlur" confirm-type="search" focus="{{showSearch}}" />
-        <view class="header-search-close" catchtap="onSearchClose">
-          <icon type="clear" size="12" color="#ffffff" />
-        </view>
+      <view class="service-info">
+        <view class="service-name">文本转Excel</view>
+        <view class="service-desc">文本智能解析生成表格</view>
+      </view>
+      <view class="service-arrow">
+        <text class="arrow-icon">></text>
+      </view>
+    </view>
+
+    <view class="service-card" bindtap="goToService" data-type="pdf">
+      <view class="service-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+        <text class="icon-text">P</text>
+      </view>
+      <view class="service-info">
+        <view class="service-name">PDF文档解析</view>
+        <view class="service-desc">PDF文档识别提取内容</view>
+      </view>
+      <view class="service-arrow">
+        <text class="arrow-icon">></text>
+      </view>
+    </view>
+
+    <view class="service-card" bindtap="goToService" data-type="markdown">
+      <view class="service-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+        <text class="icon-text">M</text>
+      </view>
+      <view class="service-info">
+        <view class="service-name">文档转Markdown</view>
+        <view class="service-desc">文档转换为Markdown格式</view>
+      </view>
+      <view class="service-arrow">
+        <text class="arrow-icon">></text>
+      </view>
+    </view>
+
+    <view class="service-card" bindtap="goToService" data-type="batch">
+      <view class="service-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+        <text class="icon-text">批</text>
+      </view>
+      <view class="service-info">
+        <view class="service-name">批量文档转换</view>
+        <view class="service-desc">批量处理多个文档</view>
+      </view>
+      <view class="service-arrow">
+        <text class="arrow-icon">></text>
       </view>
     </view>
   </view>
@@ -25,7 +70,7 @@
   <view class="stats-card">
     <view class="stat-item">
       <view class="stat-icon-wrap">
-        <image class="stat-icon-img" src="data:image/svg+xml;base64,PHN2ZyB0PSIxNzc2OTU2Mzg0MjA2IiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjE3MTcyIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiPjxwYXRoIGQ9Ik04MzEuODI1NDc0IDYzLjk0MDE2OUgxOTEuOTM5NzE3QzEyMS4yNDc5IDYzLjk0MDE2OSA2My45NDAxNjkgMTIxLjI0NzkgNjMuOTQwMTY5IDE5MS45Mzk3MTd2NjM5Ljg4NTc1N0M2My45NDAxNjkgOTAyLjUxNzI5MSAxMjEuMjQ3OSA5NTkuODI1MDIyIDE5MS45Mzk3MTcgOTU5LjgyNTAyMmg2MzkuODg1NzU3YzcwLjY5MTgxNyAwIDEyNy45OTk1NDgtNTcuMzA3NzMxIDEyNy45OTk1NDgtMTI3Ljk5OTU0OFYxOTEuOTM5NzE3Qzk1OS44MjUwMjIgMTIxLjI0NzkgOTAyLjUxNzI5MSA2My45NDAxNjkgODMxLjgyNTQ3NCA2My45NDAxNjl6TTg5NS44ODQ4NTQgODMxLjk5ODg3MUE2My44MzU0MDggNjMuODM1NDA4IDAgMCAxIDgzMS45MTIxNzMgODk1Ljg4NDg1NEgxOTIuMDg3ODI3Yy0xNy4xMTIxMjMgMC0zMy4yNzA1NjMtNi41NzQ2MzktNDUuMzcyMjMyLTE4LjY3NjMxUzEyNy44ODAzMzggODQ5LjExMDk5NCAxMjcuODgwMzM4IDgzMS45OTg4NzFWMTkyLjAwMTEyOUE2NC4yMzYzODkgNjQuMjM2Mzg5IDAgMCAxIDE5Mi4wODc4MjcgMTI3Ljg4MDMzOGg2MzkuODI0MzQ2QTY0LjAzNzcwNSA2NC4wMzc3MDUgMCAwIDEgODk1Ljg4NDg1NCAxOTIuMDAxMTI5djYzOS45OTc3NDJ6IiBmaWxsPSIjMmMyYzJjIiBwLWlkPSIxNzE3MyI+PC9wYXRoPjxwYXRoIGQ9Ik03OTEuOTk4MzM1IDM1MS44NTE1NTFoLTI1NS45OTkwOTdhMzEuOTcwMDg0IDMxLjk3MDA4NCAwIDAgMCAwIDYzLjk0MDE2OWgyNTUuOTk5MDk3YTMxLjk3MDA4NCAzMS45NzAwODQgMCAwIDAgMC02My45NDAxNjl6TTc5MS45OTgzMzUgNjA3Ljk3MzQ3MWgtMjU1Ljk5OTA5N2EzMS45NzAwODQgMzEuOTcwMDg0IDAgMCAwIDAgNjMuOTQwMTY5aDI1NS45OTkwOTdhMzEuOTcwMDg0IDMxLjk3MDA4NCAwIDAgMCAwLTYzLjk0MDE2OXpNMzQ0LjAwMTcyMiA1MjcuOTk3Njg2Yy02MS44NTU3OTIgMC0xMTEuOTg1NjA3IDUwLjE0NDI2NS0xMTEuOTg1NjA3IDExMS45ODU2MDZzNTAuMTQ0MjY1IDExMS45ODU2MDcgMTExLjk4NTYwNyAxMTEuOTg1NjA3IDExMS45ODU2MDctNTAuMTQ0MjY1IDExMS45ODU2MDYtMTExLjk4NTYwNy01MC4xMjk4MTUtMTExLjk4NTYwNy0xMTEuOTg1NjA2LTExMS45ODU2MDZ6IG0zMy45ODIyMTMgMTQ1Ljk4MjI2OWE0OC4wNDU0MzggNDguMDQ1NDM4IDAgMSAxIDE0LjA4ODUxMS0zMy45ODIyMTMgNDcuNzQ1NjA1IDQ3Ljc0NTYwNSAwIDAgMS0xNC4wODg1MTEgMzMuOTg1ODI2ek00MTcuMzk1NjQzIDI5Ny4zOTQwMzVMMzExLjk5OTEyNSA0MDIuNzg2OTQgMjcwLjYwNzggMzYxLjM5MjAwM2EzMS45NzAwODQgMzEuOTcwMDg0IDAgMSAwLTQ1LjIxMzI4NiA0NS4yMTMyODVsNjMuOTk3OTY4IDY0LjAwMTU4MWEzMS45NzAwODQgMzEuOTcwMDg0IDAgMCAwIDQ1LjIxMzI4NiAwbDEyNy45OTk1NDgtMTI3Ljk5OTU0OWEzMS45NzAwODQgMzEuOTcwMDg0IDAgMCAwLTQ1LjIwOTY3My00NS4yMTMyODV6IiBmaWxsPSIjMmMyYzJjIiBwLWlkPSIxNzE3NCI+PC9wYXRoPjwvc3ZnPg==" mode="aspectFit" />
+        <image class="stat-icon-img" src="data:image/svg+xml;base64,PHN2ZyB0PSIxNzc2OTU2Mzg0MjA2IiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjE3MTcyIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiPjxwYXRoIGQ9Ik04MzEuODI1NDc0IDYzLjk0MDE2OUgxOTEuOTM5NzE3QzEyMS4yNDc5IDYzLjk0MDE2OSA2My45NDAxNjkgMTIxLjI0NzkgNjMuOTQwMTY5IDE5MS45Mzk3MTd2NjM5Ljg4NTc1N0M2My45NDAxNjkgOTAyLjUxNzI5MSAxMjEuMjQ3OSA5NTkuODI1MDIyIDE5MS45Mzk3MTcgOTU5LjgyNTAyMmg2MzkuODg1NzU3YzcwLjY5MTgxNyAwIDEyNy45OTk1NDgtNTcuMzA3NzMxIDEyNy45OTk1NDgtMTI3Ljk5OTU0OFYxOTEuOTM5NzE3Qzk1OS44MjUwMjIgMTIxLjI0NzkgOTAyLjUxNzI5MSA2My45NDAxNjkgODMxLjgyNTQ3NCA2My45NDAxNjl6TTg5NS44ODQ4NTQgODMxLjk5ODg3MUE2My44MzU0MDggNjMuODM1NDA4IDAgMCAxIDgzMS45MTIxNzMgODk1Ljg4NDg1NEgxOTIuMDg3ODI3Yy0xNy4xMTIxMjMgMC0zMy4yNzA1NjMtNi41NzQ2MzktNDUuMzcyMjMyLTE4LjY3NjMxUzEyNy44ODAzMzggODQ5LjExMDk5NCAxMjcuODgwMzM4IDgzMS45OTg4NzFWMTkyLjAwMTEyOUE2NC4yMzYzODkgNjQuMjM2Mzg5IDAgMCAxIDE5Mi4wODc4MjcgMTI3Ljg4MDMzOGg2MzkuODI0MzQ2QTY0LjAzNzcwNSA2NC4wMzc3MDUgMCAwIDEgODk1Ljg4NDg1NCAxOTIuMDAxMTI5djYzOS45OTc3NDJ6IiBmaWxsPSIjMmMyYzJjIiBwLWlkPSIxNzE3MyI+PC9wYXRoPjxwYXRoIGQ9Ik03OTEuOTk4MzM1IDM1MS44NTE1NTFoLTI1NS45OTkwOTdhMzEuOTcwMDg0IDMxLjk3MDA4NCAwIDAgMCAwIDYzLjk0MDE2OWgyNTUuOTk5MDk3YTMxLjk3MDA4NCAzMS45NzAwODQgMCAwIDAgMC02My45NDAxNjl6TTc5MS45OTgzMzUgNjA3Ljk3MzQ3MWgtMjU1Ljk5OTA5N2EzMy45NzAwMDg0IDMxLjk3MDA4NCAwIDAgMCAwIDYzLjk0MDE2OWgyNTUuOTk5MDk3YTMxLjk3MDA4NCAzMS45NzAwODQgMCAwIDAgMC02My45NDAxNjl6TTM0NC4wMDE3MjIgNTI3Ljk5NzY4NmMtNjEuODU1NzkyIDAtMTExLjk4NTYwNyA1MC4xNDQyNjUtMTExLjk4NTYwNyAxMTEuOTg1NjA3czUwLjE0NDI2NSAxMTEuOTg1NjA3IDExMS45ODU2MDcgMTExLjk4NTYwNyAxMTEuOTg1NjA3LTUwLjE0NDI2NSAxMTEuOTg1NjA3LTExMS45ODU2MDctNTAuMTI5ODE1LTExMS45ODU2MDctMTExLjk4NTYwNy0xMTEuOTg1NjA2ek0zMzkuOTgyMjEzIDE0NS45ODIyNjlhNDguMDQ1NDM4IDQ4LjA0NTQzOCAwIDEgMSAxNC4wODg1MTEtMzMuOTgyMjEzIDQ3Ljc0NTYwNSA0Ny43NDU2MDUgMCAwIDEtMTQuMDg4NTExIDMzLjk4NTgyNnpNDE3LjM5NTY0MyAyOTcuMzk0MDM1bC0xMDUuMzk1NjM5IDEwNS4zOTU2NDFMNTA4LjAwMTcyMiA0MDIuNzg2OTQgNDY2LjY2NjY2NyAzNjEuMzkyMDAzYTMxLjk3MDA4NCAzMS45NzAwODQgMCAwIDAgNDYuMjY2NjY3LTQ2LjI2NjY2N2wzNC4wMDAwMDEgMzQuMDAwMDAzek04MTIuNjY2NjY3IDUwNy45OTc2ODZDNzUwLjgxMTE3NSA1MDcuOTk3Njg2IDcwMy45OTc2ODcgNTMxLjE0NDI2NSA3MDMuOTk3Njg3IDU0My4wMDE3MjJTNzUwLjgxMTE3NSA1NjQuMDAxNzIyIDcwMy45OTc2ODcgNTQzaDM0LjAwMDAwMXptLTEzOC42NjY2NjcgMTE3LjMzMzMzM0w2MzEuOTk3Njg2IDU0My4wMDE3MjJMNTkzLjMzMzMzMyA0OTMuMzMzMzMzWiIgZmlsbD0iIzJDMkMyQyIgcC1pZD0iMTcxNzQiPjwvcGF0aD48L3N2Zz4=" mode="aspectFit" />
       </view>
       <view class="stat-num">{{totalTasks}}</view>
       <view class="stat-label">任务总数</view>
@@ -33,13 +78,12 @@
     <view class="stat-divider"></view>
     <view class="stat-item">
       <view class="stat-icon-wrap">
-        <image class="stat-icon-img" src="data:image/svg+xml;base64,PHN2ZyB0PSIxNzc2OTU3MDU5NzM1IiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjE5MjU5IiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiPjxwYXRoIGQ9Ik0zNDEuMzMzMzMzIDkzOC42NjY2NjdIMTI4YTQyLjY2NjY2NyA0Mi42NjY2NjcgMCAwIDEtNDIuNjY2NjY3LTQyLjY2NjY2N1Y0MDUuMzMzMzMzYTQyLjY2NjY2NyA0Mi42NjY2NjcgMCAwIDEgNDIuNjY2NjY3LTQyLjY2NjY2NmgyMTMuMzMzMzMzVjEyOGE0Mi42NjY2NjcgNDIuNjY2NjY3IDAgMCAxIDQyLjY2NjY2Ny00Mi42NjY2NjdoMjU2YTQyLjY2NjY2NyA0Mi42NjY2NjcgMCAwIDEgNDIuNjY2NjY3IDQyLjY2NjY2N3Y0MDUuMzMzMzMzaDIxMy4zMzMzMzNhNDIuNjY2NjY3IDQyLjY2NjY2NyAwIDAgMSA0Mi41NiAzOS40NjY2NjdMOTM4LjY2NjY2NyA1NzZ2MzIwYTQyLjY2NjY2NyA0Mi42NjY2NjcgMCAwIDEtMzkuNDY2NjY3IDQyLjU2TDg5NiA5MzguNjY2NjY3SDM0MS4zMzMzMzN6IG0wLTUxMkgxNDkuMzMzMzMzdjQ0OGgxOTJWNDI2LjY2NjY2N3ogbTUzMy4zMzMzMzQgMTcwLjY2NjY2NmgtMTkydjI3Ny4zMzMzMzRoMTkyVjU5Ny4zMzMzMzN6TTYxOC42NjY2NjcgMTQ5LjMzMzMzM0g0MDUuMzMzMzMzdjcyNS4zMzMzMzRoMjEzLjMzMzMzNFYxNDkuMzMzMzMzeiIgZmlsbD0iIzRFNEU0RSIgcC1pZD0iMTkyNjAiPjwvcGF0aD48L3N2Zz4K" mode="aspectFit" />
+        <image class="stat-icon-img" src="data:image/svg+xml;base64,PHN2ZyB0PSIxNzc2OTU3MDU5NzM1IiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjE5MjU5IiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiPjxwYXRoIGQ9Ik0zNDEuMzMzMzMzIDkzOC42NjY2NjdIMTI4QT0yLjY2NjY2NyA0Mi42NjY2NjcgMCAwIDEtNDIuNjY2NjY3LTQyLjY2NjY2N1Y0MDUuMzMzMzMzYTQyLjY2NjY2NyA0Mi42NjY2NjcgMCAwIDEgNDIuNjY2NjY3LTQyLjY2NjY2NmgyMTMuMzMzMzMzVjEyOGE0Mi42NjY2NjcgNDIuNjY2NjY3IDAgMCAxIDQyLjY2NjY2Ny00Mi42NjY2NjdoMjU2YTQyLjY2NjY2NyA0Mi42NjY2NjcgMCAwIDEgNDIuNjY2NjY3IDQyLjY2NjY2N3Y0MDUuMzMzMzMzaDIxMy4zMzMzMzNhNDIuNjY2NjY3IDQyLjY2NjY2NyAwIDAgMSA0Mi41NiA0OS40NjY2NjdMOTM4LjY2NjY2NyA1NzZ2MzIwYTQyLjY2NjY2NyA0Mi42NjY2NjcgMCAwIDEtMzkuNDY2NjY3IDQyLjU2TDg5NiA5MzguNjY2NjY3SDM0MS4zMzMzMzN6bTAtNTEwSDE0OS4zMzMzMzN2NDQ4aDE5MlY0MjYuNjY2NjY3eiBtNTMzLjMzMzMzNCAxNzAuNjY2NjY2aC0xOTJ2Mjc3LjMzMzMzNGgxOTJWNTk3LjMzMzMzM3pNMTY4LjY2NjY2NyAxNDkuMzMzMzMzSDBCA1Ny4zMzMzMzMgNTc3LjMzMzMzM0w2NzAuNjY2NjY3IDE0OS4zMzMzMzN6IiBmaWxsPSIjNUU0RTRFIiBwLWlkPSIxOTI2MCI+PC9wYXRoPjwvc3ZnPg==" mode="aspectFit" />
       </view>
       <view class="stat-num">{{totalRows}}</view>
       <view class="stat-label">数据总量</view>
     </view>
   </view>
-  <view class="export-tip">点击导出后预览文件，点击右上角···可转发保存</view>
 
   <view class="filter-bar">
     <scroll-view class="filter-scroll" scroll-x enable-flex>
@@ -82,13 +126,15 @@
     <view class="confirm-btn" catchtap="onCustomDateConfirm">筛选</view>
   </view>
 
-   <view class="filter-result" wx:if="{{filterDate !== 'all'}}">
+  <view class="filter-result" wx:if="{{filterDate !== 'all'}}">
     <text class="filter-result-text" wx:if="{{filterDate === 'today'}}">今天 · 共 {{taskList.length}} 条任务</text>
     <text class="filter-result-text" wx:elif="{{filterDate === 'week'}}">本周 · 共 {{taskList.length}} 条任务</text>
     <text class="filter-result-text" wx:elif="{{filterDate === 'month'}}">本月 · 共 {{taskList.length}} 条任务</text>
     <text class="filter-result-text" wx:elif="{{filterDate === 'custom' && filterStartDate && filterEndDate}}">{{filterStartDate}} ~ {{filterEndDate}} · 共 {{taskList.length}} 条任务</text>
     <view class="filter-reset" catchtap="onFilterReset">重置</view>
   </view>
+
+  <view class="section-title" style="margin-top: 20rpx;">最近任务</view>
 
   <view class="content-area {{taskList.length === 0 && !initialLoading ? 'content-area-center' : ''}}">
     <view class="task-list" wx:if="{{taskList.length > 0}}">
@@ -126,10 +172,7 @@
       <view class="empty-content {{!isLoggedIn ? 'empty-content-masked' : ''}}">
         <image class="empty-icon" src="/images/empty-task.png" mode="aspectFit" />
         <view class="empty-text">暂无解析任务</view>
-        <view class="empty-hint">粘贴需要拆分的数据 即可生成Excel</view>
-        <view class="empty-actions" wx:if="{{isLoggedIn}}">
-          <view class="empty-btn" bindtap="goToParse">去解析</view>
-        </view>
+        <view class="empty-hint">点击上方功能卡片开始使用</view>
       </view>
       <view class="empty-login-mask" wx:if="{{!isLoggedIn}}">
         <view class="mask-glass">
@@ -151,23 +194,5 @@
       <text>加载中...</text>
     </view>
     <view wx:elif="{{noMore}}" class="load-more-end">— 没有更多了 —</view>
-  </view>
-
-  <view class="update-mask" wx:if="{{showUpdateModal}}" catchtap="closeUpdateModal">
-    <view class="update-dialog" catchtap="">
-      <view class="update-header">
-        <view class="update-badge">v{{updateInfo.version}}</view>
-        <text class="update-title">发现新版本</text>
-      </view>
-      <image wx:if="{{updateInfo.updateImage}}" class="update-image" src="{{updateInfo.updateImage}}" mode="aspectFill" />
-      <view class="update-content" wx:if="{{updateInfo.updateContent}}">
-        <view class="update-line" wx:for="{{updateInfo.updateContent.split('\\n')}}" wx:key="index" wx:if="{{item}}">
-          {{item}}
-        </view>
-      </view>
-      <view class="update-footer">
-        <view class="update-btn" catchtap="closeUpdateModal">知道了</view>
-      </view>
-    </view>
   </view>
 </view>
