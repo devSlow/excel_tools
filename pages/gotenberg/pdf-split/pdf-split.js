@@ -176,17 +176,14 @@ Page({
         util.hideLoading();
         
         if (downloadRes.statusCode === 200) {
-          const fs = wx.getFileSystemManager();
-          const tempFilePath = `${wx.env.USER_DATA_PATH}/${file.name}`;
-          
-          fs.saveFile({
+          wx.saveFile({
             tempFilePath: downloadRes.tempFilePath,
-            filePath: tempFilePath,
             success: (saveRes) => {
               console.log('保存成功:', saveRes.savedFilePath);
               wx.openDocument({
                 filePath: saveRes.savedFilePath,
                 fileType: file.fileType || 'pdf',
+                showMenu: true,
                 success: () => {
                   console.log('文档打开成功');
                 },

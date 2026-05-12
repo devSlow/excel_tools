@@ -104,19 +104,15 @@ Page({
                 },
                 success: (downloadRes) => {
                   if (downloadRes.statusCode === 200) {
-                    const fs = wx.getFileSystemManager();
-                    const fileName = this.data.selectedFile.replace(/\.[^.]+$/, '') + '_encrypted.pdf';
-                    const tempFilePath = `${wx.env.USER_DATA_PATH}/${fileName}`;
-                    
-                    fs.saveFile({
+                    wx.saveFile({
                       tempFilePath: downloadRes.tempFilePath,
-                      filePath: tempFilePath,
                       success: (saveRes) => {
                         wx.showToast({ title: '加密成功', icon: 'success' });
                         setTimeout(() => {
                           wx.openDocument({
                             filePath: saveRes.savedFilePath,
                             fileType: 'pdf',
+                            showMenu: true,
                             success: () => {},
                             fail: () => {
                               wx.showToast({ title: '打开失败', icon: 'none' });

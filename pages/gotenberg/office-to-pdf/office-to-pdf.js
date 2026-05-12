@@ -103,6 +103,7 @@ Page({
                   wx.openDocument({
                     filePath: tempFilePath,
                     fileType: 'pdf',
+                    showMenu: true,
                     success: () => {},
                     fail: () => {
                       wx.showToast({ title: '打开失败', icon: 'none' });

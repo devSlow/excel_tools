@@ -171,6 +171,7 @@ Page({
                               wx.openDocument({
                                 filePath: saveRes.savedFilePath,
                                 fileType: 'pdf',
+                                showMenu: true,
                                 success: () => {
                                   console.log('文档打开成功');
                                 },
