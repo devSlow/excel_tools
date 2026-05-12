@@ -12,7 +12,16 @@
     "pages/notice/detail/detail",
     "pages/profile/profile",
     "pages/notice/notice",
-    "pages/verify/verify"
+    "pages/verify/verify",
+    "pages/gotenberg/office-to-pdf/office-to-pdf",
+    "pages/gotenberg/pdf-merge/pdf-merge",
+    "pages/gotenberg/pdf-split/pdf-split",
+    "pages/gotenberg/pdf-rotate/pdf-rotate",
+    "pages/gotenberg/pdf-encrypt/pdf-encrypt",
+    "pages/gotenberg/pdf-watermark/pdf-watermark",
+    "pages/gotenberg/web-to-pdf/web-to-pdf",
+    "pages/gotenberg/web-screenshot/web-screenshot",
+    "pages/gotenberg/doc-convert/doc-convert"
   ],
   "window": {
     "backgroundTextStyle": "light",

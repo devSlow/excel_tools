@@ -1,0 +1,106 @@
+<view class="container">
+  <view class="header-section">
+    <view class="header-icon" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+      <text class="header-icon-text">分</text>
+    </view>
+    <view class="header-info">
+      <view class="header-title">PDF拆分</view>
+      <view class="header-desc">将PDF文件拆分为多个文件</view>
+    </view>
+  </view>
+
+  <view class="notice-card" bindtap="toggleNotice">
+    <view class="notice-icon">!</view>
+    <text class="notice-text">使用说明</text>
+    <text class="notice-hint">点击查看</text>
+  </view>
+
+  <view class="modal-mask {{noticeVisible ? 'modal-show' : ''}}" bindtap="closeNotice">
+    <view class="modal-content {{noticeVisible ? 'modal-slide-in' : 'modal-slide-out'}}" catchtap="">
+      <view class="modal-header">
+        <text class="modal-title">PDF拆分 使用说明</text>
+        <view class="modal-close" catchtap="closeNotice">
+          <icon type="clear" size="14" color="#999999" />
+        </view>
+      </view>
+      <scroll-view class="modal-body" scroll-y="true">
+        <view class="notice-section">
+          <view class="notice-label">功能说明</view>
+          <text class="notice-content">将一个PDF文件拆分为多个独立的PDF文件</text>
+        </view>
+        <view class="notice-section">
+          <view class="notice-label">拆分模式</view>
+          <text class="notice-content">• 按间隔：每N页生成一个文件</text>
+          <text class="notice-content">• 按单页：每页生成一个独立文件</text>
+        </view>
+        <view class="notice-section">
+          <view class="notice-label">操作步骤</view>
+          <text class="notice-content">1. 选择要拆分的PDF文件</text>
+          <text class="notice-content">2. 选择拆分模式</text>
+          <text class="notice-content">3. 输入拆分参数</text>
+          <text class="notice-content">4. 点击"开始拆分"按钮</text>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+  <view class="upload-section">
+    <view class="upload-area {{selectedFile ? 'has-file' : ''}}" bindtap="chooseFile">
+      <view class="upload-icon" wx:if="{{!selectedFile}}">
+        <text class="upload-icon-text">+</text>
+      </view>
+      <view class="upload-hint" wx:if="{{!selectedFile}}">点击选择PDF文件</view>
+      <view class="upload-hint" wx:else>{{selectedFile}}</view>
+      <view class="upload-clear" catchtap="clearFile" wx:if="{{selectedFile}}">清除</view>
+    </view>
+  </view>
+
+  <view class="config-section">
+    <view class="config-title">拆分模式</view>
+    <view class="mode-options">
+      <view class="mode-item {{splitMode === 'intervals' ? 'active' : ''}}" bindtap="selectMode" data-mode="intervals">
+        <text class="mode-name">按间隔</text>
+      </view>
+      <view class="mode-item {{splitMode === 'pages' ? 'active' : ''}}" bindtap="selectMode" data-mode="pages">
+        <text class="mode-name">按单页</text>
+      </view>
+    </view>
+
+    <view class="config-item" wx:if="{{splitMode === 'intervals'}}">
+      <view class="config-label">每</view>
+      <input class="config-input-small" type="number" value="{{splitSpan}}" bindinput="onSpanInput" />
+      <view class="config-label">页生成一个文件</view>
+    </view>
+
+    <view class="config-item" wx:if="{{splitMode === 'pages'}}">
+      <view class="checkbox-item" bindtap="toggleUnify">
+        <view class="checkbox {{splitUnify ? 'checked' : ''}}">
+          <text wx:if="{{splitUnify}}">✓</text>
+        </view>
+        <text class="checkbox-label">合并到一个文件</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="action-section">
+    <button class="convert-btn" bindtap="handleSplit" disabled="{{!selectedFile || loading}}">
+      {{loading ? '拆分中...' : '开始拆分'}}
+    </button>
+  </view>
+
+  <view class="result-section" wx:if="{{splitFiles.length > 0}}">
+    <view class="result-title">拆分结果 ({{splitFiles.length}}个文件)</view>
+    <view class="file-list">
+      <view class="file-item" wx:for="{{splitFiles}}" wx:key="index" bindtap="openFile" data-index="{{index}}">
+        <view class="file-icon">
+          <text class="file-icon-text">PDF</text>
+        </view>
+        <view class="file-info">
+          <view class="file-name">{{item.name}}</view>
+          <view class="file-hint">点击打开</view>
+        </view>
+        <view class="file-arrow">›</view>
+      </view>
+    </view>
+  </view>
+</view>

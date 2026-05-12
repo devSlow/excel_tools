@@ -3,7 +3,7 @@
   "projectname": "excel",
   "setting": {
     "compileHotReLoad": true,
-    "urlCheck": true,
+    "urlCheck": false,
     "coverView": true,
     "lazyloadPlaceholderEnable": false,
     "skylineRenderEnable": false,
@@ -20,17 +20,5 @@
     "bigPackageSizeSupport": false
   },
   "libVersion": "3.15.2",
-  "condition": {
-    "miniprogram": {
-      "list": [
-        {
-          "name": "扫码测试",
-          "pathName": "pages/verify/verify",
-          "query": "61070a543f5e4404b3b61387e8ce93c8",
-          "scene": 1011,
-          "launchMode": "default"
-        }
-      ]
-    }
-  }
+  "condition": {}
 }

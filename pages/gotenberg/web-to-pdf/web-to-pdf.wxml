@@ -1,0 +1,59 @@
+<view class="container">
+  <view class="header-section">
+    <view class="header-icon" style="background: linear-gradient(135deg, #f5af19 0%, #f12711 100%);">
+      <text class="header-icon-text">网</text>
+    </view>
+    <view class="header-info">
+      <view class="header-title">网页转PDF</view>
+      <view class="header-desc">将网页转换为PDF文档</view>
+    </view>
+  </view>
+
+  <view class="notice-card" bindtap="toggleNotice">
+    <view class="notice-icon">!</view>
+    <text class="notice-text">使用说明</text>
+    <text class="notice-hint">点击查看</text>
+  </view>
+
+  <view class="modal-mask {{noticeVisible ? 'modal-show' : ''}}" bindtap="closeNotice">
+    <view class="modal-content {{noticeVisible ? 'modal-slide-in' : 'modal-slide-out'}}" catchtap="">
+      <view class="modal-header">
+        <text class="modal-title">网页转PDF 使用说明</text>
+        <view class="modal-close" catchtap="closeNotice">
+          <icon type="clear" size="14" color="#999999" />
+        </view>
+      </view>
+      <scroll-view class="modal-body" scroll-y="true">
+        <view class="notice-section">
+          <view class="notice-label">功能说明</view>
+          <text class="notice-content">将网页URL转换为PDF文档，保留网页内容和布局</text>
+        </view>
+        <view class="notice-section">
+          <view class="notice-label">操作步骤</view>
+          <text class="notice-content">1. 输入要转换的网页URL</text>
+          <text class="notice-content">2. 点击"开始转换"按钮</text>
+          <text class="notice-content">3. 等待转换完成</text>
+          <text class="notice-content">4. 转换完成后自动打开PDF文件</text>
+        </view>
+        <view class="notice-section">
+          <view class="notice-label">注意事项</view>
+          <text class="notice-content">• 请输入完整的URL地址（以http://或https://开头）</text>
+          <text class="notice-content">• 部分动态加载的网页可能无法完整转换</text>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+  <view class="config-section">
+    <view class="config-title">输入网页地址</view>
+    <view class="input-wrapper">
+      <input class="url-input" placeholder="请输入完整URL，如: https://www.example.com" value="{{url}}" bindinput="onUrlInput" />
+    </view>
+  </view>
+
+  <view class="action-section">
+    <button class="convert-btn" bindtap="handleConvert" disabled="{{!url || loading}}">
+      {{loading ? '转换中...' : '开始转换'}}
+    </button>
+  </view>
+</view>

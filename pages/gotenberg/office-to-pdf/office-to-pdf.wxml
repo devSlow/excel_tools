@@ -1,0 +1,72 @@
+<view class="container">
+  <view class="header-section">
+    <view class="header-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+      <text class="header-icon-text">O</text>
+    </view>
+    <view class="header-info">
+      <view class="header-title">Office转PDF</view>
+      <view class="header-desc">支持Word、Excel、PPT等文档转换为PDF</view>
+    </view>
+  </view>
+
+  <view class="notice-card" bindtap="toggleNotice">
+    <view class="notice-icon">!</view>
+    <text class="notice-text">使用说明</text>
+    <text class="notice-hint">点击查看</text>
+  </view>
+
+  <view class="modal-mask {{noticeVisible ? 'modal-show' : ''}}" bindtap="closeNotice">
+    <view class="modal-content {{noticeVisible ? 'modal-slide-in' : 'modal-slide-out'}}" catchtap="">
+      <view class="modal-header">
+        <text class="modal-title">Office转PDF 使用说明</text>
+        <view class="modal-close" catchtap="closeNotice">
+          <icon type="clear" size="14" color="#999999" />
+        </view>
+      </view>
+      <scroll-view class="modal-body" scroll-y="true">
+        <view class="notice-section">
+          <view class="notice-label">支持格式</view>
+          <text class="notice-content">Word(.doc/.docx)、Excel(.xls/.xlsx)、PPT(.ppt/.pptx)、ODT、ODS、ODP等</text>
+        </view>
+        <view class="notice-section">
+          <view class="notice-label">功能特点</view>
+          <text class="notice-content">• 保持原有格式和排版</text>
+          <text class="notice-content">• 支持带密码文档（可选）</text>
+          <text class="notice-content">• 转换速度快，效果好</text>
+        </view>
+        <view class="notice-section">
+          <view class="notice-label">操作步骤</view>
+          <text class="notice-content">1. 点击选择文件按钮</text>
+          <text class="notice-content">2. 选择要转换的Office文档</text>
+          <text class="notice-content">3. 如需解密可输入文档密码（可选）</text>
+          <text class="notice-content">4. 点击"开始转换"按钮</text>
+          <text class="notice-content">5. 转换完成后自动下载PDF文件</text>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+  <view class="upload-section">
+    <view class="upload-area {{selectedFile ? 'has-file' : ''}}" bindtap="chooseFile">
+      <view class="upload-icon" wx:if="{{!selectedFile}}">
+        <text class="upload-icon-text">+</text>
+      </view>
+      <view class="upload-hint" wx:if="{{!selectedFile}}">点击选择Office文件</view>
+      <view class="upload-hint" wx:else>{{selectedFile}}</view>
+      <view class="upload-clear" catchtap="clearFile" wx:if="{{selectedFile}}">清除</view>
+    </view>
+  </view>
+
+  <view class="config-section">
+    <view class="config-title">文档密码（可选）</view>
+    <view class="input-wrapper">
+      <input class="config-input" placeholder="如文档有密码请输入" password="{{true}}" value="{{password}}" bindinput="onPasswordInput" />
+    </view>
+  </view>
+
+  <view class="action-section">
+    <button class="convert-btn" bindtap="handleConvert" disabled="{{!selectedFile || loading}}">
+      {{loading ? '转换中...' : '开始转换'}}
+    </button>
+  </view>
+</view>

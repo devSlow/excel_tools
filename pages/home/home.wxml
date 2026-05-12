@@ -1,78 +1,143 @@
 <view class="container">
   <view class="hero-section">
-    <view class="hero-title">开箱即用</view>
-    <view class="hero-subtitle">让文档处理更简单高效</view>
+    <view class="hero-content">
+      <view class="hero-title">开箱即用</view>
+      <view class="hero-subtitle">让文档处理更简单高效</view>
+    </view>
+    <view class="hero-badge">
+      <text class="badge-text">Beta</text>
+    </view>
     <view class="hero-wave"></view>
   </view>
 
   <view class="tools-section">
     <view class="tools-grid">
-      <view class="tool-card" bindtap="goToService" data-type="text">
+      <view class="tool-card {{currentTab === 'doc' ? 'active' : ''}}" bindtap="switchTab" data-tab="doc">
         <view class="tool-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-          <text class="icon-font">Txt</text>
+          <text class="icon-text">D</text>
         </view>
-        <view class="tool-name">文本转Excel</view>
-        <view class="tool-desc">智能解析文本数据</view>
+        <view class="tool-name">文档处理</view>
+        <view class="tool-count">2个功能</view>
       </view>
 
-      <view class="tool-card" bindtap="goToService" data-type="pdf">
+      <view class="tool-card {{currentTab === 'pdf' ? 'active' : ''}}" bindtap="switchTab" data-tab="pdf">
         <view class="tool-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-          <text class="icon-font">文</text>
+          <text class="icon-text">P</text>
         </view>
-        <view class="tool-name">文档解析</view>
-        <view class="tool-desc">多格式文档提取</view>
+        <view class="tool-name">PDF工具</view>
+        <view class="tool-count">4个功能</view>
       </view>
 
-      <view class="tool-card" bindtap="goToService" data-type="batch">
-        <view class="tool-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
-          <text class="icon-font">批</text>
-        </view>
-        <view class="tool-name">批量转换</view>
-        <view class="tool-desc">批量文档处理</view>
-      </view>
-    </view>
-  </view>
-
-  <view class="bottom-section">
-    <view class="features-card">
-      <view class="section-label">核心能力</view>
-      <view class="features-grid">
-        <view class="feature-item">
-          <view class="feature-icon" style="background: rgba(102, 126, 234, 0.1);">
-            <text style="color: #667eea;">O</text>
-          </view>
-          <text class="feature-name">OCR识别</text>
-        </view>
-        <view class="feature-item">
-          <view class="feature-icon" style="background: rgba(245, 87, 108, 0.1);">
-            <text style="color: #f5576c;">T</text>
-          </view>
-          <text class="feature-name">表格还原</text>
-        </view>
-        <view class="feature-item">
-          <view class="feature-icon" style="background: rgba(79, 172, 254, 0.1);">
-            <text style="color: #4facfe;">M</text>
-          </view>
-          <text class="feature-name">多格式输出</text>
-        </view>
-        <view class="feature-item">
-          <view class="feature-icon" style="background: rgba(67, 233, 123, 0.1);">
-            <text style="color: #43e97b;">快</text>
-          </view>
-          <text class="feature-name">极速处理</text>
-        </view>
-      </view>
     </view>
 
-    <view class="formats-card">
-      <view class="section-label">支持的格式</view>
-      <view class="formats-tags">
-        <text class="format-tag">PDF</text>
-        <text class="format-tag">Word</text>
-        <text class="format-tag">Excel</text>
-        <text class="format-tag">图片</text>
-        <text class="format-tag">PPT</text>
-        <text class="format-tag">TXT</text>
+    <view class="tools-content">
+      <view class="tab-content {{currentTab === 'doc' ? 'show' : ''}}" wx:if="{{currentTab === 'doc'}}">
+        <view class="sub-title">
+          <text>文档处理</text>
+        </view>
+        <view class="sub-grid">
+          <view class="sub-card" bindtap="goToService" data-type="text">
+            <view class="sub-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+              <text class="sub-icon-text">T</text>
+            </view>
+            <view class="sub-info">
+              <view class="sub-name">文本转Excel</view>
+              <view class="sub-desc">智能解析文本数据</view>
+            </view>
+            <view class="sub-arrow">›</view>
+          </view>
+
+          <view class="sub-card" bindtap="goToService" data-type="doc-convert">
+            <view class="sub-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+              <text class="sub-icon-text">C</text>
+            </view>
+            <view class="sub-info">
+              <view class="sub-name">文档转换</view>
+              <view class="sub-desc">PDF/Word/Excel互转</view>
+            </view>
+            <view class="sub-arrow">›</view>
+          </view>
+        </view>
+      </view>
+
+      <view class="tab-content {{currentTab === 'pdf' ? 'show' : ''}}" wx:if="{{currentTab === 'pdf'}}">
+        <view class="sub-title">
+          <text>PDF工具</text>
+        </view>
+        <view class="sub-grid">
+          <view class="sub-card" bindtap="goToService" data-type="pdf-merge">
+            <view class="sub-icon" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
+              <text class="sub-icon-text">M</text>
+            </view>
+            <view class="sub-info">
+              <view class="sub-name">PDF合并</view>
+              <view class="sub-desc">多个PDF合并一个</view>
+            </view>
+            <view class="sub-arrow">›</view>
+          </view>
+
+          <view class="sub-card" bindtap="goToService" data-type="pdf-split">
+            <view class="sub-icon" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+              <text class="sub-icon-text">S</text>
+            </view>
+            <view class="sub-info">
+              <view class="sub-name">PDF拆分</view>
+              <view class="sub-desc">拆分PDF页面</view>
+            </view>
+            <view class="sub-arrow">›</view>
+          </view>
+
+          <view class="sub-card" bindtap="goToService" data-type="pdf-encrypt">
+            <view class="sub-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+              <text class="sub-icon-text">L</text>
+            </view>
+            <view class="sub-info">
+              <view class="sub-name">PDF加密</view>
+              <view class="sub-desc">保护PDF文件</view>
+            </view>
+            <view class="sub-arrow">›</view>
+          </view>
+
+          <view class="sub-card" bindtap="goToService" data-type="pdf-watermark">
+            <view class="sub-icon" style="background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);">
+              <text class="sub-icon-text">W</text>
+            </view>
+            <view class="sub-info">
+              <view class="sub-name">添加水印</view>
+              <view class="sub-desc">添加文字/图片水印</view>
+            </view>
+            <view class="sub-arrow">›</view>
+          </view>
+        </view>
+      </view>
+
+      <view class="tab-content {{currentTab === 'web' ? 'show' : ''}}" wx:if="{{currentTab === 'web'}}">
+        <view class="sub-title">
+          <text>网页工具</text>
+        </view>
+        <view class="sub-grid">
+          <view class="sub-card" bindtap="goToService" data-type="web-pdf">
+            <view class="sub-icon" style="background: linear-gradient(135deg, #f5af19 0%, #f12711 100%);">
+              <text class="sub-icon-text">P</text>
+            </view>
+            <view class="sub-info">
+              <view class="sub-name">网页转PDF</view>
+              <view class="sub-desc">网址转换为PDF</view>
+            </view>
+            <view class="sub-arrow">›</view>
+          </view>
+
+          <view class="sub-card" bindtap="goToService" data-type="web-screenshot">
+            <view class="sub-icon" style="background: linear-gradient(135deg, #96fbc4 0%, #f9f586 100%);">
+              <text class="sub-icon-text">S</text>
+            </view>
+            <view class="sub-info">
+              <view class="sub-name">网页截图</view>
+              <view class="sub-desc">网页截图保存</view>
+            </view>
+            <view class="sub-arrow">›</view>
+          </view>
+        </view>
       </view>
     </view>
   </view>

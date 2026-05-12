@@ -1,5 +1,5 @@
-// const baseUrl = 'http://localhost:8080/api'; //本地测试
-// const baseUrl = 'https://devslow.ccwu.cc/api';
+// const baseUrl = 'http://172.18.132.40:9090/api' //本地测试
+const baseUrl = 'https://devslow.ccwu.cc/api';
 const verifyBaseUrl = 'https://paper.devslow.ccwu.cc/api/auth';
 
 const request = (options) => {
@@ -212,33 +212,36 @@ const verify = {
   })
 };
 
-const docling = {
-  formats: () => request({
-    url: '/docling/formats',
+const gotenberg = {
+  health: () => request({
+    url: '/gotenberg/health',
     method: 'GET'
   }),
-  convert: (filePath, options = {}) => {
+  version: () => request({
+    url: '/gotenberg/version',
+    method: 'GET'
+  }),
+  convertDocument: (filePath, targetFormat, password = '') => {
     return new Promise((resolve, reject) => {
       const token = wx.getStorageSync('token');
+      const formData = { targetFormat };
+      if (password) {
+        formData.password = password;
+      }
       wx.uploadFile({
-        url: baseUrl + '/docling/convert',
+        url: baseUrl + '/gotenberg/convert/document',
         filePath: filePath,
         name: 'file',
         header: {
           'Authorization': token ? `Bearer ${token}` : ''
         },
-        formData: {
-          output_formats: options.outputFormats || 'markdown',
-          enable_ocr: options.enableOcr !== false,
-          ocr_engine: options.ocrEngine || 'easyocr',
-          ocr_langs: options.ocrLangs || 'en,zh',
-          enable_table_structure: options.enableTableStructure !== false
-        },
+        formData: formData,
+        responseType: 'arraybuffer',
         success: (res) => {
-          const data = JSON.parse(res.data);
-          if (data.code === 0) {
-            resolve(data.data);
+          if (res.statusCode === 200) {
+            resolve(res.data);
           } else {
+            const data = JSON.parse(res.data);
             wx.showToast({ title: data.msg || '转换失败', icon: 'none' });
             reject(data);
           }
@@ -247,26 +250,25 @@ const docling = {
       });
     });
   },
-  convertJson: (filePath, options = {}) => {
+  convertPdfToOffice: (filePath, targetFormat = 'docx') => {
     return new Promise((resolve, reject) => {
       const token = wx.getStorageSync('token');
       wx.uploadFile({
-        url: baseUrl + '/docling/convert/json',
+        url: baseUrl + '/gotenberg/convert/pdf-to-office',
         filePath: filePath,
         name: 'file',
         header: {
           'Authorization': token ? `Bearer ${token}` : ''
         },
         formData: {
-          enable_ocr: options.enableOcr !== false,
-          ocr_engine: options.ocrEngine || 'easyocr',
-          enable_table_structure: options.enableTableStructure !== false
+          targetFormat
         },
+        responseType: 'arraybuffer',
         success: (res) => {
-          const data = JSON.parse(res.data);
-          if (data.code === 0) {
-            resolve(data.data);
+          if (res.statusCode === 200) {
+            resolve(res.data);
           } else {
+            const data = JSON.parse(res.data);
             wx.showToast({ title: data.msg || '转换失败', icon: 'none' });
             reject(data);
           }
@@ -275,31 +277,263 @@ const docling = {
       });
     });
   },
-  convertMarkdown: (filePath, options = {}) => {
+  convertOfficeToPdf: (filePath, password = '') => {
     return new Promise((resolve, reject) => {
       const token = wx.getStorageSync('token');
+      const formData = {};
+      if (password) {
+        formData.password = password;
+      }
       wx.uploadFile({
-        url: baseUrl + '/docling/convert/markdown',
+        url: baseUrl + '/gotenberg/convert/office-to-pdf',
         filePath: filePath,
         name: 'file',
         header: {
           'Authorization': token ? `Bearer ${token}` : ''
         },
-        formData: {
-          enable_ocr: options.enableOcr !== false,
-          ocr_engine: options.ocrEngine || 'easyocr'
-        },
+        formData: formData,
+        responseType: 'arraybuffer',
         success: (res) => {
-          const data = JSON.parse(res.data);
-          if (data.code === 0) {
-            resolve(data.data);
+          if (res.statusCode === 200) {
+            resolve(res.data);
           } else {
+            const data = JSON.parse(res.data);
             wx.showToast({ title: data.msg || '转换失败', icon: 'none' });
             reject(data);
           }
         },
         fail: reject
       });
+    });
+  },
+  mergePdfs: (filePaths) => {
+    return new Promise((resolve, reject) => {
+      const token = wx.getStorageSync('token');
+      const uploadTasks = filePaths.map((filePath, index) => {
+        return wx.uploadFile({
+          url: baseUrl + '/gotenberg/pdf/merge',
+          filePath: filePath,
+          name: 'files',
+          header: {
+            'Authorization': token ? `Bearer ${token}` : ''
+          }
+        });
+      });
+      Promise.all(uploadTasks).then(() => {
+        resolve();
+      }).catch(reject);
+    });
+  },
+  splitPdf: (filePath, splitMode, splitSpan, splitUnify = false) => {
+    return new Promise((resolve, reject) => {
+      const token = wx.getStorageSync('token');
+      wx.uploadFile({
+        url: baseUrl + '/gotenberg/pdf/split',
+        filePath: filePath,
+        name: 'file',
+        header: {
+          'Authorization': token ? `Bearer ${token}` : ''
+        },
+        formData: {
+          splitMode,
+          splitSpan,
+          splitUnify: String(splitUnify)
+        },
+        success: (res) => {
+          if (res.statusCode === 200) {
+            resolve(res.data);
+          } else {
+            const data = JSON.parse(res.data);
+            wx.showToast({ title: data.msg || '拆分失败', icon: 'none' });
+            reject(data);
+          }
+        },
+        fail: reject
+      });
+    });
+  },
+  rotatePdf: (filePath, angle, pages = '') => {
+    return new Promise((resolve, reject) => {
+      const token = wx.getStorageSync('token');
+      wx.uploadFile({
+        url: baseUrl + '/gotenberg/pdf/rotate',
+        filePath: filePath,
+        name: 'file',
+        header: {
+          'Authorization': token ? `Bearer ${token}` : ''
+        },
+        formData: {
+          angle: String(angle),
+          pages
+        },
+        success: (res) => {
+          if (res.statusCode === 200) {
+            resolve(res.data);
+          } else {
+            const data = JSON.parse(res.data);
+            wx.showToast({ title: data.msg || '旋转失败', icon: 'none' });
+            reject(data);
+          }
+        },
+        fail: reject
+      });
+    });
+  },
+  encryptPdf: (filePath, userPassword, ownerPassword = '') => {
+    return new Promise((resolve, reject) => {
+      const token = wx.getStorageSync('token');
+      wx.uploadFile({
+        url: baseUrl + '/gotenberg/pdf/encrypt',
+        filePath: filePath,
+        name: 'file',
+        header: {
+          'Authorization': token ? `Bearer ${token}` : ''
+        },
+        formData: {
+          userPassword,
+          ownerPassword
+        },
+        success: (res) => {
+          if (res.statusCode === 200) {
+            resolve(res.data);
+          } else {
+            const data = JSON.parse(res.data);
+            wx.showToast({ title: data.msg || '加密失败', icon: 'none' });
+            reject(data);
+          }
+        },
+        fail: reject
+      });
+    });
+  },
+  addWatermark: (filePath, source, expression, pages = '') => {
+    return new Promise((resolve, reject) => {
+      const token = wx.getStorageSync('token');
+      wx.uploadFile({
+        url: baseUrl + '/gotenberg/pdf/watermark',
+        filePath: filePath,
+        name: 'file',
+        header: {
+          'Authorization': token ? `Bearer ${token}` : ''
+        },
+        formData: {
+          source,
+          expression: expression || '',
+          pages
+        },
+        success: (res) => {
+          if (res.statusCode === 200) {
+            resolve(res.data);
+          } else {
+            const data = JSON.parse(res.data);
+            wx.showToast({ title: data.msg || '添加水印失败', icon: 'none' });
+            reject(data);
+          }
+        },
+        fail: reject
+      });
+    });
+  },
+  convertToPdf: (sourceType, url = '', htmlFile = null, extraFiles = null) => {
+    return new Promise((resolve, reject) => {
+      const token = wx.getStorageSync('token');
+      if (sourceType === 'url') {
+        wx.request({
+          url: baseUrl + '/gotenberg/convert/to-pdf',
+          method: 'POST',
+          header: {
+            'Authorization': token ? `Bearer ${token}` : ''
+          },
+          data: {
+            sourceType,
+            url
+          },
+          success: (res) => {
+            if (res.statusCode === 200) {
+              resolve(res.data);
+            } else {
+              const data = res.data;
+              wx.showToast({ title: data.msg || '转换失败', icon: 'none' });
+              reject(data);
+            }
+          },
+          fail: reject
+        });
+      } else if (htmlFile) {
+        wx.uploadFile({
+          url: baseUrl + '/gotenberg/convert/to-pdf',
+          filePath: htmlFile,
+          name: 'htmlFile',
+          header: {
+            'Authorization': token ? `Bearer ${token}` : ''
+          },
+          formData: {
+            sourceType
+          },
+          success: (res) => {
+            if (res.statusCode === 200) {
+              resolve(res.data);
+            } else {
+              const data = JSON.parse(res.data);
+              wx.showToast({ title: data.msg || '转换失败', icon: 'none' });
+              reject(data);
+            }
+          },
+          fail: reject
+        });
+      }
+    });
+  },
+  screenshot: (sourceType, url = '', htmlFile = null, format = 'png') => {
+    return new Promise((resolve, reject) => {
+      const token = wx.getStorageSync('token');
+      if (sourceType === 'url') {
+        wx.request({
+          url: baseUrl + '/gotenberg/screenshot',
+          method: 'POST',
+          header: {
+            'Authorization': token ? `Bearer ${token}` : ''
+          },
+          data: {
+            sourceType,
+            url,
+            format
+          },
+          success: (res) => {
+            if (res.statusCode === 200) {
+              resolve(res.data);
+            } else {
+              const data = res.data;
+              wx.showToast({ title: data.msg || '截图失败', icon: 'none' });
+              reject(data);
+            }
+          },
+          fail: reject
+        });
+      } else if (htmlFile) {
+        wx.uploadFile({
+          url: baseUrl + '/gotenberg/screenshot',
+          filePath: htmlFile,
+          name: 'htmlFile',
+          header: {
+            'Authorization': token ? `Bearer ${token}` : ''
+          },
+          formData: {
+            sourceType,
+            format
+          },
+          success: (res) => {
+            if (res.statusCode === 200) {
+              resolve(res.data);
+            } else {
+              const data = JSON.parse(res.data);
+              wx.showToast({ title: data.msg || '截图失败', icon: 'none' });
+              reject(data);
+            }
+          },
+          fail: reject
+        });
+      }
     });
   }
 };
@@ -313,6 +547,6 @@ module.exports = {
   notice,
   config,
   verify,
-  docling,
+  gotenberg,
   baseUrl
 };

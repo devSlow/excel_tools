@@ -1,0 +1,82 @@
+<view class="container">
+  <view class="header-section">
+    <view class="header-icon" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);">
+      <text class="header-icon-text">旋</text>
+    </view>
+    <view class="header-info">
+      <view class="header-title">PDF旋转</view>
+      <view class="header-desc">旋转PDF页面角度</view>
+    </view>
+  </view>
+
+  <view class="notice-card" bindtap="toggleNotice">
+    <view class="notice-icon">!</view>
+    <text class="notice-text">使用说明</text>
+    <text class="notice-hint">点击查看</text>
+  </view>
+
+  <view class="modal-mask {{noticeVisible ? 'modal-show' : ''}}" bindtap="closeNotice">
+    <view class="modal-content {{noticeVisible ? 'modal-slide-in' : 'modal-slide-out'}}" catchtap="">
+      <view class="modal-header">
+        <text class="modal-title">PDF旋转 使用说明</text>
+        <view class="modal-close" catchtap="closeNotice">
+          <icon type="clear" size="14" color="#999999" />
+        </view>
+      </view>
+      <scroll-view class="modal-body" scroll-y="true">
+        <view class="notice-section">
+          <view class="notice-label">功能说明</view>
+          <text class="notice-content">将PDF页面按顺时针旋转90°、180°或270°</text>
+        </view>
+        <view class="notice-section">
+          <view class="notice-label">操作步骤</view>
+          <text class="notice-content">1. 选择要旋转的PDF文件</text>
+          <text class="notice-content">2. 选择旋转角度</text>
+          <text class="notice-content">3. 可选择旋转特定页面或全部页面</text>
+          <text class="notice-content">4. 点击"开始旋转"按钮</text>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+  <view class="upload-section">
+    <view class="upload-area {{selectedFile ? 'has-file' : ''}}" bindtap="chooseFile">
+      <view class="upload-icon" wx:if="{{!selectedFile}}">
+        <text class="upload-icon-text">+</text>
+      </view>
+      <view class="upload-hint" wx:if="{{!selectedFile}}">点击选择PDF文件</view>
+      <view class="upload-hint" wx:else>{{selectedFile}}</view>
+      <view class="upload-clear" catchtap="clearFile" wx:if="{{selectedFile}}">清除</view>
+    </view>
+  </view>
+
+  <view class="config-section">
+    <view class="config-title">旋转角度</view>
+    <view class="angle-options">
+      <view class="angle-item {{angle === 90 ? 'active' : ''}}" bindtap="selectAngle" data-angle="90">
+        <text class="angle-text">90°</text>
+        <text class="angle-desc">顺时针</text>
+      </view>
+      <view class="angle-item {{angle === 180 ? 'active' : ''}}" bindtap="selectAngle" data-angle="180">
+        <text class="angle-text">180°</text>
+        <text class="angle-desc">倒置</text>
+      </view>
+      <view class="angle-item {{angle === 270 ? 'active' : ''}}" bindtap="selectAngle" data-angle="270">
+        <text class="angle-text">270°</text>
+        <text class="angle-desc">逆时针</text>
+      </view>
+    </view>
+
+    <view class="config-item">
+      <view class="config-label">页码范围（可选）</view>
+      <input class="config-input" placeholder="如: 1-3,5,7-10" value="{{pages}}" bindinput="onPagesInput" />
+    </view>
+    <view class="config-hint">留空表示旋转所有页面</view>
+  </view>
+
+  <view class="action-section">
+    <button class="convert-btn" bindtap="handleRotate" disabled="{{!selectedFile || loading}}">
+      {{loading ? '旋转中...' : '开始旋转'}}
+    </button>
+  </view>
+</view>

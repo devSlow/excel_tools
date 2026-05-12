@@ -1,0 +1,85 @@
+<view class="container">
+  <view class="header-section">
+    <view class="header-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+      <text class="header-icon-text">D</text>
+    </view>
+    <view class="header-info">
+      <view class="header-title">文档格式转换</view>
+      <view class="header-desc">PDF、Word、Excel、PPT 互转</view>
+    </view>
+  </view>
+
+  <view class="notice-card" bindtap="toggleNotice">
+    <view class="notice-icon">!</view>
+    <text class="notice-text">使用说明</text>
+    <text class="notice-hint">点击查看</text>
+  </view>
+
+  <view class="modal-mask {{noticeVisible ? 'modal-show' : ''}}" bindtap="closeNotice">
+    <view class="modal-content {{noticeVisible ? 'modal-slide-in' : 'modal-slide-out'}}" catchtap="">
+      <view class="modal-header">
+        <text class="modal-title">文档转换 使用说明</text>
+        <view class="modal-close" catchtap="closeNotice">
+          <icon type="clear" size="14" color="#999999" />
+        </view>
+      </view>
+      <scroll-view class="modal-body" scroll-y="true">
+        <view class="notice-section">
+          <view class="notice-label">支持转换</view>
+          <text class="notice-content">• Word/Excel/PPT → PDF</text>
+          <text class="notice-content">• PDF → Word/Excel/PPT</text>
+        </view>
+        <view class="notice-section">
+          <view class="notice-label">支持格式</view>
+          <text class="notice-content">Word: .doc, .docx</text>
+          <text class="notice-content">Excel: .xls, .xlsx</text>
+          <text class="notice-content">PPT: .ppt, .pptx</text>
+          <text class="notice-content">PDF: .pdf</text>
+        </view>
+        <view class="notice-section">
+          <view class="notice-label">操作步骤</view>
+          <text class="notice-content">1. 选择要转换的文件</text>
+          <text class="notice-content">2. 选择目标格式</text>
+          <text class="notice-content">3. 点击"开始转换"</text>
+          <text class="notice-content">4. 转换完成后自动打开文件</text>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+  <view class="upload-section">
+    <view class="upload-area {{selectedFile ? 'has-file' : ''}}" bindtap="chooseFile">
+      <view class="upload-icon" wx:if="{{!selectedFile}}">
+        <text class="upload-icon-text">+</text>
+      </view>
+      <view class="upload-hint" wx:if="{{!selectedFile}}">点击选择文件</view>
+      <view class="file-info" wx:else>
+        <view class="file-name">{{selectedFile}}</view>
+        <view class="file-type">{{detectedType}}</view>
+      </view>
+      <view class="upload-clear" catchtap="clearFile" wx:if="{{selectedFile}}">清除</view>
+    </view>
+  </view>
+
+  <view class="format-section" wx:if="{{selectedFile}}">
+    <view class="section-title">选择目标格式</view>
+    <view class="format-grid">
+      <view class="format-item {{targetFormat === item.value ? 'active' : ''}}" 
+            wx:for="{{availableFormats}}" 
+            wx:key="value"
+            bindtap="selectFormat" 
+            data-format="{{item.value}}">
+        <view class="format-icon">{{item.icon}}</view>
+        <view class="format-name">{{item.name}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="action-section">
+    <button class="convert-btn {{!selectedFile || !targetFormat ? 'disabled' : ''}}" 
+            bindtap="handleConvert" 
+            disabled="{{!selectedFile || !targetFormat || loading}}">
+      {{loading ? '转换中...' : '开始转换'}}
+    </button>
+  </view>
+</view>

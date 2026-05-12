@@ -1,0 +1,101 @@
+<view class="container">
+  <view class="header-section">
+    <view class="header-icon" style="background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);">
+      <text class="header-icon-text">水</text>
+    </view>
+    <view class="header-info">
+      <view class="header-title">添加水印</view>
+      <view class="header-desc">为PDF添加文字或图片水印</view>
+    </view>
+  </view>
+
+  <view class="notice-card" bindtap="toggleNotice">
+    <view class="notice-icon">!</view>
+    <text class="notice-text">使用说明</text>
+    <text class="notice-hint">点击查看</text>
+  </view>
+
+  <view class="modal-mask {{noticeVisible ? 'modal-show' : ''}}" bindtap="closeNotice">
+    <view class="modal-content {{noticeVisible ? 'modal-slide-in' : 'modal-slide-out'}}" catchtap="">
+      <view class="modal-header">
+        <text class="modal-title">添加水印 使用说明</text>
+        <view class="modal-close" catchtap="closeNotice">
+          <icon type="clear" size="14" color="#999999" />
+        </view>
+      </view>
+      <scroll-view class="modal-body" scroll-y="true">
+        <view class="notice-section">
+          <view class="notice-label">功能说明</view>
+          <text class="notice-content">为PDF文件添加文字或图片水印，用于文档保护</text>
+        </view>
+        <view class="notice-section">
+          <view class="notice-label">水印类型</view>
+          <text class="notice-content">• 文字水印：添加文字内容作为水印</text>
+          <text class="notice-content">• 图片水印：上传图片作为水印</text>
+        </view>
+        <view class="notice-section">
+          <view class="notice-label">操作步骤</view>
+          <text class="notice-content">1. 选择要添加水印的PDF文件</text>
+          <text class="notice-content">2. 选择水印类型</text>
+          <text class="notice-content">3. 输入水印内容或上传图片</text>
+          <text class="notice-content">4. 设置页码范围（可选）</text>
+          <text class="notice-content">5. 点击"添加水印"按钮</text>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+  <view class="upload-section">
+    <view class="upload-area {{selectedFile ? 'has-file' : ''}}" bindtap="chooseFile">
+      <view class="upload-icon" wx:if="{{!selectedFile}}">
+        <text class="upload-icon-text">+</text>
+      </view>
+      <view class="upload-hint" wx:if="{{!selectedFile}}">点击选择PDF文件</view>
+      <view class="upload-hint" wx:else>{{selectedFile}}</view>
+      <view class="upload-clear" catchtap="clearFile" wx:if="{{selectedFile}}">清除</view>
+    </view>
+  </view>
+
+  <view class="config-section">
+    <view class="config-title">水印类型</view>
+    <view class="type-options">
+      <view class="type-item {{watermarkType === 'text' ? 'active' : ''}}" bindtap="selectType" data-type="text">
+        <text class="type-name">文字</text>
+      </view>
+      <view class="type-item {{watermarkType === 'image' ? 'active' : ''}}" bindtap="selectType" data-type="image">
+        <text class="type-name">图片</text>
+      </view>
+    </view>
+
+    <view class="config-item" wx:if="{{watermarkType === 'text'}}">
+      <view class="config-label">水印文字</view>
+      <input class="config-input" placeholder="请输入水印文字" value="{{watermarkText}}" bindinput="onTextInput" />
+    </view>
+
+    <view class="config-item" wx:if="{{watermarkType === 'image'}}">
+      <view class="config-label">上传图片</view>
+      <view class="image-upload" bindtap="chooseImage" wx:if="{{!watermarkImage}}">
+        <text class="image-upload-icon">+</text>
+        <text class="image-upload-text">点击上传图片</text>
+      </view>
+      <view class="image-preview" wx:else>
+        <image class="preview-img" src="{{watermarkImage}}" mode="aspectFit"></image>
+        <view class="preview-remove" catchtap="clearImage">
+          <icon type="clear" size="16" color="#fff" />
+        </view>
+      </view>
+    </view>
+
+    <view class="config-item">
+      <view class="config-label">页码范围（可选）</view>
+      <input class="config-input" placeholder="如: 1-3,5,7-10" value="{{pages}}" bindinput="onPagesInput" />
+    </view>
+    <view class="config-hint">留空表示添加水印到所有页面</view>
+  </view>
+
+  <view class="action-section">
+    <button class="convert-btn" bindtap="handleWatermark" disabled="{{!selectedFile || loading || (watermarkType === 'text' && !watermarkText) || (watermarkType === 'image' && !watermarkImagePath)}}">
+      {{loading ? '处理中...' : '添加水印'}}
+    </button>
+  </view>
+</view>

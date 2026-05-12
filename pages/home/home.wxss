@@ -1,36 +1,52 @@
 page {
-  background: #f5f7fa;
-  height: 100vh;
-  overflow: hidden;
+  background: linear-gradient(180deg, #f0f2f8 0%, #f5f7fa 100%);
+  min-height: 100vh;
 }
 
 .container {
-  height: 100vh;
+  min-height: 100vh;
   padding: 0 32rpx;
   box-sizing: border-box;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
 }
 
 .hero-section {
   position: relative;
   margin: 0 -32rpx;
-  padding: 60rpx 32rpx 90rpx;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  padding: 48rpx 32rpx 60rpx;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.hero-content {
+  flex: 1;
 }
 
 .hero-title {
-  font-size: 52rpx;
+  font-size: 48rpx;
   font-weight: 700;
   color: #fff;
   letter-spacing: 2rpx;
-  text-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.2);
 }
 
 .hero-subtitle {
-  font-size: 28rpx;
-  color: rgba(255, 255, 255, 0.8);
-  margin-top: 12rpx;
+  font-size: 26rpx;
+  color: rgba(255, 255, 255, 0.85);
+  margin-top: 8rpx;
+}
+
+.hero-badge {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 6rpx 16rpx;
+  border-radius: 20rpx;
+  margin-top: 8rpx;
+}
+
+.badge-text {
+  font-size: 22rpx;
+  color: #fff;
+  font-weight: 500;
 }
 
 .hero-wave {
@@ -38,74 +54,165 @@ page {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 40rpx;
+  height: 32rpx;
   background: #f5f7fa;
   border-radius: 50% 50% 0 0;
 }
 
 .tools-section {
-  margin-top: -24rpx;
+  margin-top: -16rpx;
   position: relative;
   z-index: 2;
+  padding-bottom: 24rpx;
 }
 
 .tools-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24rpx;
+  display: flex;
+  justify-content: center;
+  gap: 20rpx;
+  margin-bottom: 32rpx;
 }
 
 .tool-card {
+  width: 300rpx;
   background: #fff;
-  border-radius: 24rpx;
-  padding: 32rpx 24rpx;
+  border-radius: 20rpx;
+  padding: 28rpx 20rpx;
   text-align: center;
-  box-shadow: 0 4rpx 24rpx rgba(0, 0, 0, 0.08);
-  transition: all 0.2s ease;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.06);
+  transition: all 0.25s ease;
+  border: 3rpx solid transparent;
 }
 
-.tool-card:active {
-  transform: scale(0.96);
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.1);
+.tool-card.active {
+  border-color: #667eea;
+  box-shadow: 0 4rpx 24rpx rgba(102, 126, 234, 0.2);
 }
 
 .tool-icon {
-  width: 100rpx;
-  height: 100rpx;
-  border-radius: 24rpx;
-  margin: 0 auto 20rpx;
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 20rpx;
+  margin: 0 auto 16rpx;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.icon-font {
+.icon-text {
   font-size: 32rpx;
   font-weight: 700;
   color: #fff;
 }
 
 .tool-name {
-  font-size: 30rpx;
+  font-size: 28rpx;
   font-weight: 600;
   color: #333;
-  margin-bottom: 8rpx;
+  margin-bottom: 6rpx;
 }
 
-.tool-desc {
+.tool-count {
+  font-size: 22rpx;
+  color: #999;
+}
+
+.tools-content {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 28rpx;
+  box-shadow: 0 4rpx 24rpx rgba(0, 0, 0, 0.06);
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.show {
+  display: block;
+}
+
+.sub-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20rpx;
+  padding-left: 8rpx;
+  border-left: 4rpx solid #667eea;
+}
+
+.sub-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.sub-card {
+  display: flex;
+  align-items: center;
+  background: #f8f9fc;
+  border-radius: 16rpx;
+  padding: 20rpx 24rpx;
+  transition: all 0.2s ease;
+}
+
+.sub-card:active {
+  background: #f0f2f8;
+  transform: scale(0.98);
+}
+
+.sub-icon {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 18rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20rpx;
+  flex-shrink: 0;
+}
+
+.sub-icon-text {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #fff;
+}
+
+.sub-info {
+  flex: 1;
+}
+
+.sub-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4rpx;
+}
+
+.sub-desc {
   font-size: 24rpx;
   color: #999;
 }
 
-.bottom-section {
-  margin-top: 32rpx;
+.sub-arrow {
+  font-size: 36rpx;
+  color: #ccc;
+  font-weight: 300;
 }
 
-.features-card {
+.bottom-section {
+  padding-bottom: 40rpx;
+}
+
+.capabilities-card {
   background: #fff;
   border-radius: 24rpx;
-  padding: 32rpx;
+  padding: 28rpx;
+  margin-bottom: 20rpx;
   box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+}
+
+.capabilities-header {
   margin-bottom: 20rpx;
 }
 
@@ -113,37 +220,38 @@ page {
   font-size: 28rpx;
   font-weight: 600;
   color: #333;
-  margin-bottom: 24rpx;
+  padding-left: 8rpx;
+  border-left: 4rpx solid #667eea;
 }
 
-.features-grid {
+.capabilities-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20rpx;
+  gap: 16rpx;
 }
 
-.feature-item {
+.capability-item {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.feature-icon {
-  width: 80rpx;
-  height: 80rpx;
+.capability-icon {
+  width: 72rpx;
+  height: 72rpx;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 12rpx;
+  margin-bottom: 10rpx;
 }
 
-.feature-icon text {
-  font-size: 28rpx;
+.capability-icon text {
+  font-size: 26rpx;
   font-weight: 700;
 }
 
-.feature-name {
+.capability-name {
   font-size: 22rpx;
   color: #666;
 }
@@ -153,19 +261,19 @@ page {
   border-radius: 24rpx;
   padding: 24rpx 28rpx;
   box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
-  margin-bottom: 32rpx;
 }
 
-.formats-tags {
+.formats-row {
   display: flex;
   flex-wrap: wrap;
   gap: 12rpx;
+  margin-top: 16rpx;
 }
 
 .format-tag {
   padding: 10rpx 20rpx;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf0 100%);
-  border-radius: 24rpx;
+  background: linear-gradient(135deg, #f0f2f8 0%, #e8ecf4 100%);
+  border-radius: 20rpx;
   font-size: 24rpx;
   color: #666;
 }

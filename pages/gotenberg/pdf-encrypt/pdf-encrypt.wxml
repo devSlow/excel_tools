@@ -1,0 +1,75 @@
+<view class="container">
+  <view class="header-section">
+    <view class="header-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+      <text class="header-icon-text">锁</text>
+    </view>
+    <view class="header-info">
+      <view class="header-title">PDF加密</view>
+      <view class="header-desc">为PDF文件添加密码保护</view>
+    </view>
+  </view>
+
+  <view class="notice-card" bindtap="toggleNotice">
+    <view class="notice-icon">!</view>
+    <text class="notice-text">使用说明</text>
+    <text class="notice-hint">点击查看</text>
+  </view>
+
+  <view class="modal-mask {{noticeVisible ? 'modal-show' : ''}}" bindtap="closeNotice">
+    <view class="modal-content {{noticeVisible ? 'modal-slide-in' : 'modal-slide-out'}}" catchtap="">
+      <view class="modal-header">
+        <text class="modal-title">PDF加密 使用说明</text>
+        <view class="modal-close" catchtap="closeNotice">
+          <icon type="clear" size="14" color="#999999" />
+        </view>
+      </view>
+      <scroll-view class="modal-body" scroll-y="true">
+        <view class="notice-section">
+          <view class="notice-label">功能说明</view>
+          <text class="notice-content">为PDF文件设置打开密码，保护您的文档安全</text>
+        </view>
+        <view class="notice-section">
+          <view class="notice-label">密码类型</view>
+          <text class="notice-content">• 用户密码：打开PDF时需要输入的密码</text>
+          <text class="notice-content">• 所有者密码：可设置文件权限的密码（可选）</text>
+        </view>
+        <view class="notice-section">
+          <view class="notice-label">操作步骤</view>
+          <text class="notice-content">1. 选择要加密的PDF文件</text>
+          <text class="notice-content">2. 输入用户密码（必填）</text>
+          <text class="notice-content">3. 输入所有者密码（可选）</text>
+          <text class="notice-content">4. 点击"开始加密"按钮</text>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+  <view class="upload-section">
+    <view class="upload-area {{selectedFile ? 'has-file' : ''}}" bindtap="chooseFile">
+      <view class="upload-icon" wx:if="{{!selectedFile}}">
+        <text class="upload-icon-text">+</text>
+      </view>
+      <view class="upload-hint" wx:if="{{!selectedFile}}">点击选择PDF文件</view>
+      <view class="upload-hint" wx:else>{{selectedFile}}</view>
+      <view class="upload-clear" catchtap="clearFile" wx:if="{{selectedFile}}">清除</view>
+    </view>
+  </view>
+
+  <view class="config-section">
+    <view class="config-title">加密设置</view>
+    <view class="config-item">
+      <view class="config-label required">用户密码</view>
+      <input class="config-input" placeholder="必填，打开文件需要此密码" password="{{true}}" value="{{userPassword}}" bindinput="onUserPasswordInput" />
+    </view>
+    <view class="config-item">
+      <view class="config-label">所有者密码</view>
+      <input class="config-input" placeholder="可选，用于设置权限" password="{{true}}" value="{{ownerPassword}}" bindinput="onOwnerPasswordInput" />
+    </view>
+  </view>
+
+  <view class="action-section">
+    <button class="convert-btn" bindtap="handleEncrypt" disabled="{{!selectedFile || !userPassword || loading}}">
+      {{loading ? '加密中...' : '开始加密'}}
+    </button>
+  </view>
+</view>

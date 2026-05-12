@@ -11,61 +11,7 @@
     </view>
   </view>
 
-  <view class="section-title">功能服务</view>
   
-  <view class="service-grid">
-    <view class="service-card" bindtap="goToService" data-type="text">
-      <view class="service-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-        <text class="icon-text">文</text>
-      </view>
-      <view class="service-info">
-        <view class="service-name">文本转Excel</view>
-        <view class="service-desc">文本智能解析生成表格</view>
-      </view>
-      <view class="service-arrow">
-        <text class="arrow-icon">></text>
-      </view>
-    </view>
-
-    <view class="service-card" bindtap="goToService" data-type="pdf">
-      <view class="service-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-        <text class="icon-text">P</text>
-      </view>
-      <view class="service-info">
-        <view class="service-name">PDF文档解析</view>
-        <view class="service-desc">PDF文档识别提取内容</view>
-      </view>
-      <view class="service-arrow">
-        <text class="arrow-icon">></text>
-      </view>
-    </view>
-
-    <view class="service-card" bindtap="goToService" data-type="markdown">
-      <view class="service-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
-        <text class="icon-text">M</text>
-      </view>
-      <view class="service-info">
-        <view class="service-name">文档转Markdown</view>
-        <view class="service-desc">文档转换为Markdown格式</view>
-      </view>
-      <view class="service-arrow">
-        <text class="arrow-icon">></text>
-      </view>
-    </view>
-
-    <view class="service-card" bindtap="goToService" data-type="batch">
-      <view class="service-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
-        <text class="icon-text">批</text>
-      </view>
-      <view class="service-info">
-        <view class="service-name">批量文档转换</view>
-        <view class="service-desc">批量处理多个文档</view>
-      </view>
-      <view class="service-arrow">
-        <text class="arrow-icon">></text>
-      </view>
-    </view>
-  </view>
 
   <view class="stats-card">
     <view class="stat-item">
@@ -172,7 +118,7 @@
       <view class="empty-content {{!isLoggedIn ? 'empty-content-masked' : ''}}">
         <image class="empty-icon" src="/images/empty-task.png" mode="aspectFit" />
         <view class="empty-text">暂无解析任务</view>
-        <view class="empty-hint">点击上方功能卡片开始使用</view>
+        <view class="empty-hint">创建任务开始使用</view>
       </view>
       <view class="empty-login-mask" wx:if="{{!isLoggedIn}}">
         <view class="mask-glass">

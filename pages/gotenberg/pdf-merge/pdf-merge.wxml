@@ -1,0 +1,72 @@
+<view class="container">
+  <view class="header-section">
+    <view class="header-icon" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
+      <text class="header-icon-text">合</text>
+    </view>
+    <view class="header-info">
+      <view class="header-title">PDF合并</view>
+      <view class="header-desc">将多个PDF文件合并为一个文件</view>
+    </view>
+  </view>
+
+  <view class="notice-card" bindtap="toggleNotice">
+    <view class="notice-icon">!</view>
+    <text class="notice-text">使用说明</text>
+    <text class="notice-hint">点击查看</text>
+  </view>
+
+  <view class="modal-mask {{noticeVisible ? 'modal-show' : ''}}" bindtap="closeNotice">
+    <view class="modal-content {{noticeVisible ? 'modal-slide-in' : 'modal-slide-out'}}" catchtap="">
+      <view class="modal-header">
+        <text class="modal-title">PDF合并 使用说明</text>
+        <view class="modal-close" catchtap="closeNotice">
+          <icon type="clear" size="14" color="#999999" />
+        </view>
+      </view>
+      <scroll-view class="modal-body" scroll-y="true">
+        <view class="notice-section">
+          <view class="notice-label">功能说明</view>
+          <text class="notice-content">将多个PDF文件合并成一个PDF文件，方便管理和阅读</text>
+        </view>
+        <view class="notice-section">
+          <view class="notice-label">操作步骤</view>
+          <text class="notice-content">1. 点击"添加PDF文件"按钮</text>
+          <text class="notice-content">2. 可以多次添加，最多支持10个文件</text>
+          <text class="notice-content">3. 可拖拽调整文件顺序</text>
+          <text class="notice-content">4. 点击"开始合并"按钮</text>
+          <text class="notice-content">5. 合并完成后自动打开文件</text>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+  <view class="files-section">
+    <view class="files-header">
+      <text class="files-title">已选择文件 ({{files.length}}/10)</text>
+      <view class="files-clear" bindtap="clearFiles" wx:if="{{files.length > 0}}">清空</view>
+    </view>
+
+    <view class="file-list">
+      <view class="file-item" wx:for="{{files}}" wx:key="index">
+        <view class="file-info">
+          <text class="file-index">{{index + 1}}</text>
+          <text class="file-name">{{item.name}}</text>
+        </view>
+        <view class="file-remove" catchtap="removeFile" data-index="{{index}}">
+          <icon type="clear" size="16" color="#999999" />
+        </view>
+      </view>
+
+      <view class="add-file-btn" bindtap="addFile" wx:if="{{files.length < 10}}">
+        <text class="add-file-icon">+</text>
+        <text class="add-file-text">添加PDF文件</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="action-section">
+    <button class="convert-btn" bindtap="handleMerge" disabled="{{files.length < 2 || loading}}">
+      {{loading ? '合并中...' : '开始合并'}}
+    </button>
+  </view>
+</view>
