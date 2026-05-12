@@ -32,14 +32,14 @@ Page({
       return;
     }
 
+    const remaining = 10 - this.data.files.length;
     wx.chooseMessageFile({
-      count: 1,
+      count: remaining,
       type: 'file',
       extension: ['pdf'],
       success: (res) => {
-        const file = res.tempFiles[0];
-        const newFiles = [...this.data.files, { path: file.path, name: file.name }];
-        this.setData({ files: newFiles });
+        const newFiles = res.tempFiles.map(file => ({ path: file.path, name: file.name }));
+        this.setData({ files: [...this.data.files, ...newFiles].slice(0, 10) });
       },
       fail: () => {
         wx.showToast({ title: '请选择PDF文件', icon: 'none' });
