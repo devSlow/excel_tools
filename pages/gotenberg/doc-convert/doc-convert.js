@@ -183,14 +183,14 @@ Page({
                   console.log('临时文件路径:', downloadRes.tempFilePath);
                   
                   if (downloadRes.statusCode === 200) {
-                    wx.saveFile({
+                      wx.saveFile({
                       tempFilePath: downloadRes.tempFilePath,
                       success: (saveRes) => {
-                        console.log('文件保存成功:', tempFilePath);
+                        console.log('文件保存成功:', saveRes.savedFilePath);
                         wx.showToast({ title: '转换成功', icon: 'success' });
                         setTimeout(() => {
                           wx.openDocument({
-                            filePath: tempFilePath,
+                            filePath: saveRes.savedFilePath,
                             fileType: this.getContentType(this.data.targetFormat),
                             showMenu: true,
                             success: () => {
