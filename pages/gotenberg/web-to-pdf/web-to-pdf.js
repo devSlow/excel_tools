@@ -71,6 +71,14 @@ Page({
             data: res.data,
             encoding: 'binary',
             success: () => {
+              const token = wx.getStorageSync('token');
+              if (token) {
+                api.task.create({
+                  title: `网页转PDF - ${this.data.url}`,
+                  type: 'web_to_pdf',
+                  params: JSON.stringify({ url: this.data.url })
+                }).catch(() => {});
+              }
               wx.showToast({ title: '转换成功', icon: 'success' });
               setTimeout(() => {
                 wx.openDocument({

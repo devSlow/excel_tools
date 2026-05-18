@@ -7,7 +7,6 @@ Page({
     selectedFilePath: '',
     splitMode: 'intervals',
     splitSpan: '3',
-    splitUnify: false,
     loading: false,
     noticeVisible: false,
     splitFiles: []
@@ -59,15 +58,16 @@ Page({
   },
 
   selectMode(e) {
-    this.setData({ splitMode: e.currentTarget.dataset.mode });
+    const mode = e.currentTarget.dataset.mode;
+    const data = { splitMode: mode };
+    if (mode === 'pages') {
+      data.splitSpan = '';
+    }
+    this.setData(data);
   },
 
   onSpanInput(e) {
     this.setData({ splitSpan: e.detail.value });
-  },
-
-  toggleUnify() {
-    this.setData({ splitUnify: !this.data.splitUnify });
   },
 
   handleSplit() {
@@ -89,19 +89,16 @@ Page({
     console.log('文件名:', this.data.selectedFile);
     console.log('拆分模式:', this.data.splitMode);
     console.log('间隔数/页码:', this.data.splitSpan);
-    console.log('合并模式:', this.data.splitUnify);
-
     const formData = {
-      splitMode: this.data.splitMode,
-      splitUnify: String(this.data.splitUnify)
+      splitMode: this.data.splitMode
     };
     
-    // 只有按间隔拆分时才发送splitSpan参数
+    // 根据模式设置splitSpan参数
     if (this.data.splitMode === 'intervals') {
       formData.splitSpan = this.data.splitSpan;
     } else {
-      // 按单页拆分时，splitSpan设为1
-      formData.splitSpan = '1';
+      // 按单页拆分时，使用用户输入的页码范围，默认为所有页面
+      formData.splitSpan = this.data.splitSpan || '1-';
     }
     
     console.log('发送参数:', formData);
@@ -139,6 +136,16 @@ Page({
               console.log('拆分文件列表:', files);
               this.setData({ splitFiles: files });
               wx.showToast({ title: `拆分成功，共${files.length}个文件`, icon: 'success' });
+              const token = wx.getStorageSync('token');
+              if (token) {
+                api.task.create({
+                  title: `PDF拆分 - ${this.data.selectedFile}`,
+                  type: 'pdf_split',
+                  fileUrl: JSON.stringify(files.map(f => f.url)),
+                  sourceFile: this.data.selectedFile,
+                  params: JSON.stringify({ splitMode: this.data.splitMode, splitSpan: formData.splitSpan })
+                }).catch(() => {});
+              }
             } else {
               wx.showToast({ title: result.msg || '拆分失败', icon: 'none' });
             }
@@ -177,23 +184,23 @@ Page({
     
     util.showLoading('下载中...');
     
-    wx.downloadFile({
+    wx.request({
       url: file.url,
-      header: {
-        'Authorization': wx.getStorageSync('token') ? `Bearer ${wx.getStorageSync('token')}` : ''
-      },
-      timeout: 180000, // 3分钟超时
-      success: (downloadRes) => {
-        console.log('下载成功:', downloadRes);
+      responseType: 'arraybuffer',
+      timeout: 180000,
+      success: (res) => {
+        console.log('下载成功:', res);
         util.hideLoading();
         
-        if (downloadRes.statusCode === 200) {
-          wx.saveFile({
-            tempFilePath: downloadRes.tempFilePath,
-            success: (saveRes) => {
-              console.log('保存成功:', saveRes.savedFilePath);
+        if (res.statusCode === 200) {
+          const fs = wx.getFileSystemManager();
+          const filePath = `${wx.env.USER_DATA_PATH}/temp_${Date.now()}.pdf`;
+          fs.writeFile({
+            filePath: filePath,
+            data: res.data,
+            success: () => {
               wx.openDocument({
-                filePath: saveRes.savedFilePath,
+                filePath: filePath,
                 fileType: file.fileType || 'pdf',
                 showMenu: true,
                 success: () => {
@@ -206,8 +213,8 @@ Page({
               });
             },
             fail: (err) => {
-              console.error('保存失败:', err);
-              wx.showToast({ title: '保存失败', icon: 'none' });
+              console.error('文件写入失败:', err);
+              wx.showToast({ title: '打开失败', icon: 'none' });
             }
           });
         }

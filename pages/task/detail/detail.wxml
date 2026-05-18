@@ -10,20 +10,28 @@
 
   <view class="info-card">
     <view class="info-row">
+      <text class="info-label">任务类型</text>
+      <text class="info-value">{{task.isFileTask ? task.typeLabel : '数据处理'}}</text>
+    </view>
+    <view class="info-row" wx:if="{{task.sourceFile}}">
+      <text class="info-label">源文件</text>
+      <text class="info-value">{{task.sourceFile}}</text>
+    </view>
+    <view class="info-row">
       <text class="info-label">创建时间</text>
       <text class="info-value">{{task.createTime}}</text>
     </view>
-    <view class="info-row">
+    <view class="info-row" wx:if="{{!task.isFileTask}}">
       <text class="info-label">数据条数</text>
       <text class="info-value">{{task.rowCount || 0}} 条</text>
     </view>
-    <view class="info-row">
+    <view class="info-row" wx:if="{{!task.isFileTask}}">
       <text class="info-label">列数</text>
       <text class="info-value">{{task.columnCount || 0}} 列</text>
     </view>
   </view>
 
-  <view class="section">
+  <view class="section" wx:if="{{!task.isFileTask && task.columns && task.columns.length > 0}}">
     <view class="section-title">数据预览</view>
     <scroll-view class="table-wrapper" scroll-x>
       <view class="data-table">
@@ -43,11 +51,32 @@
     </scroll-view>
   </view>
 
-  <view class="action-bar">
+  <view class="section" wx:if="{{task.isFileTask && task.fileUrl}}">
+    <view class="section-title">输出文件</view>
+    <view class="file-list">
+      <view class="file-item" wx:for="{{task.fileList}}" wx:key="index" bindtap="handleFileDownload" data-url="{{item}}">
+        <view class="file-icon">📄</view>
+        <view class="file-info">
+          <view class="file-name">{{task.sourceFile || '输出文件'}}</view>
+          <view class="file-hint">点击下载</view>
+        </view>
+        <view class="file-arrow">›</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="action-bar" wx:if="{{!task.isFileTask}}">
     <view class="action-btn" bindtap="handleExportSingle">
       <icon type="download" size="14" color="#1677ff" />
       <text>导出</text>
     </view>
+    <view class="action-btn delete" bindtap="handleDelete">
+      <icon type="clear" size="14" color="#ff4d4f" />
+      <text>删除</text>
+    </view>
+  </view>
+
+  <view class="action-bar file-action-bar" wx:if="{{task.isFileTask}}">
     <view class="action-btn delete" bindtap="handleDelete">
       <icon type="clear" size="14" color="#ff4d4f" />
       <text>删除</text>

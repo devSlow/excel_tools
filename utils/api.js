@@ -1,4 +1,4 @@
-// const baseUrl = 'http://172.18.132.40:9090/api' //本地测试
+// const baseUrl = 'http://localhost:9091/api' //本地测试
 const baseUrl = 'https://devslow.ccwu.cc/api';
 const verifyBaseUrl = 'https://paper.devslow.ccwu.cc/api/auth';
 

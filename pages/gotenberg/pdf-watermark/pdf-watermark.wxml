@@ -1,26 +1,26 @@
 <view class="container">
-  <view class="header-section">
-    <view class="header-icon" style="background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);">
-      <text class="header-icon-text">水</text>
-    </view>
-    <view class="header-info">
-      <view class="header-title">添加水印</view>
-      <view class="header-desc">为PDF添加文字或图片水印</view>
-    </view>
+  <!-- 页面标题 -->
+  <view class="page-header">
+    <view class="page-title">添加水印</view>
+    <view class="page-desc">为PDF添加文字或图片水印</view>
   </view>
 
+  <!-- 使用说明 -->
   <view class="notice-card" bindtap="toggleNotice">
-    <view class="notice-icon">!</view>
+    <view class="notice-icon">
+      <text class="notice-icon-text">?</text>
+    </view>
     <text class="notice-text">使用说明</text>
     <text class="notice-hint">点击查看</text>
   </view>
 
+  <!-- 说明弹窗 -->
   <view class="modal-mask {{noticeVisible ? 'modal-show' : ''}}" bindtap="closeNotice">
     <view class="modal-content {{noticeVisible ? 'modal-slide-in' : 'modal-slide-out'}}" catchtap="">
       <view class="modal-header">
-        <text class="modal-title">添加水印 使用说明</text>
+        <text class="modal-title">使用说明</text>
         <view class="modal-close" catchtap="closeNotice">
-          <icon type="clear" size="14" color="#999999" />
+          <text class="close-icon">✕</text>
         </view>
       </view>
       <scroll-view class="modal-body" scroll-y="true">
@@ -45,25 +45,31 @@
     </view>
   </view>
 
+  <!-- 文件上传 -->
   <view class="upload-section">
     <view class="upload-area {{selectedFile ? 'has-file' : ''}}" bindtap="chooseFile">
       <view class="upload-icon" wx:if="{{!selectedFile}}">
         <text class="upload-icon-text">+</text>
       </view>
       <view class="upload-hint" wx:if="{{!selectedFile}}">点击选择PDF文件</view>
-      <view class="upload-hint" wx:else>{{selectedFile}}</view>
+      <view class="file-info" wx:else>
+        <view class="file-name">{{selectedFile}}</view>
+      </view>
       <view class="upload-clear" catchtap="clearFile" wx:if="{{selectedFile}}">清除</view>
     </view>
   </view>
 
+  <!-- 水印设置 -->
   <view class="config-section">
     <view class="config-title">水印类型</view>
-    <view class="type-options">
+    <view class="type-grid">
       <view class="type-item {{watermarkType === 'text' ? 'active' : ''}}" bindtap="selectType" data-type="text">
-        <text class="type-name">文字</text>
+        <view class="type-icon">T</view>
+        <view class="type-name">文字</view>
       </view>
       <view class="type-item {{watermarkType === 'image' ? 'active' : ''}}" bindtap="selectType" data-type="image">
-        <text class="type-name">图片</text>
+        <view class="type-icon">I</view>
+        <view class="type-name">图片</view>
       </view>
     </view>
 
@@ -81,7 +87,7 @@
       <view class="image-preview" wx:else>
         <image class="preview-img" src="{{watermarkImage}}" mode="aspectFit"></image>
         <view class="preview-remove" catchtap="clearImage">
-          <icon type="clear" size="16" color="#fff" />
+          <text class="remove-icon">✕</text>
         </view>
       </view>
     </view>
@@ -93,8 +99,9 @@
     <view class="config-hint">留空表示添加水印到所有页面</view>
   </view>
 
+  <!-- 操作按钮 -->
   <view class="action-section">
-    <button class="convert-btn" bindtap="handleWatermark" disabled="{{!selectedFile || loading || (watermarkType === 'text' && !watermarkText) || (watermarkType === 'image' && !watermarkImagePath)}}">
+    <button class="submit-btn" bindtap="handleWatermark" disabled="{{!selectedFile || loading || (watermarkType === 'text' && !watermarkText) || (watermarkType === 'image' && !watermarkImagePath)}}">
       {{loading ? '处理中...' : '添加水印'}}
     </button>
   </view>

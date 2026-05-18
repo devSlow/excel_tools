@@ -125,6 +125,53 @@
   white-space: nowrap;
 }
 
+.file-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx;
+  background: #f8fafc;
+  border-radius: 12rpx;
+  border: 1rpx solid #eef2f6;
+}
+
+.file-item:active {
+  background: #eef2f6;
+}
+
+.file-icon {
+  font-size: 40rpx;
+  margin-right: 16rpx;
+  flex-shrink: 0;
+}
+
+.file-info {
+  flex: 1;
+}
+
+.file-name {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 4rpx;
+}
+
+.file-hint {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.file-arrow {
+  font-size: 36rpx;
+  color: #cbd5e1;
+  margin-left: 12rpx;
+}
+
 .action-bar {
   position: fixed;
   bottom: 0;

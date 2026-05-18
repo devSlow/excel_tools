@@ -1,26 +1,26 @@
 <view class="container">
-  <view class="header-section">
-    <view class="header-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-      <text class="header-icon-text">文</text>
-    </view>
-    <view class="header-info">
-      <view class="header-title">文档解析</view>
-      <view class="header-desc">支持PDF、Word、图片等多种格式</view>
-    </view>
+  <!-- 页面标题 -->
+  <view class="page-header">
+    <view class="page-title">文档解析</view>
+    <view class="page-desc">支持PDF、Word、图片等多种格式</view>
   </view>
 
+  <!-- 使用说明 -->
   <view class="notice-card" bindtap="toggleNotice">
-    <view class="notice-icon">!</view>
+    <view class="notice-icon">
+      <text class="notice-icon-text">?</text>
+    </view>
     <text class="notice-text">使用说明</text>
     <text class="notice-hint">点击查看</text>
   </view>
 
+  <!-- 说明弹窗 -->
   <view class="modal-mask {{noticeVisible ? 'modal-show' : ''}}" bindtap="closeNotice">
     <view class="modal-content {{noticeVisible ? 'modal-slide-in' : 'modal-slide-out'}}" catchtap="">
       <view class="modal-header">
-        <text class="modal-title">文档解析 使用说明</text>
+        <text class="modal-title">使用说明</text>
         <view class="modal-close" catchtap="closeNotice">
-          <icon type="clear" size="14" color="#999999" />
+          <text class="close-icon">✕</text>
         </view>
       </view>
       <scroll-view class="modal-body" scroll-y="true">
@@ -48,52 +48,63 @@
           <text class="notice-content">2. 选择需要的输出格式</text>
           <text class="notice-content">3. 根据需要开启OCR和表格识别</text>
           <text class="notice-content">4. 点击"开始解析"按钮</text>
-          <text class="notice-content">5. 解析完成后自动打开文件</text>
         </view>
       </scroll-view>
     </view>
   </view>
 
-  <view class="upload-section" bindtap="chooseFile">
-    <view class="upload-area {{selectedFile ? 'has-file' : ''}}">
+  <!-- 文件上传 -->
+  <view class="upload-section">
+    <view class="upload-area {{selectedFile ? 'has-file' : ''}}" bindtap="chooseFile">
       <view class="upload-icon" wx:if="{{!selectedFile}}">
         <text class="upload-icon-text">+</text>
       </view>
       <view class="upload-hint" wx:if="{{!selectedFile}}">点击选择文档文件</view>
-      <view class="upload-hint" wx:else>{{selectedFile}}</view>
+      <view class="file-info" wx:else>
+        <view class="file-name">{{selectedFile}}</view>
+      </view>
       <view class="upload-clear" catchtap="clearFile" wx:if="{{selectedFile}}">清除</view>
     </view>
   </view>
 
+  <!-- 输出格式 -->
   <view class="config-section">
     <view class="config-title">输出格式</view>
-    <view class="format-options">
+    <view class="format-grid">
       <view class="format-item {{selectedOutputFormat === 'markdown' ? 'active' : ''}}" bindtap="selectFormat" data-format="markdown">
-        <text class="format-name">Markdown</text>
+        <view class="format-name">Markdown</view>
       </view>
       <view class="format-item {{selectedOutputFormat === 'json' ? 'active' : ''}}" bindtap="selectFormat" data-format="json">
-        <text class="format-name">JSON</text>
+        <view class="format-name">JSON</view>
       </view>
       <view class="format-item {{selectedOutputFormat === 'text' ? 'active' : ''}}" bindtap="selectFormat" data-format="text">
-        <text class="format-name">Text</text>
+        <view class="format-name">Text</view>
       </view>
     </view>
   </view>
 
+  <!-- OCR设置 -->
   <view class="config-section">
-    <view class="config-title">OCR设置</view>
-    <view class="config-item">
-      <view class="config-label">启用OCR</view>
-      <switch checked="{{enableOcr}}" bindchange="onOcrChange" color="#f5576c"/>
+    <view class="config-title">高级设置</view>
+    <view class="switch-item">
+      <view class="switch-info">
+        <view class="switch-label">启用OCR</view>
+        <view class="switch-desc">识别图片中的文字</view>
+      </view>
+      <switch checked="{{enableOcr}}" bindchange="onOcrChange" color="#3B82F6"/>
     </view>
-    <view class="config-item">
-      <view class="config-label">表格结构识别</view>
-      <switch checked="{{enableTableStructure}}" bindchange="onTableChange" color="#f5576c"/>
+    <view class="switch-item">
+      <view class="switch-info">
+        <view class="switch-label">表格结构识别</view>
+        <view class="switch-desc">精准还原表格结构</view>
+      </view>
+      <switch checked="{{enableTableStructure}}" bindchange="onTableChange" color="#3B82F6"/>
     </view>
   </view>
 
+  <!-- 操作按钮 -->
   <view class="action-section">
-    <button class="convert-btn" bindtap="handleConvert" disabled="{{!selectedFile || loading}}">
+    <button class="submit-btn" bindtap="handleConvert" disabled="{{!selectedFile || loading}}">
       {{loading ? '解析中...' : '开始解析'}}
     </button>
   </view>

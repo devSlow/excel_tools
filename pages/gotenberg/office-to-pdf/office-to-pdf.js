@@ -98,6 +98,14 @@ Page({
               data: res.data,
               encoding: 'binary',
               success: () => {
+                const token = wx.getStorageSync('token');
+                if (token) {
+                  api.task.create({
+                    title: `Office转PDF - ${this.data.selectedFile}`,
+                    type: 'office_to_pdf',
+                    sourceFile: this.data.selectedFile
+                  }).catch(() => {});
+                }
                 wx.showToast({ title: '转换成功', icon: 'success' });
                 setTimeout(() => {
                   wx.openDocument({

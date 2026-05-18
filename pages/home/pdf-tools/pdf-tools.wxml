@@ -1,0 +1,62 @@
+<view class="container">
+  <view class="header">
+    <view class="title">PDF工具</view>
+    <view class="subtitle">专业PDF处理功能</view>
+  </view>
+
+  <view class="tool-list">
+    <view class="tool-item" bindtap="goTo" data-type="pdf-merge">
+      <view class="tool-icon icon-merge">M</view>
+      <view class="tool-info">
+        <view class="tool-name">PDF合并</view>
+        <view class="tool-desc">多个PDF合并为一个文件</view>
+      </view>
+      <view class="tool-arrow">›</view>
+    </view>
+
+    <view class="tool-item" bindtap="goTo" data-type="pdf-split">
+      <view class="tool-icon icon-split">S</view>
+      <view class="tool-info">
+        <view class="tool-name">PDF拆分</view>
+        <view class="tool-desc">拆分PDF为多个文件</view>
+      </view>
+      <view class="tool-arrow">›</view>
+    </view>
+
+    <view class="tool-item" bindtap="goTo" data-type="pdf-rotate">
+      <view class="tool-icon icon-rotate">R</view>
+      <view class="tool-info">
+        <view class="tool-name">PDF旋转</view>
+        <view class="tool-desc">旋转PDF页面方向</view>
+      </view>
+      <view class="tool-arrow">›</view>
+    </view>
+
+    <view class="tool-item" bindtap="goTo" data-type="pdf-encrypt">
+      <view class="tool-icon icon-encrypt">L</view>
+      <view class="tool-info">
+        <view class="tool-name">PDF加密</view>
+        <view class="tool-desc">设置密码保护PDF</view>
+      </view>
+      <view class="tool-arrow">›</view>
+    </view>
+
+    <view class="tool-item" bindtap="goTo" data-type="pdf-watermark">
+      <view class="tool-icon icon-watermark">W</view>
+      <view class="tool-info">
+        <view class="tool-name">添加水印</view>
+        <view class="tool-desc">文字或图片水印</view>
+      </view>
+      <view class="tool-arrow">›</view>
+    </view>
+
+    <view class="tool-item" bindtap="goTo" data-type="pdf-parse">
+      <view class="tool-icon icon-parse">E</view>
+      <view class="tool-info">
+        <view class="tool-name">PDF解析</view>
+        <view class="tool-desc">提取PDF内容数据</view>
+      </view>
+      <view class="tool-arrow">›</view>
+    </view>
+  </view>
+</view>

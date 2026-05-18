@@ -1,4 +1,5 @@
 <view class="container">
+  <!-- 头部区域 -->
   <view class="profile-header">
     <view class="avatar-wrapper">
       <block wx:if="{{isLoggedIn && userInfo.avatarUrl}}">
@@ -6,20 +7,24 @@
       </block>
       <block wx:else>
         <view class="avatar">
-          <text>游</text>
+          <text class="avatar-text">{{isLoggedIn ? 'U' : '?'}}</text>
         </view>
       </block>
     </view>
     <view class="user-info">
       <view class="nickname">{{isLoggedIn ? (userInfo.nickname || '微信用户') : '未登录'}}</view>
       <view class="user-tip" wx:if="{{!isLoggedIn}}">登录后解锁更多功能</view>
+      <view class="user-tip" wx:else>ID: {{userInfo.id || '-'}}</view>
     </view>
   </view>
 
+  <!-- 登录按钮 -->
   <view class="card-section" wx:if="{{!isLoggedIn}}">
     <button class="login-btn {{loading ? 'loading' : ''}}" bindtap="handleLogin" disabled="{{loading}}">
       <view class="btn-content" wx:if="{{!loading}}">
-        <view class="wechat-icon">微</view>
+        <view class="wechat-icon">
+          <text class="wechat-icon-text">微</text>
+        </view>
         <text class="btn-text">微信授权登录</text>
       </view>
       <view class="btn-loading" wx:if="{{loading}}">
@@ -32,16 +37,25 @@
     </view>
   </view>
 
+  <!-- 功能菜单 -->
   <view class="menu-section" wx:if="{{isLoggedIn}}">
     <button class="menu-item feedback-btn" open-type="contact">
+      <view class="menu-icon-wrap menu-icon-blue">
+        <text class="menu-icon-text">?</text>
+      </view>
       <text class="menu-text">意见反馈</text>
-      <icon type="chevron_right" size="16" color="#ccd0d9" />
+      <view class="menu-arrow">›</view>
     </button>
     <button class="menu-item" bindtap="handleLogout">
+      <view class="menu-icon-wrap menu-icon-red">
+        <text class="menu-icon-text">✕</text>
+      </view>
       <text class="menu-text logout-text">退出登录</text>
+      <view class="menu-arrow">›</view>
     </button>
   </view>
 
+  <!-- 底部信息 -->
   <view class="app-info" catchtap="handleSecretTap">
     <text class="version">Excel工具 v1.0.0</text>
   </view>

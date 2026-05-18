@@ -1,144 +1,113 @@
 <view class="container">
-  <view class="hero-section">
-    <view class="hero-content">
-      <view class="hero-title">开箱即用</view>
-      <view class="hero-subtitle">让文档处理更简单高效</view>
+  <!-- 顶部问候 -->
+  <view class="header">
+    <view class="greeting">
+      <view class="greeting-text">您好</view>
+      <view class="greeting-date">{{currentDate}}</view>
     </view>
-    <view class="hero-badge">
-      <text class="badge-text">Beta</text>
-    </view>
-    <view class="hero-wave"></view>
+    <view class="header-badge">Beta</view>
   </view>
 
-  <view class="tools-section">
-    <view class="tools-grid">
-      <view class="tool-card {{currentTab === 'doc' ? 'active' : ''}}" bindtap="switchTab" data-tab="doc">
-        <view class="tool-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-          <text class="icon-text">D</text>
-        </view>
-        <view class="tool-name">文档处理</view>
-        <view class="tool-count">2个功能</view>
-      </view>
-
-      <view class="tool-card {{currentTab === 'pdf' ? 'active' : ''}}" bindtap="switchTab" data-tab="pdf">
-        <view class="tool-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-          <text class="icon-text">P</text>
-        </view>
-        <view class="tool-name">PDF工具</view>
-        <view class="tool-count">4个功能</view>
-      </view>
-
+  <!-- 任务统计（已登录） -->
+  <view class="stats-card" wx:if="{{isLoggedIn}}" bindtap="goToTaskList">
+    <view class="stats-left">
+      <view class="stats-num">{{totalTasks}}</view>
+      <view class="stats-label">个任务</view>
     </view>
+    <view class="stats-right">
+      <text class="stats-link">查看全部</text>
+      <text class="stats-arrow">›</text>
+    </view>
+  </view>
 
-    <view class="tools-content">
-      <view class="tab-content {{currentTab === 'doc' ? 'show' : ''}}" wx:if="{{currentTab === 'doc'}}">
-        <view class="sub-title">
-          <text>文档处理</text>
+  <!-- 文档处理 -->
+  <view class="section">
+    <view class="section-title">文档处理</view>
+    <view class="func-grid">
+      <view class="func-card" bindtap="goToService" data-type="text">
+        <view class="func-icon func-icon-blue">
+          <view class="icon-inner">T</view>
         </view>
-        <view class="sub-grid">
-          <view class="sub-card" bindtap="goToService" data-type="text">
-            <view class="sub-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-              <text class="sub-icon-text">T</text>
-            </view>
-            <view class="sub-info">
-              <view class="sub-name">文本转Excel</view>
-              <view class="sub-desc">智能解析文本数据</view>
-            </view>
-            <view class="sub-arrow">›</view>
-          </view>
-
-          <view class="sub-card" bindtap="goToService" data-type="doc-convert">
-            <view class="sub-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
-              <text class="sub-icon-text">C</text>
-            </view>
-            <view class="sub-info">
-              <view class="sub-name">文档转换</view>
-              <view class="sub-desc">PDF/Word/Excel互转</view>
-            </view>
-            <view class="sub-arrow">›</view>
-          </view>
+        <view class="func-name">文本转Excel</view>
+      </view>
+      
+      <view class="func-card" bindtap="goToService" data-type="doc-convert">
+        <view class="func-icon func-icon-purple">
+          <view class="icon-inner">C</view>
         </view>
+        <view class="func-name">文档转换</view>
       </view>
 
-      <view class="tab-content {{currentTab === 'pdf' ? 'show' : ''}}" wx:if="{{currentTab === 'pdf'}}">
-        <view class="sub-title">
-          <text>PDF工具</text>
+      <view class="func-card" bindtap="goToService" data-type="pdf-parse">
+        <view class="func-icon func-icon-green">
+          <view class="icon-inner">E</view>
         </view>
-        <view class="sub-grid">
-          <view class="sub-card" bindtap="goToService" data-type="pdf-merge">
-            <view class="sub-icon" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
-              <text class="sub-icon-text">M</text>
-            </view>
-            <view class="sub-info">
-              <view class="sub-name">PDF合并</view>
-              <view class="sub-desc">多个PDF合并一个</view>
-            </view>
-            <view class="sub-arrow">›</view>
-          </view>
+        <view class="func-name">文档解析</view>
+      </view>
+    </view>
+  </view>
 
-          <view class="sub-card" bindtap="goToService" data-type="pdf-split">
-            <view class="sub-icon" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
-              <text class="sub-icon-text">S</text>
-            </view>
-            <view class="sub-info">
-              <view class="sub-name">PDF拆分</view>
-              <view class="sub-desc">拆分PDF页面</view>
-            </view>
-            <view class="sub-arrow">›</view>
-          </view>
-
-          <view class="sub-card" bindtap="goToService" data-type="pdf-encrypt">
-            <view class="sub-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-              <text class="sub-icon-text">L</text>
-            </view>
-            <view class="sub-info">
-              <view class="sub-name">PDF加密</view>
-              <view class="sub-desc">保护PDF文件</view>
-            </view>
-            <view class="sub-arrow">›</view>
-          </view>
-
-          <view class="sub-card" bindtap="goToService" data-type="pdf-watermark">
-            <view class="sub-icon" style="background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);">
-              <text class="sub-icon-text">W</text>
-            </view>
-            <view class="sub-info">
-              <view class="sub-name">添加水印</view>
-              <view class="sub-desc">添加文字/图片水印</view>
-            </view>
-            <view class="sub-arrow">›</view>
-          </view>
+  <!-- PDF工具 -->
+  <view class="section">
+    <view class="section-title">PDF工具</view>
+    <view class="func-grid">
+      <view class="func-card" bindtap="goToService" data-type="pdf-merge">
+        <view class="func-icon func-icon-teal">
+          <view class="icon-inner">M</view>
         </view>
+        <view class="func-name">合并</view>
       </view>
 
-      <view class="tab-content {{currentTab === 'web' ? 'show' : ''}}" wx:if="{{currentTab === 'web'}}">
-        <view class="sub-title">
-          <text>网页工具</text>
+      <view class="func-card" bindtap="goToService" data-type="pdf-split">
+        <view class="func-icon func-icon-orange">
+          <view class="icon-inner">S</view>
         </view>
-        <view class="sub-grid">
-          <view class="sub-card" bindtap="goToService" data-type="web-pdf">
-            <view class="sub-icon" style="background: linear-gradient(135deg, #f5af19 0%, #f12711 100%);">
-              <text class="sub-icon-text">P</text>
-            </view>
-            <view class="sub-info">
-              <view class="sub-name">网页转PDF</view>
-              <view class="sub-desc">网址转换为PDF</view>
-            </view>
-            <view class="sub-arrow">›</view>
-          </view>
-
-          <view class="sub-card" bindtap="goToService" data-type="web-screenshot">
-            <view class="sub-icon" style="background: linear-gradient(135deg, #96fbc4 0%, #f9f586 100%);">
-              <text class="sub-icon-text">S</text>
-            </view>
-            <view class="sub-info">
-              <view class="sub-name">网页截图</view>
-              <view class="sub-desc">网页截图保存</view>
-            </view>
-            <view class="sub-arrow">›</view>
-          </view>
-        </view>
+        <view class="func-name">拆分</view>
       </view>
+
+      <view class="func-card" bindtap="goToService" data-type="pdf-rotate">
+        <view class="func-icon func-icon-pink">
+          <view class="icon-inner">R</view>
+        </view>
+        <view class="func-name">旋转</view>
+      </view>
+
+      <view class="func-card" bindtap="goToService" data-type="pdf-encrypt">
+        <view class="func-icon func-icon-red">
+          <view class="icon-inner">L</view>
+        </view>
+        <view class="func-name">加密</view>
+      </view>
+
+      <view class="func-card" bindtap="goToService" data-type="pdf-watermark">
+        <view class="func-icon func-icon-indigo">
+          <view class="icon-inner">W</view>
+        </view>
+        <view class="func-name">水印</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 最近任务（已登录） -->
+  <view class="section" wx:if="{{isLoggedIn}}">
+    <view class="section-header">
+      <view class="section-title">最近任务</view>
+      <view class="section-more" bindtap="goToTaskList" wx:if="{{recentTasks.length > 0}}">更多</view>
+    </view>
+    <view class="task-list" wx:if="{{recentTasks.length > 0}}">
+      <view class="task-item" wx:for="{{recentTasks}}" wx:key="id" bindtap="goToDetail" data-id="{{item.id}}">
+        <view class="task-info">
+          <view class="task-name">{{item.name}}</view>
+          <view class="task-meta">
+            <text class="task-count">{{item.rowCount}}条数据</text>
+            <text class="task-time">{{item.createTime}}</text>
+          </view>
+        </view>
+        <view class="task-status {{item.status}}">{{item.statusText}}</view>
+      </view>
+    </view>
+    <view class="empty-task" wx:if="{{recentTasks.length === 0}}">
+      <view class="empty-text">暂无任务记录</view>
     </view>
   </view>
 </view>

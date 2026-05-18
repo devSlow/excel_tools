@@ -87,28 +87,23 @@
       <view class="task-item" wx:for="{{taskList}}" wx:key="id" bindtap="goToDetail" data-id="{{item.id}}">
         <view class="task-top">
           <view class="task-name-wrap">
+            <view class="task-type-badge" wx:if="{{item.isFileTask}}">{{item.typeIcon}}</view>
             <view class="task-name">{{item.name}}</view>
           </view>
           <view class="task-status {{item.status}}">{{item.statusText}}</view>
         </view>
         <view class="task-meta">
-          <view class="meta-item">
+          <view class="meta-item" wx:if="{{!item.isFileTask}}">
             <view class="meta-icon meta-icon-data"></view>
             <text class="meta-text">{{item.rowCount}} 条数据</text>
+          </view>
+          <view class="meta-item" wx:if="{{item.isFileTask}}">
+            <view class="meta-icon meta-icon-data"></view>
+            <text class="meta-text">{{item.typeLabel}}</text>
           </view>
           <view class="meta-item">
             <view class="meta-icon meta-icon-time"></view>
             <text class="meta-text">{{item.createTime}}</text>
-          </view>
-        </view>
-        <view class="task-actions">
-          <view class="action-btn export-btn" catchtap="handleExport" data-id="{{item.id}}" data-name="{{item.name}}">
-            <icon type="download" size="13" color="#1677ff" />
-            <text>导出</text>
-          </view>
-          <view class="action-btn delete-btn" catchtap="handleDelete" data-id="{{item.id}}">
-            <icon type="clear" size="13" color="#ff4d4f" />
-            <text>删除</text>
           </view>
         </view>
       </view>

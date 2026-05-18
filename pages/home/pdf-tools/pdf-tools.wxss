@@ -1,0 +1,113 @@
+page {
+  background: #F8FAFC;
+  min-height: 100vh;
+}
+
+.container {
+  min-height: 100vh;
+  padding: 32rpx;
+  box-sizing: border-box;
+}
+
+.header {
+  margin-bottom: 40rpx;
+  padding-top: 20rpx;
+}
+
+.title {
+  font-size: 44rpx;
+  font-weight: 700;
+  color: #1E293B;
+}
+
+.subtitle {
+  font-size: 26rpx;
+  color: #94A3B8;
+  margin-top: 8rpx;
+}
+
+.tool-list {
+  background: #FFFFFF;
+  border-radius: 20rpx;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.tool-item {
+  display: flex;
+  align-items: center;
+  padding: 28rpx 24rpx;
+  transition: background 0.2s;
+}
+
+.tool-item:active {
+  background: #F8FAFC;
+}
+
+.tool-item:not(:last-child) {
+  border-bottom: 1rpx solid #F1F5F9;
+}
+
+.tool-icon {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 24rpx;
+  font-size: 32rpx;
+  font-weight: 700;
+}
+
+.icon-merge {
+  background: #EFF6FF;
+  color: #3B82F6;
+}
+
+.icon-split {
+  background: #F0FDFA;
+  color: #14B8A6;
+}
+
+.icon-rotate {
+  background: #F3E8FF;
+  color: #8B5CF6;
+}
+
+.icon-encrypt {
+  background: #FFF7ED;
+  color: #F97316;
+}
+
+.icon-watermark {
+  background: #FEF2F2;
+  color: #EF4444;
+}
+
+.icon-parse {
+  background: #F0FDF4;
+  color: #22C55E;
+}
+
+.tool-info {
+  flex: 1;
+}
+
+.tool-name {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #1E293B;
+  margin-bottom: 6rpx;
+}
+
+.tool-desc {
+  font-size: 24rpx;
+  color: #94A3B8;
+}
+
+.tool-arrow {
+  font-size: 36rpx;
+  color: #CBD5E1;
+  font-weight: 300;
+}

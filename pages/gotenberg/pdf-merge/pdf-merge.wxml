@@ -1,26 +1,26 @@
 <view class="container">
-  <view class="header-section">
-    <view class="header-icon" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
-      <text class="header-icon-text">合</text>
-    </view>
-    <view class="header-info">
-      <view class="header-title">PDF合并</view>
-      <view class="header-desc">将多个PDF文件合并为一个文件</view>
-    </view>
+  <!-- 页面标题 -->
+  <view class="page-header">
+    <view class="page-title">PDF合并</view>
+    <view class="page-desc">将多个PDF文件合并为一个文件</view>
   </view>
 
+  <!-- 使用说明 -->
   <view class="notice-card" bindtap="toggleNotice">
-    <view class="notice-icon">!</view>
+    <view class="notice-icon">
+      <text class="notice-icon-text">?</text>
+    </view>
     <text class="notice-text">使用说明</text>
     <text class="notice-hint">点击查看</text>
   </view>
 
+  <!-- 说明弹窗 -->
   <view class="modal-mask {{noticeVisible ? 'modal-show' : ''}}" bindtap="closeNotice">
     <view class="modal-content {{noticeVisible ? 'modal-slide-in' : 'modal-slide-out'}}" catchtap="">
       <view class="modal-header">
-        <text class="modal-title">PDF合并 使用说明</text>
+        <text class="modal-title">使用说明</text>
         <view class="modal-close" catchtap="closeNotice">
-          <icon type="clear" size="14" color="#999999" />
+          <text class="close-icon">✕</text>
         </view>
       </view>
       <scroll-view class="modal-body" scroll-y="true">
@@ -34,27 +34,23 @@
           <text class="notice-content">2. 可以多次添加，最多支持10个文件</text>
           <text class="notice-content">3. 可拖拽调整文件顺序</text>
           <text class="notice-content">4. 点击"开始合并"按钮</text>
-          <text class="notice-content">5. 合并完成后自动打开文件</text>
         </view>
       </scroll-view>
     </view>
   </view>
 
-  <view class="files-section">
-    <view class="files-header">
-      <text class="files-title">已选择文件 ({{files.length}}/10)</text>
-      <view class="files-clear" bindtap="clearFiles" wx:if="{{files.length > 0}}">清空</view>
+  <!-- 文件列表 -->
+  <view class="config-section">
+    <view class="config-header">
+      <view class="config-title">已选择文件</view>
+      <view class="config-count">{{files.length}}/10</view>
     </view>
 
     <view class="file-list">
       <view class="file-item" wx:for="{{files}}" wx:key="index">
-        <view class="file-info">
-          <text class="file-index">{{index + 1}}</text>
-          <text class="file-name">{{item.name}}</text>
-        </view>
-        <view class="file-remove" catchtap="removeFile" data-index="{{index}}">
-          <icon type="clear" size="16" color="#999999" />
-        </view>
+        <view class="file-index">{{index + 1}}</view>
+        <view class="file-name">{{item.name}}</view>
+        <view class="file-remove" catchtap="removeFile" data-index="{{index}}">✕</view>
       </view>
 
       <view class="add-file-btn" bindtap="addFile" wx:if="{{files.length < 10}}">
@@ -64,8 +60,9 @@
     </view>
   </view>
 
+  <!-- 操作按钮 -->
   <view class="action-section">
-    <button class="convert-btn" bindtap="handleMerge" disabled="{{files.length < 2 || loading}}">
+    <button class="submit-btn" bindtap="handleMerge" disabled="{{files.length < 2 || loading}}">
       {{loading ? '合并中...' : '开始合并'}}
     </button>
   </view>

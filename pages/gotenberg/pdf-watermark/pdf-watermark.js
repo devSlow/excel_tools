@@ -127,7 +127,16 @@ Page({
               const result = typeof res.data === 'string' ? JSON.parse(res.data) : res.data;
               if (result.code === 200 && result.data) {
                 const downloadUrl = result.data.startsWith('http') ? result.data : (api.baseUrl.replace('/api', '') + result.data);
-                
+                const token = wx.getStorageSync('token');
+                if (token) {
+                  api.task.create({
+                    title: `PDF水印 - ${this.data.selectedFile}`,
+                    type: 'pdf_watermark',
+                    fileUrl: JSON.stringify([downloadUrl]),
+                    sourceFile: this.data.selectedFile,
+                    params: JSON.stringify({ type: 'text' })
+                  }).catch(() => {});
+                }
                 wx.downloadFile({
                   url: downloadUrl,
                   header: {
@@ -213,7 +222,16 @@ Page({
               const result = typeof res.data === 'string' ? JSON.parse(res.data) : res.data;
               if (result.code === 200 && result.data) {
                 const downloadUrl = result.data.startsWith('http') ? result.data : (api.baseUrl.replace('/api', '') + result.data);
-                
+                const token = wx.getStorageSync('token');
+                if (token) {
+                  api.task.create({
+                    title: `PDF水印 - ${this.data.selectedFile}`,
+                    type: 'pdf_watermark',
+                    fileUrl: JSON.stringify([downloadUrl]),
+                    sourceFile: this.data.selectedFile,
+                    params: JSON.stringify({ type: 'image' })
+                  }).catch(() => {});
+                }
                 wx.downloadFile({
                   url: downloadUrl,
                   header: {

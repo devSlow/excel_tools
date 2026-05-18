@@ -172,7 +172,16 @@ Page({
             if (result.code === 200 && result.data) {
               const downloadUrl = result.data.startsWith('http') ? result.data : (api.baseUrl.replace('/api', '') + result.data);
               console.log('下载链接:', downloadUrl);
-              
+              const token = wx.getStorageSync('token');
+              if (token) {
+                api.task.create({
+                  title: `文档转换 - ${this.data.selectedFile}`,
+                  type: 'doc_convert',
+                  fileUrl: JSON.stringify([downloadUrl]),
+                  sourceFile: this.data.selectedFile,
+                  params: JSON.stringify({ targetFormat: this.data.targetFormat })
+                }).catch(() => {});
+              }
               wx.downloadFile({
                 url: downloadUrl,
                 header: header,

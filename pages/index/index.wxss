@@ -597,6 +597,19 @@ page {
 .task-name-wrap {
   flex: 1;
   margin-right: 16rpx;
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.task-type-badge {
+  font-size: 32rpx;
+  width: 48rpx;
+  height: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .task-name {
@@ -606,6 +619,8 @@ page {
   line-height: 1.4;
   word-break: break-all;
 }
+
+
 
 .task-status {
   font-size: 22rpx;
@@ -661,44 +676,6 @@ page {
 .meta-text {
   font-size: 24rpx;
   color: #888;
-}
-
-/* Task Actions: export + delete */
-.task-actions {
-  display: flex;
-  gap: 16rpx;
-  padding-top: 20rpx;
-  border-top: 1rpx solid #f0f0f0;
-}
-
-.action-btn {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8rpx;
-  font-size: 26rpx;
-  padding: 14rpx 0;
-  border-radius: 10rpx;
-  transition: background 0.15s;
-}
-
-.export-btn {
-  color: #1677ff;
-  background: #f0f5ff;
-}
-
-.export-btn:active {
-  background: #dce8ff;
-}
-
-.delete-btn {
-  color: #ff4d4f;
-  background: #fff1f0;
-}
-
-.delete-btn:active {
-  background: #ffccc7;
 }
 
 /* === Empty State === */

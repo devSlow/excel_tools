@@ -150,7 +150,17 @@ Page({
                 if (result.code === 200 && result.data) {
                   const downloadUrl = result.data.startsWith('http') ? result.data : (api.baseUrl.replace('/api', '') + result.data);
                   console.log('下载链接:', downloadUrl);
-                  
+                  const token = wx.getStorageSync('token');
+                  if (token) {
+                    const fileNames = this.data.files.map(f => f.name).join(', ');
+                    api.task.create({
+                      title: `PDF合并 - ${fileNames.substring(0, 30)}`,
+                      type: 'pdf_merge',
+                      fileUrl: JSON.stringify([downloadUrl]),
+                      sourceFile: this.data.files.map(f => f.name).join('|'),
+                      params: JSON.stringify({ fileCount: this.data.files.length })
+                    }).catch(() => {});
+                  }
                   // 第三步：下载合并后的文件
                   wx.downloadFile({
                     url: downloadUrl,

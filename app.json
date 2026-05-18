@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/home/home",
+    "pages/home/pdf-tools/pdf-tools",
     "pages/index/index",
     "pages/parse/text/text",
     "pages/parse/excel/excel",
@@ -25,16 +26,16 @@
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#f5f7fa",
-    "backgroundColor": "#f5f7fa",
+    "navigationBarBackgroundColor": "#F8FAFC",
+    "backgroundColor": "#F8FAFC",
     "navigationBarTitleText": "开箱即用",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
-    "color": "#999999",
-    "selectedColor": "#1677ff",
+    "color": "#94A3B8",
+    "selectedColor": "#3B82F6",
     "borderStyle": "black",
-    "backgroundColor": "#ffffff",
+    "backgroundColor": "#FFFFFF",
     "list": [
       {
         "pagePath": "pages/home/home",

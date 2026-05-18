@@ -129,7 +129,10 @@ Page({
       const list = (data.records || []).map(item => ({
         ...item,
         statusText: this.getStatusText(item.status),
-        createTime: item.createdAt ? util.formatTime(new Date(item.createdAt)) : '-'
+        createTime: item.createdAt ? util.formatTime(new Date(item.createdAt)) : '-',
+        typeLabel: this.getTypeLabel(item.type),
+        typeIcon: this.getTypeIcon(item.type),
+        isFileTask: !!item.type && item.type !== 'parse_text' && item.type !== 'parse_excel'
       }));
       
       this.setData({
@@ -243,7 +246,26 @@ Page({
     return map[status] || '未知';
   },
 
-  
+  getTypeLabel(type) {
+    const map = {
+      pdf_split: 'PDF拆分', pdf_rotate: 'PDF旋转', pdf_merge: 'PDF合并',
+      pdf_encrypt: 'PDF加密', pdf_watermark: 'PDF水印',
+      doc_convert: '文档转换', office_to_pdf: 'Office转PDF',
+      web_to_pdf: '网页转PDF', web_screenshot: '网页截图',
+      parse_text: '文本解析', parse_excel: 'Excel解析'
+    };
+    return map[type] || '数据处理';
+  },
+
+  getTypeIcon(type) {
+    const map = {
+      pdf_split: '📄', pdf_rotate: '🔄', pdf_merge: '📑',
+      pdf_encrypt: '🔒', pdf_watermark: '💧',
+      doc_convert: '📝', office_to_pdf: '📋',
+      web_to_pdf: '🌐', web_screenshot: '📷'
+    };
+    return map[type] || '📊';
+  },
 
   goToParse() {
     wx.switchTab({ url: '/pages/parse/text/text' });
@@ -266,40 +288,5 @@ Page({
   goToStats(e) {
     const id = e.currentTarget.dataset.id;
     wx.navigateTo({ url: `/pages/stats/stats?id=${id}` });
-  },
-
-  handleExport(e) {
-    const id = e.currentTarget.dataset.id;
-    const now = new Date();
-    const fileName = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}_${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}-${String(now.getSeconds()).padStart(2, '0')}`;
-    
-    util.showLoading('导出中...');
-    const url = api.task.export(id, fileName);
-    console.log('export url:', url);
-    console.log('token:', wx.getStorageSync('token'));
-    util.downloadFile(url, fileName).then((filePath) => {
-      util.hideLoading();
-      console.log('download success:', filePath);
-      util.openFile(filePath, 'xlsx');
-    }).catch((err) => {
-      util.hideLoading();
-      console.log('download error:', err);
-      util.showToast('导出失败');
-    });
-  },
-
-  handleDelete(e) {
-    const id = e.currentTarget.dataset.id;
-    util.showModal('确认删除', '删除后数据无法恢复').then((confirm) => {
-      if (confirm) {
-        util.showLoading('删除中...');
-        api.task.delete(id).then(() => {
-          util.showToast('删除成功');
-          this.loadTasks();
-        }).catch(() => {
-          util.hideLoading();
-        });
-      }
-    });
   }
 });

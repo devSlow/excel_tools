@@ -77,6 +77,14 @@ Page({
             data: res.data,
             encoding: 'binary',
             success: () => {
+              const token = wx.getStorageSync('token');
+              if (token) {
+                api.task.create({
+                  title: `网页截图 - ${this.data.url}`,
+                  type: 'web_screenshot',
+                  params: JSON.stringify({ url: this.data.url, format: this.data.format })
+                }).catch(() => {});
+              }
               wx.saveImageToPhotosAlbum({
                 filePath: tempFilePath,
                 success: () => {
