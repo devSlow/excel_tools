@@ -164,7 +164,6 @@ Page({
         console.log('响应头:', res.header);
         console.log('响应数据:', res.data);
         
-        util.hideLoading();
         if (res.statusCode === 200) {
           try {
             const result = JSON.parse(res.data);
@@ -177,6 +176,7 @@ Page({
               wx.downloadFile({
                 url: downloadUrl,
                 header: header,
+                timeout: 180000, // 3分钟超时
                 success: (downloadRes) => {
                   console.log('=== 下载成功 ===');
                   console.log('下载状态码:', downloadRes.statusCode);
@@ -187,6 +187,7 @@ Page({
                       tempFilePath: downloadRes.tempFilePath,
                       success: (saveRes) => {
                         console.log('文件保存成功:', saveRes.savedFilePath);
+                        util.hideLoading();
                         wx.showToast({ title: '转换成功', icon: 'success' });
                         setTimeout(() => {
                           wx.openDocument({
@@ -205,30 +206,36 @@ Page({
                       },
                       fail: (err) => {
                         console.error('文件保存失败:', err);
+                        util.hideLoading();
                         wx.showToast({ title: '保存失败', icon: 'none' });
                       }
                     });
                   } else {
                     console.error('下载失败，状态码:', downloadRes.statusCode);
+                    util.hideLoading();
                     wx.showToast({ title: '下载失败', icon: 'none' });
                   }
                 },
                 fail: (err) => {
                   console.error('=== 下载失败 ===');
                   console.error('错误信息:', err);
+                  util.hideLoading();
                   wx.showToast({ title: '下载失败', icon: 'none' });
                 }
               });
             } else {
               console.error('转换失败:', result.msg);
+              util.hideLoading();
               wx.showToast({ title: result.msg || '转换失败', icon: 'none' });
             }
           } catch (e) {
             console.error('解析响应失败:', e);
+            util.hideLoading();
             wx.showToast({ title: '转换失败', icon: 'none' });
           }
         } else {
           console.error('请求失败，状态码:', res.statusCode);
+          util.hideLoading();
           wx.showToast({ title: '转换失败', icon: 'none' });
         }
       },

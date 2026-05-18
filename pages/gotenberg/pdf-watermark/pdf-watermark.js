@@ -122,7 +122,6 @@ Page({
           pages: this.data.pages
         },
         success: (res) => {
-          util.hideLoading();
           if (res.statusCode === 200 && res.data) {
             try {
               const result = typeof res.data === 'string' ? JSON.parse(res.data) : res.data;
@@ -134,11 +133,13 @@ Page({
                   header: {
                     'Authorization': wx.getStorageSync('token') ? `Bearer ${wx.getStorageSync('token')}` : ''
                   },
+                  timeout: 180000, // 3分钟超时
                   success: (downloadRes) => {
                     if (downloadRes.statusCode === 200) {
                       wx.saveFile({
                         tempFilePath: downloadRes.tempFilePath,
                         success: (saveRes) => {
+                          util.hideLoading();
                           wx.showToast({ title: '水印添加成功', icon: 'success' });
                           setTimeout(() => {
                             wx.openDocument({
@@ -153,26 +154,32 @@ Page({
                           }, 1500);
                         },
                         fail: () => {
+                          util.hideLoading();
                           wx.showToast({ title: '保存失败', icon: 'none' });
                         }
                       });
                     }
                   },
                   fail: () => {
+                    util.hideLoading();
                     wx.showToast({ title: '下载失败', icon: 'none' });
                   }
                 });
               } else {
+                util.hideLoading();
                 wx.showToast({ title: result.msg || '添加失败', icon: 'none' });
               }
             } catch (e) {
+              util.hideLoading();
               wx.showToast({ title: '添加失败', icon: 'none' });
             }
           } else {
             try {
               const data = JSON.parse(res.data);
+              util.hideLoading();
               wx.showToast({ title: data.msg || '添加失败', icon: 'none' });
             } catch (e) {
+              util.hideLoading();
               wx.showToast({ title: '添加失败', icon: 'none' });
             }
           }
@@ -201,7 +208,6 @@ Page({
           pages: this.data.pages
         },
         success: (res) => {
-          util.hideLoading();
           if (res.statusCode === 200 && res.data) {
             try {
               const result = typeof res.data === 'string' ? JSON.parse(res.data) : res.data;
@@ -213,11 +219,13 @@ Page({
                   header: {
                     'Authorization': wx.getStorageSync('token') ? `Bearer ${wx.getStorageSync('token')}` : ''
                   },
+                  timeout: 180000, // 3分钟超时
                   success: (downloadRes) => {
                     if (downloadRes.statusCode === 200) {
                       wx.saveFile({
                         tempFilePath: downloadRes.tempFilePath,
                         success: (saveRes) => {
+                          util.hideLoading();
                           wx.showToast({ title: '水印添加成功', icon: 'success' });
                           setTimeout(() => {
                             wx.openDocument({
@@ -232,26 +240,32 @@ Page({
                           }, 1500);
                         },
                         fail: () => {
+                          util.hideLoading();
                           wx.showToast({ title: '保存失败', icon: 'none' });
                         }
                       });
                     }
                   },
                   fail: () => {
+                    util.hideLoading();
                     wx.showToast({ title: '下载失败', icon: 'none' });
                   }
                 });
               } else {
+                util.hideLoading();
                 wx.showToast({ title: result.msg || '添加失败', icon: 'none' });
               }
             } catch (e) {
+              util.hideLoading();
               wx.showToast({ title: '添加失败', icon: 'none' });
             }
           } else {
             try {
               const data = JSON.parse(res.data);
+              util.hideLoading();
               wx.showToast({ title: data.msg || '添加失败', icon: 'none' });
             } catch (e) {
+              util.hideLoading();
               wx.showToast({ title: '添加失败', icon: 'none' });
             }
           }

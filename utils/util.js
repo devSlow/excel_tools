@@ -77,6 +77,7 @@ const downloadFile = (url, fileName) => {
     wx.downloadFile({
       url,
       header,
+      timeout: 180000, // 3分钟超时
       success: (res) => {
         console.log('downloadFile response:', res);
         if (res.statusCode === 200) {

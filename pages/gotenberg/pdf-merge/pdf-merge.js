@@ -155,6 +155,7 @@ Page({
                   wx.downloadFile({
                     url: downloadUrl,
                     header: header,
+                    timeout: 180000, // 3分钟超时
                     success: (downloadRes) => {
                       console.log('=== 下载成功 ===');
                       console.log('下载状态码:', downloadRes.statusCode);

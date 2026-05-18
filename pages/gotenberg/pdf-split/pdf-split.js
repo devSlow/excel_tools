@@ -91,6 +91,21 @@ Page({
     console.log('间隔数/页码:', this.data.splitSpan);
     console.log('合并模式:', this.data.splitUnify);
 
+    const formData = {
+      splitMode: this.data.splitMode,
+      splitUnify: String(this.data.splitUnify)
+    };
+    
+    // 只有按间隔拆分时才发送splitSpan参数
+    if (this.data.splitMode === 'intervals') {
+      formData.splitSpan = this.data.splitSpan;
+    } else {
+      // 按单页拆分时，splitSpan设为1
+      formData.splitSpan = '1';
+    }
+    
+    console.log('发送参数:', formData);
+
     wx.uploadFile({
       url: api.baseUrl + '/gotenberg/pdf/split/url',
       filePath: this.data.selectedFilePath,
@@ -98,11 +113,7 @@ Page({
       header: {
         'Authorization': wx.getStorageSync('token') ? `Bearer ${wx.getStorageSync('token')}` : ''
       },
-      formData: {
-        splitMode: this.data.splitMode,
-        splitSpan: this.data.splitSpan,
-        splitUnify: String(this.data.splitUnify)
-      },
+      formData: formData,
       success: (res) => {
         console.log('=== 请求成功 ===');
         console.log('状态码:', res.statusCode);
@@ -171,6 +182,7 @@ Page({
       header: {
         'Authorization': wx.getStorageSync('token') ? `Bearer ${wx.getStorageSync('token')}` : ''
       },
+      timeout: 180000, // 3分钟超时
       success: (downloadRes) => {
         console.log('下载成功:', downloadRes);
         util.hideLoading();
