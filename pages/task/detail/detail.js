@@ -77,13 +77,33 @@ Page({
     }
     const task = this.data.task;
     wx.showLoading({ title: '下载中...' });
+
+    // 推断文件类型：params > URL扩展名 > 任务类型 > 默认pdf
+    let fileType = '';
+    if (task.params) {
+      try {
+        const params = JSON.parse(task.params);
+        if (params.targetFormat) fileType = params.targetFormat;
+      } catch (e) {}
+    }
+    if (!fileType && url) {
+      const ext = url.split('.').pop().toLowerCase().split('?')[0];
+      if (['pdf', 'docx', 'xlsx', 'pptx', 'doc', 'xls', 'ppt', 'png', 'jpeg', 'webp'].includes(ext)) {
+        fileType = ext;
+      }
+    }
+    if (!fileType && task.type) {
+      if (task.type.includes('screenshot')) fileType = 'png';
+      else if (task.type.includes('pdf')) fileType = 'pdf';
+    }
+    if (!fileType) fileType = 'pdf';
+
     wx.downloadFile({
       url: url,
       timeout: 180000,
       success: (res) => {
         wx.hideLoading();
         if (res.statusCode === 200) {
-          const fileType = task.type && task.type.includes('screenshot') ? 'png' : 'pdf';
           wx.openDocument({
             filePath: res.tempFilePath,
             fileType: fileType,

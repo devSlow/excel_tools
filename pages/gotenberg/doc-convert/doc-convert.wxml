@@ -25,9 +25,11 @@
       </view>
       <scroll-view class="modal-body" scroll-y="true">
         <view class="notice-section">
-          <view class="notice-label">支持转换</view>
-          <text class="notice-content">• Word/Excel/PPT → PDF</text>
-          <text class="notice-content">• PDF → Word/Excel/PPT</text>
+          <view class="notice-label">转换路径</view>
+          <text class="notice-content">PDF → Word / Excel / PPT</text>
+          <text class="notice-content">Word → PDF / Excel / PPT</text>
+          <text class="notice-content">Excel → PDF / Word / PPT</text>
+          <text class="notice-content">PPT → PDF / Word / Excel</text>
         </view>
         <view class="notice-section">
           <view class="notice-label">支持格式</view>
@@ -42,6 +44,12 @@
           <text class="notice-content">2. 选择目标格式</text>
           <text class="notice-content">3. 点击"开始转换"</text>
           <text class="notice-content">4. 转换完成后自动打开文件</text>
+        </view>
+        <view class="notice-section">
+          <view class="notice-label">注意事项</view>
+          <text class="notice-content">• 支持密码保护的 Office 文档</text>
+          <text class="notice-content">• 复杂排版可能有轻微格式变化</text>
+          <text class="notice-content">• 建议转换后检查内容是否完整</text>
         </view>
       </scroll-view>
     </view>

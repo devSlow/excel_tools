@@ -16,6 +16,21 @@ const FORMAT_CONFIGS = {
     toWord: [{ value: 'docx', name: 'Word', icon: 'W' }],
     toExcel: [{ value: 'xlsx', name: 'Excel', icon: 'X' }],
     toPpt: [{ value: 'pptx', name: 'PPT', icon: 'P' }]
+  },
+  word: {
+    toPdf: [{ value: 'pdf', name: 'PDF', icon: 'PDF' }],
+    toExcel: [{ value: 'xlsx', name: 'Excel', icon: 'X' }],
+    toPpt: [{ value: 'pptx', name: 'PPT', icon: 'P' }]
+  },
+  excel: {
+    toPdf: [{ value: 'pdf', name: 'PDF', icon: 'PDF' }],
+    toWord: [{ value: 'docx', name: 'Word', icon: 'W' }],
+    toPpt: [{ value: 'pptx', name: 'PPT', icon: 'P' }]
+  },
+  ppt: {
+    toPdf: [{ value: 'pdf', name: 'PDF', icon: 'PDF' }],
+    toWord: [{ value: 'docx', name: 'Word', icon: 'W' }],
+    toExcel: [{ value: 'xlsx', name: 'Excel', icon: 'X' }]
   }
 };
 
@@ -62,16 +77,9 @@ Page({
   },
 
   getAvailableFormats(fileType) {
-    if (fileType === 'pdf') {
-      return FORMAT_CONFIGS.pdf.toWord.concat(FORMAT_CONFIGS.pdf.toExcel, FORMAT_CONFIGS.pdf.toPpt);
-    } else if (fileType === 'word') {
-      return FORMAT_CONFIGS.pdf.fromWord;
-    } else if (fileType === 'excel') {
-      return FORMAT_CONFIGS.pdf.fromExcel;
-    } else if (fileType === 'ppt') {
-      return FORMAT_CONFIGS.pdf.fromPpt;
-    }
-    return [];
+    const config = FORMAT_CONFIGS[fileType];
+    if (!config) return [];
+    return Object.values(config).flat();
   },
 
   chooseFile() {
